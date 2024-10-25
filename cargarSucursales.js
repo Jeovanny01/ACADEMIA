@@ -20,6 +20,10 @@ async function cargarSucursales() {
         });
     } catch (error) {
         console.error('Error:', error.message);
+        const option = document.createElement('option');
+        option.value = "error";
+        option.textContent = error.message;
+        selectBranch.appendChild(option);
     }
 }
 
