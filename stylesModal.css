@@ -1,0 +1,111 @@
+/* Estilos generales para centrar el modal */
+.modalLog {
+    display: block; /* Cambia a 'none' para ocultarlo si es necesario */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro traslúcido */
+}
+
+/* Estilos para el contenido del modal */
+.modalLog-content {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 10% auto;
+    padding: 30px;
+    width: 320px;
+    position: relative;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+}
+
+/* Estilos para el título */
+.modalLog-content h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Estilos para contenedores de inputs */
+.inputLog-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.inputLog-container input {
+    width: 100%;
+    padding: 12px 40px 12px 20px;
+    font-size: 16px;
+    border-radius: 30px;
+    border: 1px solid #ccc;
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+
+/* Íconos */
+.inputLog-container .icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: FontAwesome;
+    font-size: 18px;
+    color: #555;
+}
+
+/* Estilo para la sección "Remember me" y "Forgot password?" */
+.rememberLog-forgot {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.rememberLog-forgot a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.rememberLog-forgot a:hover {
+    text-decoration: underline;
+}
+
+/* Estilo para el botón */
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 30px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+buttonLog[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Enlace de registro */
+.registerLog-link {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #333;
+}
+
+.registerLog-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.registerLog-link a:hover {
+    text-decoration: underline;
+}

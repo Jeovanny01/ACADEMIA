@@ -1,0 +1,313 @@
+/* Configuración básica */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+/* Estilo para el contenedor del encabezado *//* Estilo para el contenedor del encabezado principal */
+.header-content {
+    display: flex; /* Usa flexbox */
+    align-items: center; /* Centra verticalmente el contenido */
+    justify-content:right; /* Espacia el contenido para que el login se mueva a la derecha */
+    margin-bottom: 10px; /* Espacio inferior entre el encabezado y el nav */
+}
+
+/* Estilo para el logo */
+.logo {
+    width: 50px; /* Ajusta el tamaño según tus necesidades */
+    height: 50px; /* Mismo tamaño para mantener la proporción */
+    border-radius: 50%; /* Hace que el logo sea redondo */
+    object-fit: cover; /* Asegura que la imagen cubra el área del logo */
+    margin-right: 15px; /* Espacio entre el logo y el título */
+}
+
+/* Estilo para el título */
+h1 {
+    font-size: 24px; /* Tamaño del texto */
+    margin: 0; /* Sin margen */
+}
+
+/* Estilo para el contenedor del login */
+.login-container {
+    margin-left: auto; /* Empuja el contenedor del botón hacia la derecha */
+}
+
+/* Estilo del botón de inicio de sesión */
+#login-button {
+    padding: 10px 20px;
+    background-color: #ffffff; /* Fondo blanco */
+    color: #0044cc; /* Color del texto */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex; /* Para alinear el icono y el texto */
+    align-items: center; /* Alinea verticalmente el icono y el texto */
+    margin-left: auto; /* Empuja el botón hacia la derecha */
+}
+
+/* Estilo para la barra de navegación */
+.nav-bar {
+    background-color: #0044cc; /* Color de fondo del nav */
+    /* Sin propiedades de posición para que esté debajo del encabezado */
+}
+
+/* Estilos para los elementos de navegación */
+.nav-bar ul {
+    list-style: none; /* Sin viñetas */
+    padding: 0; /* Sin padding */
+    display: flex; /* Mostrar en línea */
+    flex-direction: row; /* Disposición en fila */
+    justify-content: center; /* Centra los elementos horizontalmente */
+    margin: 0; /* Sin margen */
+}
+
+.nav-bar ul li {
+    margin: 0 15px; /* Espacio horizontal entre los elementos */
+}
+
+/* Estilo para los enlaces en el menú */
+.nav-bar a {
+    color: white; /* Color del texto */
+    text-decoration: none; /* Sin subrayado */
+    padding: 10px; /* Espacio alrededor del enlace */
+}
+
+/* Cambia el color al pasar el ratón sobre los enlaces */
+.nav-bar a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Fondo semi-transparente */
+}
+
+/* Media query para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column; /* Apila el logo y el título verticalmente */
+        align-items: flex-start; /* Alinea los elementos a la izquierda */
+    }
+
+    #login-button {
+        margin-top: 10px; /* Espacio superior para el botón en vista móvil */
+    }
+
+    .nav-bar {
+        /* Puedes agregar estilos específicos para móviles aquí si es necesario */
+    }
+
+    .nav-bar ul {
+        justify-content: center; /* Centrar elementos horizontalmente */
+    }
+}
+
+/* Estilo de la ventana modal */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed; /* Fijo en la pantalla */
+    z-index: 1000; /* Se superpone a otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%; /* Ancho completo */
+    height: 100%; /* Alto completo */
+    overflow: auto; /* Habilita el desplazamiento si es necesario */
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro con opacidad */
+}
+
+/* Estilo del contenido de la modal */
+.modal-content {
+    background-color: #fefefe; /* Fondo blanco */
+    margin: 15% auto; /* Centro de la pantalla */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px; /* Ancho de la ventana */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
+/* Estilo del botón de cerrar */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black; /* Color al pasar el ratón */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Estilos para los campos del formulario */
+form {
+    display: flex;
+    flex-direction: column; /* Orientación vertical */
+}
+
+form label {
+    margin-top: 10px; /* Espacio arriba */
+}
+
+form input {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px; /* Bordes redondeados */
+}
+
+form button {
+    margin-top: 10px; /* Espacio arriba */
+    padding: 10px;
+    background-color: #0044cc; /* Fondo azul */
+    color: white; /* Color del texto */
+    border: none;
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+/* Estilos del encabezado, secciones, y pie de página */
+/* Estilo del encabezado */
+header {
+    background-color: #0044cc;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+/* Estilo del menú de navegación */
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;    /* Remueve subrayado por defecto */
+    font-weight: bold;
+    padding-bottom: 5px;      /* Espacio para el subrayado */
+    position: relative;       /* Necesario para el pseudo-elemento ::after */
+    transition: color 0.3s ease;  /* Transición suave de color */
+}
+
+/* Estilo al pasar el ratón (hover) */
+nav ul li a:hover {
+    color: yellow;            /* Cambia el color del texto al pasar el ratón */
+}
+
+/* Subrayado animado al pasar el ratón */
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;              /* Grosor del subrayado */
+    background-color: yellow; /* Color del subrayado */
+    transition: width 0.3s ease; /* Animación suave para el subrayado */
+}
+
+/* Expande el subrayado cuando se pasa el ratón */
+nav ul li a:hover::after {
+    width: 100%;              /* El subrayado se expande al 100% */
+}
+
+
+section {
+    padding: 20px;
+    margin: 20px 0;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+/* Logo adaptable a pantallas grandes y pequeñas */
+.header-content {
+    display: flex;
+    align-items: center; /* Centra verticalmente el logo y el título */
+    gap: 10px;           /* Espacio entre el logo y el título */
+}
+
+/* Estilo para el logo redondeado */
+.logo {
+    width: 80px;               /* Tamaño del logo */
+    height: 80px;              /* Asegura que el logo sea cuadrado */
+    border-radius: 50%;        /* Hace que el logo sea circular */
+    object-fit: cover;         /* Asegura que la imagen llene el espacio circular */
+}
+
+.info {
+    padding: 20px;
+    margin: 20px 0;
+}
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #0044cc;
+    color: white;
+    width: 100%;
+    /* Posición normal, no sticky ni fixed */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin: 5px 0;
+}
+
+form input, form textarea {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px;
+    background-color: #0044cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #003399;
+}
+/* Estilos generales para los campos de entrada */
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+
+
+button[type="submit"]:hover {
+    background-color: #476bce;
+}
+
+/* Estilo para los mensajes de error o respuesta */
+#responseMessage {
+    margin-top: 20px;
+    color: #d9534f;
+    font-weight: bold;
+}
