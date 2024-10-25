@@ -1,5 +1,5 @@
 // URL del endpoint para obtener las sucursales
-const url = 'http://131.100.140.45:8082/ApiDatos/Bodegas';
+const url = "http:\\apitest.grupocarosa.com/ApiDatos/Bodegas";
 
 // Función para cargar las sucursales
 async function cargarSucursales() {
