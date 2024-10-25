@@ -1,16 +1,17 @@
 // URL del endpoint para obtener las sucursales
-const url = "http:\\apitest.grupocarosa.com/ApiDatos/Bodegas";
+const url2 = "http:\\apitest.grupocarosa.com/ApiDatos/Bodegas";
 
 // Función para cargar las sucursales
 async function cargarSucursales() {
     try {
-        const response = await fetch(url);
+        const response = await fetch("http:\\apitest.grupocarosa.com/ApiDatos/Bodegas");
+        const selectBranch = document.getElementById('branch');
         console.log(response);
         if (!response.ok) throw new Error('Error al obtener las sucursales. Código de estado: ' + response.status);
         
         const sucursales = await response.json();
         
-        const selectBranch = document.getElementById('branch');
+       
         sucursales.forEach(sucursal => {
             const option = document.createElement('option');
             console.log(sucursal);
