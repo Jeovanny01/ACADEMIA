@@ -1,10 +1,11 @@
-// URL del endpoint para obtener las sucursales
-const url3 = "https:\\apitest.grupocarosa.com/ApiDatos/Bodegas";
+
 
 // Función para cargar las sucursales
 async function cargarSucursales() {
     try {
-        const response = await fetch(url3);
+        // URL del endpoint para obtener las sucursales
+const apiCarosa =`https:\\apitest.grupocarosa.com/ApiDatos/Bodegas`;
+        const response = await fetch(apiCarosa);
         const selectBranch = document.getElementById('branch');
         console.log(response);
         if (!response.ok) throw new Error('Error al obtener las sucursales. Código de estado: ' + response.status);
