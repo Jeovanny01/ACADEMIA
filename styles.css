@@ -1,14 +1,18 @@
 /* Configuración básica */
 html, body {
-    height: 100%;
-    margin: 0;
+    margin: 0; /* Eliminar márgenes por defecto del body */
+    height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
+    display: flex; /* Permite usar flexbox */
+    flex-direction: column; /* Organiza los elementos en columna */
+    position: relative; /* Necesario para posicionar el botón correctamente */
 }
 /* Estilo para el contenedor del encabezado *//* Estilo para el contenedor del encabezado principal */
 .header-content {
-    display: flex; /* Usa flexbox */
-    align-items:left; /* Centra verticalmente el contenido */
-    justify-content:center; /* Espacia el contenido para que el login se mueva a la derecha */
-    margin-bottom: 10px; /* Espacio inferior entre el encabezado y el nav */
+    display: flex; /* Utiliza flexbox para centrar el contenido */
+    flex-direction: column; /* Asegura que el logo y el título estén uno debajo del otro */
+    align-items: center; /* Centra el contenido horizontalmente */
+    justify-content: center; /* Centra el contenido verticalmente */
+    flex-grow: 1; /* Permite que este contenedor crezca para ocupar el espacio disponible */
 }
 
 /* Estilo para el logo */
@@ -28,22 +32,16 @@ h1 {
 
 /* Estilo para el contenedor del login */
 .login-container {
-    margin-left: auto; /* Empuja el contenedor del botón hacia la derecha */
+    position: absolute; /* Permite posicionar el botón en relación al contenedor */
+    top: 10px; /* Ajusta la posición superior */
+    right: 10px; /* Ajusta la posición derecha */
 }
 
-/* Estilo del botón de inicio de sesión */
 #login-button {
-    padding: 10px 20px;
-    background-color: #ffffff; /* Fondo blanco */
-    color: #0044cc; /* Color del texto */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    display: flex; /* Para alinear el icono y el texto */
-    align-items: center; /* Alinea verticalmente el icono y el texto */
-    margin-left: auto; /* Empuja el botón hacia la derecha */
+    padding: 10px 20px; /* Ajusta el padding del botón */
+    font-size: 16px; /* Tamaño de fuente */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
 }
-
 /* Estilo para la barra de navegación */
 .nav-bar {
     background-color: #0044cc; /* Color de fondo del nav */
@@ -87,7 +85,7 @@ h1 {
     .login-button {
         position: absolute; /* Mantén el botón absoluto */
         top: 50px; /* Ajusta según sea necesario */
-        right: 10px; /* Ajusta según sea necesario */
+        right: 30px; /* Ajusta según sea necesario */
     }
 
 
