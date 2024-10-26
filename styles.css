@@ -6,8 +6,8 @@ html, body {
 /* Estilo para el contenedor del encabezado *//* Estilo para el contenedor del encabezado principal */
 .header-content {
     display: flex; /* Usa flexbox */
-    align-items: center; /* Centra verticalmente el contenido */
-    justify-content:right; /* Espacia el contenido para que el login se mueva a la derecha */
+    align-items:left; /* Centra verticalmente el contenido */
+    justify-content:center; /* Espacia el contenido para que el login se mueva a la derecha */
     margin-bottom: 10px; /* Espacio inferior entre el encabezado y el nav */
 }
 
@@ -78,6 +78,19 @@ h1 {
 
 /* Media query para pantallas más pequeñas */
 @media (max-width: 768px) {
+
+    .login-container {
+        flex-direction: column; /* Apila el logo y el título verticalmente */
+        justify-content: flex-start; /* Alinea a la parte superior */
+    }
+    
+    .login-button {
+        position: absolute; /* Mantén el botón absoluto */
+        top: 50px; /* Ajusta según sea necesario */
+        right: 10px; /* Ajusta según sea necesario */
+    }
+
+
     .header-content {
         flex-direction: column; /* Apila el logo y el título verticalmente */
         align-items: flex-start; /* Alinea los elementos a la izquierda */
