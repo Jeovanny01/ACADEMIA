@@ -1,27 +1,35 @@
+// URL del endpoint para obtener las sucursales
+const fetchSucursales = async () => {
+    try {
+        const response = await fetch(
+            `https://apitest.grupocarosa.com/ApiDatos/Bodegas`
+        );
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error(`Error en la petición. Código de estado:  ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error en la petición:', error.message);
+        throw error;
+    }
+};
 
-
-// Función para cargar las sucursales
 async function cargarSucursales() {
     try {
-        // URL del endpoint para obtener las sucursales
-const apiCarosa =`https:\\apitest.grupocarosa.com/ApiDatos/Bodegas`;
-        const response = await fetch(apiCarosa);
+        const sucursales = await fetchSucursales();
         const selectBranch = document.getElementById('branch');
-        console.log(response);
-        if (!response.ok) throw new Error('Error al obtener las sucursales. Código de estado: ' + response.status);
-        
-        const sucursales = await response.json();
-        
-       
+
         sucursales.forEach(sucursal => {
             const option = document.createElement('option');
-            console.log(sucursal);
             option.value = sucursal.BODEGA;
             option.textContent = sucursal.NOMBRE;
             selectBranch.appendChild(option);
         });
     } catch (error) {
-        console.error('Error:', error.message);
+        console.error('Error al cargar las sucursales:', error.message);
+        const selectBranch = document.getElementById('branch');
         const option = document.createElement('option');
         option.value = "error";
         option.textContent = error.message;
@@ -29,5 +37,4 @@ const apiCarosa =`https:\\apitest.grupocarosa.com/ApiDatos/Bodegas`;
     }
 }
 
-// Llama a la función cuando se carga la página
-document.addEventListener('DOMContentLoaded', cargarSucursales);
+document.addEventListener('DOMContentLoaded', cargarSucursales)
