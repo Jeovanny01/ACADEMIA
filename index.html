@@ -163,18 +163,28 @@
             
             if (data.success) { // Verifica si la autenticación fue exitosa
                 // Por ejemplo, aquí puedes verificar el rol del usuario
-                const [{ COD_ROLL: userRole } = {}] = data.data || [];
+                const [{ COD_ROLL: userRole=null, ROL: rol=null } = {}] = data.data || [{}];
+
+                
                 console.log(userRole); // Muestra el rol del usuario o `undefined` si no existe
                 if (userRole == "1") {
-                    alert("Inicio de sesión exitoso como Administrador");
-                } else if (userRole == "user") {
-                    alert("Inicio de sesión exitoso como Usuario");
+                    alert("Inicio de sesión exitoso como " + rol);
+                } else if (userRole == "2") {
+                    alert("Inicio de sesión exitoso como " + rol);
+                } else if (userRole == "3") {
+                    alert("Inicio de sesión exitoso como " +rol);
                 } else {
-                    alert("Inicio de sesión exitoso con rol desconocido");
+                    alert("Inicio de sesión exitoso con rol "+  rol);
                 }
 
                 // Cierra el modal
                 modal.style.display = "none";
+                // Guarda la información de sesión en `localStorage`
+                localStorage.setItem("session", JSON.stringify({ isLoggedIn: true, userRole, rol }));
+
+                // Redirige al menú principal
+                window.location.href = "menu.html";
+
             } else {
                 // Si el servidor devuelve que la autenticación falló
                 alert("Credenciales incorrectas");
