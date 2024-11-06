@@ -5,30 +5,218 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión Escolar</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Enlace a un CDN de Font Awesome para íconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+       
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        #menu {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        #menu li {
+            margin: 0 15px;
+        }
+
+        #menu li a {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #logout {
+            cursor: pointer;
+        }
+
+        /* Estilos del menú hamburguesa */
+        .hamburger {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Ocultar el menú en pantallas pequeñas */
+        @media (max-width: 768px) {
+            #menu {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: #0044cc;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                z-index: 10;
+            }
+
+            #menu li {
+                margin: 4px 0;
+                text-align: center;
+            }
+
+            .hamburger {
+                display: block;
+            }
+        }
+
+        /* Mostrar el menú cuando esté activado */
+        #menu.active {
+            display: flex;
+        }
+
+        /* Estilos del formulario */
+        .form-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group input[type="submit"] {
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .form-group input[type="submit"]:hover {
+            background-color: #555;
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav>
+            <!-- Ícono de menú hamburguesa -->
+            <div class="hamburger" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
             <ul id="menu">
-                <li><a href="registrar_alumnos.html">Registrar Alumnos</a></li>
+                <li><a onclick="showSection('welcome')">Inicio</a></li>
+                <li><a onclick="showSection('register')">Registrar Alumnos</a></li>
                 <li><a href="niveles.html">Niveles</a></li>
                 <li><a href="horarios.html">Horarios</a></li>
                 <li><a href="turnos.html">Turnos</a></li>
             </ul>
-            <!-- Icono de cierre de sesión -->
             <div id="logout" onclick="logout()">
-                <i class="fas fa-sign-out-alt" title="Cerrar sesión"> </i> <!-- Ícono de cierre de sesión -->
+                <i class="fas fa-sign-out-alt" title="Cerrar sesión"></i>
             </div>
         </nav>
     </header>
 
     <main>
-        <h1>Bienvenido a la Gestión de Academia</h1>
-        <p>Utiliza el menú superior para gestionar los recursos.</p>
+        <!-- Sección de bienvenida -->
+        <section id="welcome">
+            <h1>Bienvenido a la Gestión de Academia</h1>
+            <p>Utiliza el menú superior para gestionar los recursos.</p>
+        </section>
+
+        <!-- Sección del formulario de registro de alumnos -->
+        <section id="register" class="form-container">
+            <h2>Registro de Alumnos</h2>
+            <form action="/registrar_alumno" method="POST">
+                <div class="form-group">
+                    <label for="nombre">Nombre del Alumno</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" id="apellido" name="apellido" required>
+                </div>
+                <div class="form-group">
+                    <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                </div>
+                <div class="form-group">
+                    <label for="genero">Género</label>
+                    <select id="genero" name="genero" required>
+                        <option value="">Seleccione</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="direccion">Dirección</label>
+                    <input type="text" id="direccion" name="direccion">
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="tel" id="telefono" name="telefono" pattern="[0-9]{10}" placeholder="1234567890">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email">
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Registrar Alumno">
+                </div>
+            </form>
+        </section>
     </main>
 
-    <script src="script2.js"></script>
+    <script>
+        // Función para mostrar/ocultar el menú en dispositivos móviles
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            menu.classList.toggle('active');
+        }
+
+        // Función para mostrar/ocultar las secciones
+        function showSection(sectionId) {
+            document.getElementById('welcome').style.display = 'none';
+            document.getElementById('register').classList.remove('active');
+            
+            if (sectionId === 'register') {
+                document.getElementById('register').classList.add('active');
+            } else {
+                document.getElementById('welcome').style.display = 'block';
+            }
+            
+            // Ocultar el menú en dispositivos pequeños después de seleccionar una opción
+            const menu = document.getElementById('menu');
+            if (window.innerWidth <= 768) {
+                menu.classList.remove('active');
+            }
+        }
+
+        function logout() {
+            alert("Cerrando sesión...");
+        }
+    </script>
 </body>
 </html>

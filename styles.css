@@ -177,6 +177,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    font-family: Arial, sans-serif;
 }
 
 main {
@@ -188,7 +189,7 @@ main {
 header {
     background-color: #0044cc;
     color: white;
-    padding: 10px 0;
+    padding: 10px 20px;
     text-align: center;
 }
 
@@ -339,6 +340,7 @@ button[type="submit"]:hover {
 #logout:hover {
     color: #f44336;
 }
+
 
 main {
     padding: 20px;
