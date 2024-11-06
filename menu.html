@@ -128,6 +128,10 @@
             <ul id="menu">
                 <li><a onclick="showSection('welcome')">Inicio</a></li>
                 <li><a onclick="showSection('register')">Registrar Alumnos</a></li>
+                <li><a onclick="showSection('vendedores')">Vendedores</a></li>
+                <li><a onclick="showSection('sucursales')">Sucursales</a></li>
+                <li><a onclick="showSection('idiomas')">Idiomas</a></li>
+                <li><a onclick="showSection('estrategias')">Idiomas</a></li>
                 <li><a href="niveles.html">Niveles</a></li>
                 <li><a href="horarios.html">Horarios</a></li>
                 <li><a href="turnos.html">Turnos</a></li>
@@ -142,6 +146,61 @@
         <!-- Sección de bienvenida -->
         <section id="welcome">
             <h1>Bienvenido a la Gestión de Academia</h1>
+            <p>Utiliza el menú superior para gestionar los recursos.</p>
+        </section>
+        
+        <!-- Sección de bienvenida -->
+        <section id="vendedores">
+            <h1>Listado de vendedores</h1>
+            <p>Utiliza el menú superior para gestionar los recursos.</p>
+        </section>
+
+        <!-- Sección de bienvenida -->
+        <section id="sucursales">
+            <h2>Sucursales</h2>
+        <button onclick="openModal()">Crear Nueva Sucursal</button>
+        <table id="tablaSucursales">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Ubicación</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                <!-- Las filas se agregarán dinámicamente -->
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Modal para Crear o Editar -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title">Crear Nueva Sucursal</h2>
+            <form id="modal-form" onsubmit="saveSucursal(event)">
+                <input type="hidden" id="sucursal-id" name="id">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="ubicacion">Ubicación:</label>
+                    <input type="text" id="ubicacion" name="ubicacion" required>
+                </div>
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+    </div>
+          <!-- Sección de bienvenida -->
+          <section id="idiomas">
+            <h1>Listado de Idiomas</h1>
+            <p>Utiliza el menú superior para gestionar los recursos.</p>
+        </section>
+          <!-- Sección de bienvenida -->
+          <section id="estrategias">
+            <h1>Listado de estrategias</h1>
             <p>Utiliza el menú superior para gestionar los recursos.</p>
         </section>
 
@@ -210,33 +269,11 @@
             </form>
         </section>
     </main>
+    
+   
+ <script src="script2.js"></script> <!-- Tu archivo de scripts principal, si existe -->
+ <script src="cargarSucursales.js"></script> <!-- Tu archivo de scripts principal, si existe -->
 
-    <script>
-        // Función para mostrar/ocultar el menú en dispositivos móviles
-        function toggleMenu() {
-            const menu = document.getElementById('menu');
-            menu.classList.toggle('active');
-        }
-
-        // Función para mostrar/ocultar las secciones
-        function showSection(sectionId) {
-            document.getElementById('welcome').style.display = 'none';
-            document.getElementById('register').classList.remove('active');
-            
-            if (sectionId === 'register') {
-                document.getElementById('register').classList.add('active');
-            } else {
-                document.getElementById('welcome').style.display = 'block';
-            }
-            
-            // Ocultar el menú en dispositivos pequeños después de seleccionar una opción
-            const menu = document.getElementById('menu');
-            if (window.innerWidth <= 768) {
-                menu.classList.remove('active');
-            }
-        }
-       src="script2.js"
-    </script>
    
 </body>
 </html>

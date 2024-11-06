@@ -13,4 +13,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
 
     // Limpiar el formulario
     document.getElementById('contactForm').reset();
+    
+ 
 });
+
