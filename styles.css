@@ -119,6 +119,7 @@ h1 {
     height: 100%; /* Alto completo */
     overflow: auto; /* Habilita el desplazamiento si es necesario */
     background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro con opacidad */
+    
 }
 
 /* Estilo del contenido de la modal */
@@ -354,19 +355,6 @@ main {
 }
 
 
-#menu {
-    display: block; /* Inicialmente visible */
-}
-
-/* Ocultamos el menú después de hacer clic */
-#menu.closed {
-    display: none;
-}
-
-.section {
-    display: none;
-    margin-top: 50px;
-}
 
 table {
     width: 100%;

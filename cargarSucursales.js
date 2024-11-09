@@ -1,8 +1,27 @@
+//require('dotenv').config();
 // URL del endpoint para obtener las sucursales
+const url = "https://apitest.grupocarosa.com/ApiDatos/"
+
 const fetchSucursales = async () => {
     try {
         const response = await fetch(
-            `https://apitest.grupocarosa.com/ApiDatos/Bodegas`
+            url +"Bodegas"
+        );
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error(`Error en la petición. Código de estado:  ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error en la petición:', error.message);
+        throw error;
+    }
+};
+const fetchVendedores = async () => {
+    try {
+        const response = await fetch(
+            url +"vendedores"
         );
         if (response.ok) {
             const data = await response.json();
@@ -20,7 +39,8 @@ async function cargarSucursales() {
     try {
         const sucursales = await fetchSucursales();
         const selectBranch = document.getElementById('branch');
-
+        if (!selectBranch) return;
+        
         sucursales.forEach(sucursal => {
             const option = document.createElement('option');
             option.value = sucursal.BODEGA;
@@ -36,9 +56,29 @@ async function cargarSucursales() {
         selectBranch.appendChild(option);
     }
 }
+async function cargarVendedores() {
+    try {
+        const vendedores = await fetchVendedores();
+        const selectVendedores = document.getElementById('vendedores-1');
+        vendedores.forEach(vendedores => {
+            const option = document.createElement('option');
+            option.value = vendedores.VENDEDOR;
+            option.textContent = vendedores.NOMBRE;
+            selectVendedores.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error al cargar los vendedores:', error.message);
+        const selectVendedores = document.getElementById('vendedores-1');
+        const option = document.createElement('option');
+        option.value = "error";
+        option.textContent = error.message;
+        selectVendedores.appendChild(option);
+    }
+}
 
 document.addEventListener('DOMContentLoaded', cargarSucursales)
-
+document.addEventListener('tbody', cargarSuc)
+document.addEventListener('vendedores-1', cargarVendedores)
 // Función para cargar las sucursales en la tabla
 async function cargarSuc() {
     try {
@@ -90,10 +130,16 @@ async function cargarSuc() {
 }
 
 // Mostrar solo la sección de sucursales cuando se carga la página
-document.addEventListener('DOMContentLoaded', () => {
-    showSection('sucursales');
-    cargarSuc();
-});
+//document.addEventListener('DOMContentLoaded', () => {
+//    showSection('sucursales');
+//    cargarSuc();
+//});
+// Mostrar solo la sección de sucursales cuando se carga la página
+//document.addEventListener('DOMContentLoaded', () => {
+//    showSection('vendedores');
+//    cargarVendedores();
+//});
+
 
 // Muestra el modal para crear o editar
 function openModal(isEdit = false, sucursal = {}) {
@@ -104,7 +150,8 @@ function openModal(isEdit = false, sucursal = {}) {
     // Configuración para edición o creación
     if (isEdit) {
         modalTitle.textContent = "Editar Sucursal";
-        document.getElementById("sucursal-id").value = sucursal.BODEGA;
+        document.getElementById("sucursal").value = sucursal.BODEGA;
+        document.getElementById("sucursal").readOnly  = true;
         document.getElementById("nombre").value = sucursal.NOMBRE;
         document.getElementById("ubicacion").value = sucursal.DIRECCION;
     } else {

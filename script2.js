@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const privilege = session.userRole;
 
     const menu = document.getElementById("menu");
-    if (userRole == "1"){ 
+    if (privilege  == "1111"){ 
         menu.querySelectorAll("li").forEach(item => {
             if (item.textContent === "Registrar Alumnos") {
                 item.style.display = "none"; 
@@ -44,6 +44,10 @@ function showSection(sectionId) {
 
     // Muestra la sección seleccionada
     document.getElementById(sectionId).style.display = 'block';
+      // Llama a cargarVendedores solo si la sección seleccionada es 'register'
+      if (sectionId === 'register') {
+        cargarVendedores();
+    }
 
     // Agrega la clase 'active' al botón correspondiente
     const activeButton = Array.from(buttons).find(button => button.textContent.toLowerCase() === sectionId);
@@ -54,6 +58,8 @@ function showSection(sectionId) {
     if (window.innerWidth <= 768) {
         document.getElementById('menu').classList.remove('active');
     }
+    
+    
 }
 
 
