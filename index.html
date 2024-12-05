@@ -88,7 +88,7 @@
             <input type="tel" id="phone" pattern="[0-9]{8}" placeholder="Ingresa tu número (8 dígitos)" required>
             
             <!-- Selección de sucursal -->
-            <select id="branch" required>
+            <select id="branch" title="Selecciona una sucursal" required>
                 <option value="sucursales-1" disabled selected>Selecciona una sucursal</option>
             </select>
         
@@ -110,8 +110,6 @@
         <footer>
         <p>&copy; 2024 Academia de Inglés. Todos los derechos reservados.</p>
     </footer>
-
-    <script src="script.js"></script>
     <script>
         // Obtén el modal
         var modal = document.getElementById("login-modal");
@@ -198,7 +196,8 @@
     }
 };
 
-        </script>
-        
+</script>
+<script src="script.js"></script>
+    
 </body>
 </html>
