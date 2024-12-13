@@ -60,6 +60,9 @@ async function cargarVendedores() {
     try {
         const vendedores = await fetchVendedores();
         const selectVendedores = document.getElementById('vendedores-1');
+          // Limpiar las opciones existentes
+          selectVendedores.innerHTML = '<option value="">Seleccione un vendedor</option>';
+
         vendedores.forEach(vendedores => {
             const option = document.createElement('option');
             option.value = vendedores.VENDEDOR;
@@ -75,10 +78,11 @@ async function cargarVendedores() {
         selectVendedores.appendChild(option);
     }
 }
+document.addEventListener('vendedores-1', cargarVendedores)
 
 document.addEventListener('DOMContentLoaded', cargarSucursales)
 document.addEventListener('tbody', cargarSuc)
-document.addEventListener('vendedores-1', cargarVendedores)
+
 // Función para cargar las sucursales en la tabla
 async function cargarSuc() {
     try {
