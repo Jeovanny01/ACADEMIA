@@ -49,6 +49,9 @@ function showSection(sectionId) {
       // Llama a cargarVendedores solo si la sección seleccionada es 'register'
       if (sectionId === 'register') {
         cargarVendedores();
+        cargarIdioma();
+        cargarSucursal();
+
     }
 
     // Agrega la clase 'active' al botón correspondiente

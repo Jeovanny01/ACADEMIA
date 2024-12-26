@@ -53,31 +53,10 @@ const fetchIdiomas= async () => {
     }
 };
 
-async function cargarSucursales() {
-    try {
-        const sucursales = await fetchSucursales();
-        const selectBranch = document.getElementById('branch');
-        if (!selectBranch) return;
-        
-        sucursales.forEach(sucursal => {
-            const option = document.createElement('option');
-            option.value = sucursal.BODEGA;
-            option.textContent = sucursal.NOMBRE;
-            selectBranch.appendChild(option);
-        });
-    } catch (error) {
-        console.error('Error al cargar las sucursales:', error.message);
-        const selectBranch = document.getElementById('branch');
-        const option = document.createElement('option');
-        option.value = "error";
-        option.textContent = error.message;
-        selectBranch.appendChild(option);
-    }
-}
 async function cargarSucursal() {
     try {
         const sucursales = await fetchSucursales();
-        const selectBranch = document.getElementById('sucursalregister');
+        const selectBranch = document.getElementById('sucursalreg');
         if (!selectBranch) return;
         
         sucursales.forEach(sucursal => {
@@ -94,28 +73,29 @@ async function cargarSucursal() {
         option.textContent = error.message;
         selectBranch.appendChild(option);
     }
-}
+};
+
 async function cargarIdioma() {
     try {
-        const sucursales = await fetchIdiomas();
-        const selectBranch = document.getElementById('sucursalregister');
+        const dat = await fetchIdiomas();
+        const selectBranch = document.getElementById('idioma');
         if (!selectBranch) return;
         
-        sucursales.forEach(sucursal => {
+        dat.forEach(dat => {
             const option = document.createElement('option');
-            option.value = sucursal.BODEGA;
-            option.textContent = sucursal.NOMBRE;
+            option.value = dat.CODIGO;
+            option.textContent = dat.DESCRIPCION;
             selectBranch.appendChild(option);
         });
     } catch (error) {
-        console.error('Error al cargar las sucursales:', error.message);
-        const selectBranch = document.getElementById('sucursalregister');
+        console.error('Error al cargar los idiomas:', error.message);
+        const selectBranch = document.getElementById('idioma');
         const option = document.createElement('option');
         option.value = "error";
         option.textContent = error.message;
         selectBranch.appendChild(option);
     }
-}
+};
 
 async function cargarVendedores() {
     try {
@@ -155,14 +135,7 @@ async function cargarVendedores() {
         option.textContent = error.message;
         selectVendedores.appendChild(option);
     }
-}
-document.addEventListener('vendedores-1', cargarVendedores())
-
-document.addEventListener('sucursalregister', cargarSucursal())
-
-document.addEventListener('idioma', cargarIdioma)
-//document.addEventListener('DOMContentLoaded', cargarSucursales())
-document.addEventListener('tbody', cargarSuc)
+};
 
 // Función para cargar las sucursales en la tabla
 async function cargarSuc() {
@@ -212,7 +185,7 @@ async function cargarSuc() {
         filaError.appendChild(celdaError);
         tablaSucursales.appendChild(filaError);
     }
-}
+};
 
 // Mostrar solo la sección de sucursales cuando se carga la página
 //document.addEventListener('DOMContentLoaded', () => {
@@ -245,7 +218,7 @@ function openModal(isEdit = false, sucursal = {}) {
     }
 
     modal.style.display = "flex"; // Mostrar el modal
-}
+};
 
 // Ocultar el modal
 function closeModal() {
@@ -271,7 +244,7 @@ function saveSucursal(event) {
     }
 
     closeModal();
-}
+};
 
 // Llamar a openModal con los datos de la sucursal seleccionada para editar
 function editSucursal(id) {
@@ -290,3 +263,8 @@ window.onclick = function(event) {
         closeModal();
     }
 };
+
+//document.addEventListener('vendedores-1', cargarVendedores);
+//document.addEventListener('sucursal-reg', cargarSucursal);
+//document.addEventListener('idioma', cargarIdioma);
+//document.addEventListener('tbody', cargarSuc);
