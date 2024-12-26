@@ -55,10 +55,15 @@ const fetchIdiomas= async () => {
 
 async function cargarSucursal() {
     try {
-        const sucursales = await fetchSucursales();
+      
         const selectBranch = document.getElementById('sucursalreg');
         if (!selectBranch) return;
-        
+         // Verificar si ya hay datos cargados
+         if (selectBranch.children.length > 1) {
+            console.log('Los idiomas ya están cargados.');
+            return;
+        }
+        const sucursales = await fetchSucursales();
         sucursales.forEach(sucursal => {
             const option = document.createElement('option');
             option.value = sucursal.BODEGA;
@@ -77,10 +82,17 @@ async function cargarSucursal() {
 
 async function cargarIdioma() {
     try {
-        const dat = await fetchIdiomas();
         const selectBranch = document.getElementById('idioma');
         if (!selectBranch) return;
         
+          // Verificar si ya hay datos cargados
+          if (selectBranch.children.length > 1) {
+            console.log('Los idiomas ya están cargados.');
+            return;
+        }
+        const dat = await fetchIdiomas();
+        
+
         dat.forEach(dat => {
             const option = document.createElement('option');
             option.value = dat.CODIGO;
