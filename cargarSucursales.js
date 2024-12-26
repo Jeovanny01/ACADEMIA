@@ -117,14 +117,19 @@ async function cargarVendedores() {
             window.location.href = "index.html";
             return;
         }
+        
+        const selectVendedores = document.getElementById('vendedores-1');
+        if (selectVendedores.children.length > 1) {
+            console.log('Los idiomas ya están cargados.');
+            return;
+        }
     
         const vend = session.vend;
 
-        const vendedores = await fetchVendedores();
-        const selectVendedores = document.getElementById('vendedores-1');
           // Limpiar las opciones existentes
-          selectVendedores.innerHTML = '<option value="">Seleccione un vendedor</option>';
+          //selectVendedores.innerHTML = '<option value="">Seleccione un vendedor</option>';
 
+          const vendedores = await fetchVendedores();
         // Llenar el select con los datos de vendedores
         vendedores.forEach(vendedor => {
             const option = document.createElement('option');
@@ -226,6 +231,7 @@ function openModal(isEdit = false, sucursal = {}) {
         document.getElementById("ubicacion").value = sucursal.DIRECCION;
     } else {
         modalTitle.textContent = "Crear Nueva Sucursal";
+        document.getElementById("sucursal").readOnly  = false;
         form.reset(); // Limpiar el formulario para nueva entrada
     }
 

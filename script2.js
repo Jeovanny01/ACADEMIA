@@ -51,6 +51,7 @@ function showSection(sectionId) {
         cargarVendedores();
         cargarIdioma();
         cargarSucursal();
+        cargarSuc();
 
     }
 

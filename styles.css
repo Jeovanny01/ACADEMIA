@@ -111,25 +111,27 @@ h1 {
 /* Estilo de la ventana modal */
 .modal {
     display: none; /* Oculto por defecto */
-    position: fixed; /* Fijo en la pantalla */
-    z-index: 1000; /* Se superpone a otros elementos */
+    position: fixed;
+    z-index: 1000;
     left: 0;
     top: 0;
-    width: 100%; /* Ancho completo */
-    height: 100%; /* Alto completo */
-    overflow: auto; /* Habilita el desplazamiento si es necesario */
-    background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro con opacidad */
-    
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Asegúrate de habilitar el desplazamiento si el contenido es muy grande */
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 /* Estilo del contenido de la modal */
 .modal-content {
-    background-color: #fefefe; /* Fondo blanco */
-    margin: 15% auto; /* Centro de la pantalla */
+    background-color: #fefefe;
+    margin: auto; /* Centra horizontalmente */
     padding: 20px;
     border: 1px solid #888;
-    width: 300px; /* Ancho de la ventana */
-    border-radius: 5px; /* Bordes redondeados */
+    width: 300px; /* Ancho fijo */
+    border-radius: 5px;
+    height: auto; /* Permite ajustar automáticamente */
+    max-height: 80%; /* Evita que sea demasiado alto */
+    overflow-y: auto; /* Habilita desplazamiento interno si es necesario */
 }
 
 /* Estilo del botón de cerrar */
