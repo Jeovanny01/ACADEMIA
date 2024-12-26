@@ -126,7 +126,7 @@
                 <i class="fas fa-bars"></i>
             </div>
             <ul id="menu">
-                <li><a onclick="showSection('welcome')">Inicio</a></li>
+              <!-- <li><a onclick="showSection('welcome')">Inicio</a></li> -->
                 <li><a onclick="showSection('register')">Registrar Alumnos</a></li>
                 <li><a onclick="showSection('vendedores')">Vendedores</a></li>
                 <li><a onclick="showSection('sucursales')">Sucursales</a></li>
@@ -144,10 +144,10 @@
 
     <main>
         <!-- Sección de bienvenida -->
-        <section id="welcome">
+        <!-- <section id="welcome">
             <h1>Bienvenido a la Gestión de Academia</h1>
             <p>Utiliza el menú superior para gestionar los recursos.</p>
-        </section>
+        </section>  -->
         
         <!-- Sección de bienvenida -->
         <section id="vendedores">
@@ -247,7 +247,6 @@
                     <option value="">Seleccione</option>
                     <option value="Masculino">departamento 1 </option>
                     <option value="Femenino">departamento 2</option>
-                    <option value="Otro">departamento 3</option>
                 </select>
         
 
@@ -256,7 +255,7 @@
                     <option value="">Seleccione</option>
                     <option value="Masculino">Municipio 1</option>
                     <option value="Femenino">Municipio 2</option>
-                    <option value="Otro">Municipio 3</option>
+
                 </select>
         
                 <label for="direccion">Dirección</label>
@@ -284,12 +283,10 @@
                     <input type="email" id="email" name="email">
                
       
-                    <label for="genero">Idioma</label>
-                    <select id="genero" name="genero" required>
-                        <option value="">Idioma 1</option>
-                        <option value="Masculino">Idioma 2</option>
-                        <option value="Femenino">Idioma 3</option>
-                        <option value="Otro">Idioma 4</option>
+                    <label for="idioma">Idioma</label>
+                    <select id="idioma" name="idioma" required>
+                        <option value="">Seleccione Idioma</option>
+                       
                     </select>
              
                     <label for="gradoKids">Grado Kids</label>
@@ -301,6 +298,11 @@
                         <option value="Masculino">En Linea</option>
                        
                     </select>
+                    <label for="sucursalregister">Sucursal</label>
+                    <select id="sucursalregister" name="sucursalregister" required>
+                        <option value="">Seleccione una Sucursal</option>
+                    </select>
+
                     <br>
                     <br>
                     <br>

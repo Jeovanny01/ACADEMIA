@@ -18,10 +18,28 @@ const fetchSucursales = async () => {
         throw error;
     }
 };
+
 const fetchVendedores = async () => {
     try {
         const response = await fetch(
             url +"vendedores"
+        );
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error(`Error en la petición. Código de estado:  ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error en la petición:', error.message);
+        throw error;
+    }
+};
+
+const fetchIdiomas= async () => {
+    try {
+        const response = await fetch(
+            url +"idiomas"
         );
         if (response.ok) {
             const data = await response.json();
@@ -56,19 +74,79 @@ async function cargarSucursales() {
         selectBranch.appendChild(option);
     }
 }
+async function cargarSucursal() {
+    try {
+        const sucursales = await fetchSucursales();
+        const selectBranch = document.getElementById('sucursalregister');
+        if (!selectBranch) return;
+        
+        sucursales.forEach(sucursal => {
+            const option = document.createElement('option');
+            option.value = sucursal.BODEGA;
+            option.textContent = sucursal.NOMBRE;
+            selectBranch.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error al cargar las sucursales:', error.message);
+        const selectBranch = document.getElementById('sucursalregister');
+        const option = document.createElement('option');
+        option.value = "error";
+        option.textContent = error.message;
+        selectBranch.appendChild(option);
+    }
+}
+async function cargarIdioma() {
+    try {
+        const sucursales = await fetchIdiomas();
+        const selectBranch = document.getElementById('sucursalregister');
+        if (!selectBranch) return;
+        
+        sucursales.forEach(sucursal => {
+            const option = document.createElement('option');
+            option.value = sucursal.BODEGA;
+            option.textContent = sucursal.NOMBRE;
+            selectBranch.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error al cargar las sucursales:', error.message);
+        const selectBranch = document.getElementById('sucursalregister');
+        const option = document.createElement('option');
+        option.value = "error";
+        option.textContent = error.message;
+        selectBranch.appendChild(option);
+    }
+}
+
 async function cargarVendedores() {
     try {
+        const session = JSON.parse(localStorage.getItem("session") || "{}");
+
+        if (!session.isLoggedIn) {
+            window.location.href = "index.html";
+            return;
+        }
+    
+        const vend = session.vend;
+
         const vendedores = await fetchVendedores();
         const selectVendedores = document.getElementById('vendedores-1');
           // Limpiar las opciones existentes
           selectVendedores.innerHTML = '<option value="">Seleccione un vendedor</option>';
 
-        vendedores.forEach(vendedores => {
+        // Llenar el select con los datos de vendedores
+        vendedores.forEach(vendedor => {
             const option = document.createElement('option');
-            option.value = vendedores.VENDEDOR;
-            option.textContent = vendedores.NOMBRE;
+            option.value = vendedor.CODIGO;  
+            option.textContent = vendedor.NOMBRE;
+            // Si el vendedor coincide con `vend`, seleccionarlo
+                // Comparar eliminando espacios y forzando el mismo tipo
+            if (String(vend).trim() === String(vendedor.CODIGO).trim()) {
+                option.selected = true;
+               // console.log('Seleccionado:', vendedor.CODIGO);
+            }
             selectVendedores.appendChild(option);
         });
+
     } catch (error) {
         console.error('Error al cargar los vendedores:', error.message);
         const selectVendedores = document.getElementById('vendedores-1');
@@ -78,9 +156,12 @@ async function cargarVendedores() {
         selectVendedores.appendChild(option);
     }
 }
-document.addEventListener('vendedores-1', cargarVendedores)
+document.addEventListener('vendedores-1', cargarVendedores())
 
-document.addEventListener('DOMContentLoaded', cargarSucursales)
+document.addEventListener('sucursalregister', cargarSucursal())
+
+document.addEventListener('idioma', cargarIdioma)
+//document.addEventListener('DOMContentLoaded', cargarSucursales())
 document.addEventListener('tbody', cargarSuc)
 
 // Función para cargar las sucursales en la tabla

@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     const privilege = session.userRole;
+    const vend = session.vend;
+    
 
     const menu = document.getElementById("menu");
     if (privilege  == "1111"){ 
@@ -65,5 +67,5 @@ function showSection(sectionId) {
 
 // Mostrar la sección de bienvenida por defecto cuando se carga la página
 document.addEventListener('DOMContentLoaded', () => {
-    showSection('welcome');
+    showSection('register');
 });
