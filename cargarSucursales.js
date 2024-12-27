@@ -29,6 +29,32 @@ const postBodegas = async (accion, bodega, nombre, direccion) => {
     }
 };
 
+
+const postVendedores = async (accion, codigo, nombre) => {
+    try {
+        const response = await fetch(url + "Vendedor", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                accion,
+                codigo,
+                nombre
+            })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error(`Error en la petición. Código de estado: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error en la petición:", error.message);
+        throw error;
+    }
+};
 const fetchSucursales = async () => {
     try {
         const response = await fetch(
@@ -326,7 +352,8 @@ async function  saveSucursal(event) {
                 const response = await postBodegas("UPDATE2", id, nombre, ubicacion);
                 console.log("Sucursal actualizada:", response);
                 // Lógica para actualizar la fila correspondiente en la tabla
-                updateTableRow(id, nombre, ubicacion); // Función para actualizar la fila
+                //updateTableRow(id, nombre, ubicacion); // Función para actualizar la fila
+                cargarSuc();
             } catch (error) {
                 console.error("Error al actualizar la sucursal:", error.message);
                 alert("Error al actualizar ");
@@ -365,6 +392,81 @@ async function  saveSucursal(event) {
     closeModal();
 };
 // Funciones auxiliares
+function updateTableRowVend(id, nombre) {
+    // Busca la fila correspondiente en la tabla y actualiza los datos
+    const rows = document.querySelectorAll('tr');
+     let rowFound = false;
+
+    rows.forEach(row => {
+        // Buscar la celda específica dentro de la fila
+        const firstCell = row.cells[0]; // Suponiendo que el valor está en la primera celda
+        if (firstCell && firstCell.textContent.trim() === id) {
+            // Actualizar los valores de las columnas correspondientes
+            row.cells[1].textContent = nombre;
+            rowFound = true;
+        }
+    });
+
+    if (!rowFound) {
+        console.error(`No se encontró una fila con el valor "${id}" en la primera celda.`);
+    }
+}
+
+// Guardar sucursal (creación o edición)
+async function  saveVendedor(event) {
+    event.preventDefault(); // Evitar recarga de la página
+    const id = document.getElementById("vendedor-id").value;
+    const nombre = document.getElementById("nombreVend").value;
+
+
+    if (document.getElementById("vendedor-id").readOnly) {
+        // Lógica para actualizar una sucursal existente
+       // console.log("Actualizar sucursal:", { id, nombre, ubicacion });
+            // Aquí puedes agregar la lógica para actualizar la fila en la tabla
+            try {
+                const response = await postVendedores("UPDATE2", id, nombre);
+                console.log("Vendedor actualizado:", response);
+                // Lógica para actualizar la fila correspondiente en la tabla
+                //updateTableRowVend(id, nombre); // Función para actualizar la fila
+                cargarVend();
+            } catch (error) {
+                console.error("Error al actualizar la sucursal:", error.message);
+                alert("Error al actualizar ");
+            }
+
+        } else {
+            // Lógica para crear una nueva sucursal
+            const rows = document.querySelectorAll('tr');
+          
+            for (const row of rows) {
+               // Buscar la celda específica dentro de la fila
+               const firstCell = row.cells[0]; // Suponiendo que el valor está en la primera celda
+               if (firstCell.textContent.trim() === id) {
+                   // Actualizar los valores de las columnas correspondientes
+                alert("Codigo "+ id +" ya existe");
+                  return;
+               }
+           };
+       
+       
+
+        // Aquí puedes agregar la lógica para agregar una nueva fila en la tabla
+        try {
+            const response = await postVendedores("INSERT", id, nombre);
+            console.log("vendedor INSERTADO:", response);
+            // Lógica para actualizar la fila correspondiente en la tabla
+           // updateTableRow(id, nombre, ubicacion); // Función para actualizar la fila
+           cargarVend();
+
+        } catch (error) {
+            console.error("Error al actualizar la sucursal:", error.message);
+            alert("Error al crear ");
+        }
+    }
+
+    closeModal();
+};
+// Funciones auxiliares
 function updateTableRow(id, nombre, ubicacion) {
     // Busca la fila correspondiente en la tabla y actualiza los datos
     const rows = document.querySelectorAll('tr');
@@ -385,6 +487,7 @@ function updateTableRow(id, nombre, ubicacion) {
         console.error(`No se encontró una fila con el valor "${id}" en la primera celda.`);
     }
 }
+
 
 // Manejar el cierre del modal al hacer clic fuera del contenido
 window.onclick = function(event) {
