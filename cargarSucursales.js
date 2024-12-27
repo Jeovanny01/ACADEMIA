@@ -2,6 +2,33 @@
 // URL del endpoint para obtener las sucursales
 const url = "https://apitest.grupocarosa.com/ApiDatos/"
 
+const postBodegas = async (accion, bodega, nombre, direccion) => {
+    try {
+        const response = await fetch(url + "Bodegas", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                accion,
+                bodega,
+                nombre,
+                direccion
+            })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error(`Error en la petición. Código de estado: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error en la petición:", error.message);
+        throw error;
+    }
+};
+
 const fetchSucursales = async () => {
     try {
         const response = await fetch(
@@ -52,6 +79,7 @@ const fetchIdiomas= async () => {
         throw error;
     }
 };
+
 
 async function cargarSucursal() {
     try {
@@ -112,7 +140,6 @@ async function cargarIdioma() {
 async function cargarVendedores() {
     try {
         const session = JSON.parse(localStorage.getItem("session") || "{}");
-
         if (!session.isLoggedIn) {
             window.location.href = "index.html";
             return;
@@ -162,8 +189,7 @@ async function cargarSuc() {
         
         // Limpiar cualquier fila previa en la tabla
         tablaSucursales.innerHTML = '';
-        
-        sucursales.forEach(sucursal => {
+                sucursales.forEach(sucursal => {
             // Crear una nueva fila
             const fila = document.createElement('tr');
             
@@ -225,13 +251,13 @@ function openModal(isEdit = false, sucursal = {}) {
     // Configuración para edición o creación
     if (isEdit) {
         modalTitle.textContent = "Editar Sucursal";
-        document.getElementById("sucursal").value = sucursal.BODEGA;
-        document.getElementById("sucursal").readOnly  = true;
+        document.getElementById("sucursal-id").value = sucursal.BODEGA;
+        document.getElementById("sucursal-id").readOnly  = true;
         document.getElementById("nombre").value = sucursal.NOMBRE;
         document.getElementById("ubicacion").value = sucursal.DIRECCION;
     } else {
         modalTitle.textContent = "Crear Nueva Sucursal";
-        document.getElementById("sucursal").readOnly  = false;
+        document.getElementById("sucursal-id").readOnly  = false;
         form.reset(); // Limpiar el formulario para nueva entrada
     }
 
@@ -245,33 +271,78 @@ function closeModal() {
 }
 
 // Guardar sucursal (creación o edición)
-function saveSucursal(event) {
+async function  saveSucursal(event) {
     event.preventDefault(); // Evitar recarga de la página
     const id = document.getElementById("sucursal-id").value;
     const nombre = document.getElementById("nombre").value;
     const ubicacion = document.getElementById("ubicacion").value;
 
-    if (id) {
+    if (document.getElementById("sucursal-id").readOnly) {
         // Lógica para actualizar una sucursal existente
-        console.log("Actualizar sucursal:", { id, nombre, ubicacion });
-        // Aquí puedes agregar la lógica para actualizar la fila en la tabla
-    } else {
-        // Lógica para crear una nueva sucursal
-        console.log("Crear nueva sucursal:", { nombre, ubicacion });
+       // console.log("Actualizar sucursal:", { id, nombre, ubicacion });
+            // Aquí puedes agregar la lógica para actualizar la fila en la tabla
+            try {
+                const response = await postBodegas("UPDATE2", id, nombre, ubicacion);
+                console.log("Sucursal actualizada:", response);
+                // Lógica para actualizar la fila correspondiente en la tabla
+                updateTableRow(id, nombre, ubicacion); // Función para actualizar la fila
+            } catch (error) {
+                console.error("Error al actualizar la sucursal:", error.message);
+                alert("Error al actualizar ");
+            }
+
+        } else {
+            // Lógica para crear una nueva sucursal
+            const rows = document.querySelectorAll('tr');
+          
+            for (const row of rows) {
+               // Buscar la celda específica dentro de la fila
+               const firstCell = row.cells[0]; // Suponiendo que el valor está en la primera celda
+               if (firstCell.textContent.trim() === id) {
+                   // Actualizar los valores de las columnas correspondientes
+                alert("Codigo "+ id +" ya existe");
+                  return;
+               }
+           };
+       
+       
+
         // Aquí puedes agregar la lógica para agregar una nueva fila en la tabla
+        try {
+            const response = await postBodegas("INSERT", id, nombre, ubicacion);
+            console.log("Sucursal INSERTADA:", response);
+            // Lógica para actualizar la fila correspondiente en la tabla
+           // updateTableRow(id, nombre, ubicacion); // Función para actualizar la fila
+           cargarSuc();
+
+        } catch (error) {
+            console.error("Error al actualizar la sucursal:", error.message);
+            alert("Error al crear ");
+        }
     }
 
     closeModal();
 };
+// Funciones auxiliares
+function updateTableRow(id, nombre, ubicacion) {
+    // Busca la fila correspondiente en la tabla y actualiza los datos
+    const rows = document.querySelectorAll('tr');
+     let rowFound = false;
 
-// Llamar a openModal con los datos de la sucursal seleccionada para editar
-function editSucursal(id) {
-    const sucursal = {
-        id: id,
-        nombre: "Nombre de ejemplo", // Sustituir con datos reales
-        ubicacion: "Ubicación de ejemplo" // Sustituir con datos reales
-    };
-    openModal(true, sucursal);
+    rows.forEach(row => {
+        // Buscar la celda específica dentro de la fila
+        const firstCell = row.cells[0]; // Suponiendo que el valor está en la primera celda
+        if (firstCell && firstCell.textContent.trim() === id) {
+            // Actualizar los valores de las columnas correspondientes
+            row.cells[1].textContent = nombre;
+            row.cells[2].textContent = ubicacion;
+            rowFound = true;
+        }
+    });
+
+    if (!rowFound) {
+        console.error(`No se encontró una fila con el valor "${id}" en la primera celda.`);
+    }
 }
 
 // Manejar el cierre del modal al hacer clic fuera del contenido
