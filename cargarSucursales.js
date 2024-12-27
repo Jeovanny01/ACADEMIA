@@ -518,7 +518,7 @@ function openModalVend(isEdit = false, data = {}) {
 
     } else {
         modalTitle.textContent = "Crear Nuevo Vendedor";
-        document.getElementById("sucursal-id").readOnly  = false;
+        document.getElementById("vendedor-id").readOnly  = false;
         form.reset(); // Limpiar el formulario para nueva entrada
     }
 
