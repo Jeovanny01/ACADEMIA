@@ -52,6 +52,7 @@ function showSection(sectionId) {
         cargarIdioma();
         cargarSucursal();
         cargarSuc();
+        cargarVend();
 
     }
 

@@ -151,13 +151,28 @@
         
         <!-- Sección de bienvenida -->
         <section id="vendedores">
-            <h1>Listado de vendedores</h1>
+            <h2>Listado de vendedores</h2>
             <p>Utiliza el menú superior para gestionar los recursos.</p>
+            <button onclick="openModalVend()">Crear Nuevo Vendedor</button>
+            <table id="tablaVendedores">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    <!-- Las filas se agregarán dinámicamente -->
+                </tbody>
+            </table>
+    
         </section>
 
         <!-- Sección de bienvenida -->
         <section id="sucursales">
             <h2>Sucursales</h2>
+            <p>Utiliza el menú superior para gestionar los recursos.</p>
         <button onclick="openModal()">Crear Nueva Sucursal</button>
         <table id="tablaSucursales">
             <thead>
@@ -193,6 +208,26 @@
                     <label for="ubicacion">Ubicación:</label>
                     <input type="text" id="ubicacion" name="ubicacion" required>
                 </div>
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+    </div>
+    <!-- Modal para Crear o Editar -->
+    <div id="modalVendedor" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title">Crear Nuevo Vendedor</h2>
+            <form id="modal-form" onsubmit="saveSucursal(event)">
+              <!--    <input type="hidden" id="sucursal-id" name="id"> -->
+                <div class="form-group">
+                    <label for="vendedor-id">Codigo:</label>
+                    <input type="text" id="vendedor-id" name="id" maxlength="4" required>
+                </div>
+                <div class="form-group">
+                    <label for="nombreVend">Nombre:</label>
+                    <input type="text" id="nombreVend" name="nombre" required>
+                </div>
+                
                 <button type="submit">Guardar</button>
             </form>
         </div>

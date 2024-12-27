@@ -230,6 +230,45 @@ async function cargarSuc() {
     }
 };
 
+// Función para cargar las sucursales en la tabla
+async function cargarVend() {
+    try {
+        const data = await fetchVendedores();
+        const tablaData = document.getElementById('tablaVendedores').getElementsByTagName('tbody')[0];
+        
+        // Limpiar cualquier fila previa en la tabla
+        tablaData.innerHTML = '';
+                data.forEach(dat => {
+            // Crear una nueva fila
+            const fila = document.createElement('tr');
+            
+            // Crear celdas para cada columna
+            const celdaNombre = document.createElement('td');
+            celdaNombre.textContent = dat.CODIGO;
+            fila.appendChild(celdaNombre);
+            
+            const celdaCodigo = document.createElement('td');
+            celdaCodigo.textContent = dat.NOMBRE;
+            fila.appendChild(celdaCodigo);
+            
+            // Crear la celda para el botón de edición
+            const celdaAcciones = document.createElement('td');
+            const botonEditar = document.createElement('button');
+            botonEditar.textContent = 'Editar';
+            botonEditar.onclick = () => openModalVend(true, dat); // Llamar a la función para abrir el modal con los datos de la sucursal
+            celdaAcciones.appendChild(botonEditar);
+            fila.appendChild(celdaAcciones);
+        
+            // Agregar la fila a la tabla
+            tablaData.appendChild(fila);
+        });
+        
+    } catch (error) {
+        console.error('Error al cargar las sucursales:', error.message);
+      
+    }
+};
+
 // Mostrar solo la sección de sucursales cuando se carga la página
 //document.addEventListener('DOMContentLoaded', () => {
 //    showSection('sucursales');
@@ -268,6 +307,8 @@ function openModal(isEdit = false, sucursal = {}) {
 function closeModal() {
     const modal = document.getElementById("modal");
     modal.style.display = "none";
+    const modal2 = document.getElementById("modalVendedor");
+    modal2.style.display = "none";
 }
 
 // Guardar sucursal (creación o edición)
@@ -351,7 +392,44 @@ window.onclick = function(event) {
     if (event.target == modal) {
         closeModal();
     }
+    const modal2 = document.getElementById("modalVendedor");
+    if (event.target == modal2) {
+        closeModal();
+    }
 };
+
+
+
+// Muestra el modal para crear o editar
+function openModalVend(isEdit = false, data = {}) {
+    const modal = document.getElementById("modalVendedor");
+    const modalTitle = document.getElementById("modal-title");
+    const form = document.getElementById("modal-form");
+    
+    // Configuración para edición o creación
+    if (isEdit) {
+        modalTitle.textContent = "Editar Vendedor";
+        document.getElementById("vendedor-id").value = data.CODIGO;
+        document.getElementById("vendedor-id").readOnly  = true;
+        document.getElementById("nombreVend").value = data.NOMBRE;
+
+    } else {
+        modalTitle.textContent = "Crear Nuevo Vendedor";
+        document.getElementById("sucursal-id").readOnly  = false;
+        form.reset(); // Limpiar el formulario para nueva entrada
+    }
+
+    modal.style.display = "flex"; // Mostrar el modal
+};
+
+// Ocultar el modal
+function closeModal() {
+    const modal = document.getElementById("modal");
+    modal.style.display = "none";
+    const modal2 = document.getElementById("modalVendedor");
+    modal2.style.display = "none";
+}
+
 
 //document.addEventListener('vendedores-1', cargarVendedores);
 //document.addEventListener('sucursal-reg', cargarSucursal);
