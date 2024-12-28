@@ -128,13 +128,14 @@
             <ul id="menu">
               <!-- <li><a onclick="showSection('welcome')">Inicio</a></li> -->
                 <li><a onclick="showSection('register')">Registrar Alumnos</a></li>
+                <li><a onclick="showSection('datos')">Registros</a></li>
                 <li><a onclick="showSection('vendedores')">Vendedores</a></li>
                 <li><a onclick="showSection('sucursales')">Sucursales</a></li>
                 <li><a onclick="showSection('idiomas')">Idiomas</a></li>
                 <li><a onclick="showSection('estrategias')">Idiomas</a></li>
-                <li><a href="niveles.html">Niveles</a></li>
+                <!--  <li><a href="niveles.html">Niveles</a></li>
                 <li><a href="horarios.html">Horarios</a></li>
-                <li><a href="turnos.html">Turnos</a></li>
+                <li><a href="turnos.html">Turnos</a></li> -->
             </ul>
             <div id="logout" onclick="logout()">
                 <i class="fas fa-sign-out-alt" title="Cerrar sesión"></i>
@@ -159,6 +160,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Nombre</th>
+                        <th>Activo</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -216,27 +218,65 @@
     <div id="modalVendedor" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h2 id="modal-title">Crear Nuevo Vendedor</h2>
+            <h2 id="modal-title2">Crear Nuevo Vendedor</h2>
             <form id="modal-form" onsubmit="saveVendedor(event)">
-              <!--    <input type="hidden" id="sucursal-id" name="id"> -->
-                <div class="form-group">
-                    <label for="vendedor-id">Codigo:</label>
-                    <input type="text" id="vendedor-id" name="id" maxlength="4" required>
-                </div>
-                <div class="form-group">
-                    <label for="nombreVend">Nombre:</label>
-                    <input type="text" id="nombreVend" name="nombre" required>
-                </div>
-                
-                <button type="submit">Guardar</button>
-            </form>
+                    <div class="form-group">
+                        <label for="vendedor-id">Código:</label>
+                        <input type="text" id="vendedor-id" name="id" maxlength="4" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombreVend">Nombre:</label>
+                        <input type="text" id="nombreVend" name="nombre" required>
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: center;">
+                        <label for="activo" style="margin-right: 2px;">Activo:</label>
+                        <input type="checkbox" id="activo" name="activo">
+                    </div>
+                    <button type="submit">Guardar</button>
+                </form>
         </div>
     </div>
-          <!-- Sección de bienvenida -->
-          <section id="idiomas">
-            <h1>Listado de Idiomas</h1>
-            <p>Utiliza el menú superior para gestionar los recursos.</p>
-        </section>
+    <!-- Modal para Crear o Editar -->
+    <div id="modalIdioma" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title3">Crear Nuevo Idioma</h2>
+            <form id="modal-form" onsubmit="saveIdioma(event)">
+                    <div class="form-group">
+                        <label for="idioma-id">Código:</label>
+                        <input type="text" id="idioma-id" name="id" maxlength="4" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombreIdioma">Nombre:</label>
+                        <input type="text" id="nombreIdioma" name="nombre" required>
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: center;">
+                        <label for="activoIdioma" style="margin-right: 2px;">Activo:</label>
+                        <input type="checkbox" id="activoIdioma" name="activo">
+                    </div>
+                    <button type="submit">Guardar</button>
+                </form>
+        </div>
+    </div>
+    <section id="idiomas">
+        <h2>Listado de idiomas</h2>
+        <p>Utiliza el menú superior para gestionar los recursos.</p>
+        <button onclick="openModalIdioma()">Crear Nuevo Idioma</button>
+        <table id="tablaIdiomas">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Activo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                <!-- Las filas se agregarán dinámicamente -->
+            </tbody>
+        </table>
+
+    </section>
           <!-- Sección de bienvenida -->
           <section id="estrategias">
             <h1>Listado de estrategias</h1>
@@ -348,8 +388,8 @@
         </section>
     </main>
     
-    <script src="cargarSucursales.js"></script> <!-- Tu archivo de scripts principal, si existe -->
-
+ <script src="cargarSucursales.js"></script> <!-- Tu archivo de scripts principal, si existe -->
+ <script src="datos.js"></script> <!-- Tu archivo de scripts principal, si existe -->
  <script src="script2.js"></script> <!-- Tu archivo de scripts principal, si existe -->
 
    

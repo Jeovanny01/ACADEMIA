@@ -53,6 +53,7 @@ function showSection(sectionId) {
         cargarSucursal();
         cargarSuc();
         cargarVend();
+        cargarIdio();
 
     }
 
