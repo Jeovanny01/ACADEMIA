@@ -154,7 +154,7 @@
         <section id="estrategias">
             <h2>Listado de estrategias</h2>
             <p>Utiliza el menú superior para gestionar los recursos.</p>
-            <button onclick="openModalVend()">Crear Nueva estrategia</button>
+            <button onclick="openModalEstrategia()">Crear Nueva estrategia</button>
             <table id="tablaEstrategia">
                 <thead>
                     <tr>
@@ -277,6 +277,29 @@
                 </form>
         </div>
     </div>
+    <!-- Modal para Crear o Editar -->
+    <div id="modalEstrategia" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title4">Crear Nueva estrategia</h2>
+            <form id="modal-form" onsubmit="saveEstrategia(event)">
+                    <div class="form-group">
+                        <label for="estrategia-id">Código:</label>
+                        <input type="text" id="estrategia-id" name="id" maxlength="4">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombreEstrategia">Nombre:</label>
+                        <input type="text" id="nombreEstrategia" name="nombre" required>
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: center;">
+                        <label for="activoEstrategia" style="margin-right: 2px;">Activo:</label>
+                        <input type="checkbox" id="activoEstrategia" name="activo">
+                    </div>
+                    <button type="submit">Guardar</button>
+                </form>
+        </div>
+    </div>
+   
     <section id="idiomas">
         <h2>Listado de idiomas</h2>
         <p>Utiliza el menú superior para gestionar los recursos.</p>

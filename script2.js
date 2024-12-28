@@ -54,6 +54,7 @@ function showSection(sectionId) {
         cargarSuc();
         cargarVend();
         cargarIdio();
+        cargarEstra();
 
     }
 

@@ -133,6 +133,28 @@ const fetchIdiomas= async (funt) => {
         throw error;
     }
 };
+const fetchDatos= async (sp) => {
+    try {
+        const response = await fetch(url + "dato", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                sp
+            })
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error(`Error en la petición. Código de estado:  ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error en la petición:', error.message);
+        throw error;
+    }
+};
 async function cargarSucursal() {
     try {
       
@@ -363,6 +385,48 @@ async function cargarIdio() {
         
     } catch (error) {
         console.error('Error al cargar los idiomas:', error.message);
+      
+    }
+};
+
+async function cargarEstra() {
+    try {
+        const data = await fetchDatos("ESTRATEGIA_ACCION");
+        const tablaData = document.getElementById('tablaEstrategia').getElementsByTagName('tbody')[0];
+        
+        // Limpiar cualquier fila previa en la tabla
+        tablaData.innerHTML = '';
+                data.forEach(dat => {
+            // Crear una nueva fila
+            const fila = document.createElement('tr');
+            
+            // Crear celdas para cada columna
+            const celdaNombre = document.createElement('td');
+            celdaNombre.textContent = dat.CODIGO;
+            fila.appendChild(celdaNombre);
+            
+            const celdaCodigo = document.createElement('td');
+            celdaCodigo.textContent = dat.DESCRIPCION;
+            fila.appendChild(celdaCodigo);
+
+            const celdaActivo = document.createElement('td');
+            celdaActivo.textContent = dat.ACTIVO;
+            fila.appendChild(celdaActivo);
+            
+            // Crear la celda para el botón de edición
+            const celdaAcciones = document.createElement('td');
+            const botonEditar = document.createElement('button');
+            botonEditar.textContent = 'Editar';
+            botonEditar.onclick = () => openModalEstrategia(true, dat); // Llamar a la función para abrir el modal con los datos de la sucursal
+            celdaAcciones.appendChild(botonEditar);
+            fila.appendChild(celdaAcciones);
+        
+            // Agregar la fila a la tabla
+            tablaData.appendChild(fila);
+        });
+        
+    } catch (error) {
+        console.error('Error al cargar ESTRATEGIA:', error.message);
       
     }
 };
