@@ -132,7 +132,7 @@
                 <li><a onclick="showSection('vendedores')">Vendedores</a></li>
                 <li><a onclick="showSection('sucursales')">Sucursales</a></li>
                 <li><a onclick="showSection('idiomas')">Idiomas</a></li>
-                <li><a onclick="showSection('estrategias')">Idiomas</a></li>
+                <li><a onclick="showSection('estrategias')">Estrategias</a></li>
                 <!--  <li><a href="niveles.html">Niveles</a></li>
                 <li><a href="horarios.html">Horarios</a></li>
                 <li><a href="turnos.html">Turnos</a></li> -->
@@ -151,6 +151,25 @@
         </section>  -->
         
         <!-- Sección de bienvenida -->
+        <section id="estrategias">
+            <h2>Listado de estrategias</h2>
+            <p>Utiliza el menú superior para gestionar los recursos.</p>
+            <button onclick="openModalVend()">Crear Nueva estrategia</button>
+            <table id="tablaEstrategia">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Activo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    <!-- Las filas se agregarán dinámicamente -->
+                </tbody>
+            </table>
+    
+        </section>
         <section id="vendedores">
             <h2>Listado de vendedores</h2>
             <p>Utiliza el menú superior para gestionar los recursos.</p>
