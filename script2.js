@@ -76,3 +76,26 @@ function showSection(sectionId) {
 document.addEventListener('DOMContentLoaded', () => {
     showSection('register');
 });
+
+
+document.getElementById('fecha_nacimiento').addEventListener('change', function() {
+    const fechaNacimiento = new Date(this.value);
+    const hoy = new Date();
+
+    // Calcular la edad
+    let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
+    const mes = hoy.getMonth() - fechaNacimiento.getMonth();
+    
+    // Ajustar si el mes o día no ha pasado aún
+    if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())) {
+        edad--;
+    }
+
+    // Mostrar la edad en el campo correspondiente
+    const edadInput = document.getElementById('edad');
+    if (edad >= 0) {
+        edadInput.value = edad;
+    } else {
+        edadInput.value = 'Inválida';
+    }
+});
