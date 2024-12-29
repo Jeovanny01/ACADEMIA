@@ -56,6 +56,7 @@ function showSection(sectionId) {
         cargarIdio();
         cargarEstra();
         cargarDepartamentos();
+        cargarDistritos();
 
     }
 

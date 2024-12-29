@@ -1,6 +1,7 @@
 //require('dotenv').config();
 // URL del endpoint para obtener las sucursales
 const url = "https://apitest.grupocarosa.com/ApiDatos/"
+let distritos = [];
 
 const postBodegas = async (accion, bodega, nombre, direccion) => {
     try {
@@ -28,8 +29,6 @@ const postBodegas = async (accion, bodega, nombre, direccion) => {
         throw error;
     }
 };
-
-
 const postVendedores = async (accion, codigo, nombre,activo) => {
     try {
         const response = await fetch(url + "Vendedor", {
@@ -56,7 +55,6 @@ const postVendedores = async (accion, codigo, nombre,activo) => {
         throw error;
     }
 };
-
 const postDatos = async (accion, codigo, descripcion,activo,sp) => {
     try {
         const response = await fetch(url + "datos", {
@@ -84,59 +82,10 @@ const postDatos = async (accion, codigo, descripcion,activo,sp) => {
         throw error;
     }
 };
-const fetchSucursales = async () => {
+const fetchEjecutar = async (funct) => {
     try {
         const response = await fetch(
-            url +"Bodegas"
-        );
-        if (response.ok) {
-            const data = await response.json();
-            return data;
-        } else {
-            throw new Error(`Error en la petición. Código de estado:  ${response.status}`);
-        }
-    } catch (error) {
-        console.error('Error en la petición:', error.message);
-        throw error;
-    }
-};
-const fetchDepartamentos = async () => {
-    try {
-        const response = await fetch(
-            url +"departamentos"
-        );
-        if (response.ok) {
-            const data = await response.json();
-            return data;
-        } else {
-            throw new Error(`Error en la petición. Código de estado:  ${response.status}`);
-        }
-    } catch (error) {
-        console.error('Error en la petición:', error.message);
-        throw error;
-    }
-};
-
-const fetchVendedores = async (funt) => {
-    try {
-        const response = await fetch(
-            url + funt
-        );
-        if (response.ok) {
-            const data = await response.json();
-            return data;
-        } else {
-            throw new Error(`Error en la petición. Código de estado:  ${response.status}`);
-        }
-    } catch (error) {
-        console.error('Error en la petición:', error.message);
-        throw error;
-    }
-};
-const fetchIdiomas= async (funt) => {
-    try {
-        const response = await fetch(
-            url + funt
+            url + funct
         );
         if (response.ok) {
             const data = await response.json();
@@ -181,7 +130,7 @@ async function cargarSucursal() {
             console.log('Los idiomas ya están cargados.');
             return;
         }
-        const sucursales = await fetchSucursales();
+        const sucursales = await fetchEjecutar("Bodegas");
         sucursales.forEach(sucursal => {
             const option = document.createElement('option');
             option.value = sucursal.BODEGA;
@@ -197,7 +146,6 @@ async function cargarSucursal() {
         selectBranch.appendChild(option);
     }
 };
-
 async function cargarDepartamentos() {
     try {
       
@@ -208,7 +156,7 @@ async function cargarDepartamentos() {
             console.log('Los departamentos ya están cargados.');
             return;
         }
-        const dat = await fetchDepartamentos();
+        const dat = await fetchEjecutar("departamentos");
         dat.forEach(data => {
             const option = document.createElement('option');
             option.value = data.CODIGO;
@@ -225,6 +173,57 @@ async function cargarDepartamentos() {
     }
 };
 
+async function cargarDistritos() {
+    try {
+      
+        const selectBranch = document.getElementById('distrito');
+        if (!selectBranch) return;
+         // Verificar si ya hay datos cargados
+         if (selectBranch.children.length > 1) {
+            console.log('Los Distritos ya están cargados.');
+            return;
+        }
+        const dat = await fetchEjecutar("distritos");
+        distritos = dat; // Guardar distritos en el arreglo global
+    } catch (error) {
+        console.error('Error al cargar los distritos:', error.message);
+        const selectBranch = document.getElementById('sucursalregister');
+        const option = document.createElement('option');
+        option.value = "error";
+        option.textContent = error.message;
+        selectBranch.appendChild(option);
+    }
+};
+  // Función para actualizar los distritos según el departamento seleccionado
+  function actualizarDistritosPorDepartamento(departamentoId) {
+    const selectDistrito = document.getElementById('distrito');
+    // Limpiar el selector de distritos
+    selectDistrito.innerHTML = '<option value="">Seleccione</option>';
+
+    // Filtrar distritos por departamento
+    const distritosFiltrados = distritos.filter(distrito => distrito.DEPARTAMENTO === departamentoId);
+
+    // Agregar distritos filtrados al selector
+    distritosFiltrados.forEach(distrito => {
+        const option = document.createElement('option');
+        option.value = distrito.CODIGO;
+        option.textContent = distrito.NOMBRE;
+        selectDistrito.appendChild(option);
+    });
+}
+
+// Evento para actualizar distritos al seleccionar un departamento
+document.getElementById('departamento').addEventListener('change', (event) => {
+    const departamentoId = event.target.value;
+    if (departamentoId) {
+        actualizarDistritosPorDepartamento(departamentoId);
+    } else {
+        // Limpiar distritos si no hay departamento seleccionado
+        document.getElementById('distrito').innerHTML = '<option value="">Seleccione</option>';
+    }
+});
+
+
 async function cargarIdioma() {
     try {
         const selectBranch = document.getElementById('idioma');
@@ -235,7 +234,7 @@ async function cargarIdioma() {
             console.log('Los idiomas ya están cargados.');
             return;
         }
-        const dat = await fetchIdiomas("idiomas");
+        const dat = await fetchEjecutar("idiomas");
         
 
         dat.forEach(dat => {
@@ -273,7 +272,7 @@ async function cargarVendedores() {
           // Limpiar las opciones existentes
           //selectVendedores.innerHTML = '<option value="">Seleccione un vendedor</option>';
 
-          const vendedores = await fetchVendedores("vendedores");
+          const vendedores = await fetchEjecutar("vendedores");
         // Llenar el select con los datos de vendedores
         vendedores.forEach(vendedor => {
             const option = document.createElement('option');
@@ -301,7 +300,7 @@ async function cargarVendedores() {
 // Función para cargar las sucursales en la tabla
 async function cargarSuc() {
     try {
-        const sucursales = await fetchSucursales();
+        const sucursales = await fetchEjecutar("bodegas");
         const tablaSucursales = document.getElementById('tablaSucursales').getElementsByTagName('tbody')[0];
         
         // Limpiar cualquier fila previa en la tabla
@@ -350,7 +349,7 @@ async function cargarSuc() {
 // Función para cargar las sucursales en la tabla
 async function cargarVend() {
     try {
-        const data = await fetchVendedores("vendedoresAll");
+        const data = await fetchEjecutar("vendedoresAll");
         const tablaData = document.getElementById('tablaVendedores').getElementsByTagName('tbody')[0];
         
         // Limpiar cualquier fila previa en la tabla
@@ -392,7 +391,7 @@ async function cargarVend() {
 
 async function cargarIdio() {
     try {
-        const data = await fetchIdiomas("idiomasAll");
+        const data = await fetchEjecutar("idiomasAll");
         const tablaData = document.getElementById('tablaIdiomas').getElementsByTagName('tbody')[0];
         
         // Limpiar cualquier fila previa en la tabla
