@@ -100,3 +100,18 @@ document.getElementById('fecha_nacimiento').addEventListener('change', function(
     }
 });
 
+const inputArchivo = document.getElementById('archivo');
+const btnQuitar = document.getElementById('btn-quitar');
+
+// Mostrar el botón "Quitar" si se selecciona un archivo
+inputArchivo.addEventListener('change', function () {
+    if (this.files && this.files.length > 0) {
+        btnQuitar.style.display = 'inline-block';
+    }
+});
+
+// Quitar el archivo seleccionado
+btnQuitar.addEventListener('click', function () {
+    inputArchivo.value = ''; // Resetear el campo de archivo
+    btnQuitar.style.display = 'none'; // Ocultar el botón
+});
