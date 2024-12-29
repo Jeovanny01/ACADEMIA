@@ -96,6 +96,6 @@ document.getElementById('fecha_nacimiento').addEventListener('change', function(
     if (edad >= 0) {
         edadInput.value = edad;
     } else {
-        edadInput.value = 'Inválida';
+        edadInput.value = '0';
     }
 });
