@@ -433,9 +433,27 @@
                             type="file" 
                             id="archivo" 
                             name="archivo" 
-                            accept="image/*" 
+                            accept="image/*,application/pdf,application/doc,application/docx" 
                            >
-                           <button type="button" id="btn-quitar">Quitar Imagen</button>
+                           <button type="button" id="btn-quitar">Quitar</button>
+
+                           <label for="archivo2">Comprobante de pago:</label>
+                           <input 
+                               type="file" 
+                               id="archivo2" 
+                               name="archivo" 
+                               accept="image/*,application/pdf,application/doc,application/docx" 
+                              >
+                              <button type="button" id="btn-quitar2">Quitar</button>
+
+                              <label for="archivo3">Ficha de Inscripción:</label>
+                              <input 
+                                  type="file" 
+                                  id="archivo3" 
+                                  name="archivo" 
+                                  accept="image/*,application/pdf,application/doc,application/docx" 
+                                 >
+                                 <button type="button" id="btn-quitar3">Quitar</button>
                     </form>
 
                     <label for="sucursal">Sucursal</label>

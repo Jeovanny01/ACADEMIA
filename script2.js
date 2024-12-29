@@ -115,3 +115,35 @@ btnQuitar.addEventListener('click', function () {
     inputArchivo.value = ''; // Resetear el campo de archivo
     btnQuitar.style.display = 'none'; // Ocultar el botón
 });
+
+const inputArchivo2 = document.getElementById('archivo2');
+const btnQuitar2 = document.getElementById('btn-quitar2');
+
+// Mostrar el botón "Quitar" si se selecciona un archivo
+inputArchivo2.addEventListener('change', function () {
+    if (this.files && this.files.length > 0) {
+        btnQuitar2.style.display = 'inline-block';
+    }
+});
+
+// Quitar el archivo seleccionado
+btnQuitar2.addEventListener('click', function () {
+    inputArchivo2.value = ''; // Resetear el campo de archivo
+    btnQuitar2.style.display = 'none'; // Ocultar el botón
+});
+
+const inputArchivo3 = document.getElementById('archivo3');
+const btnQuitar3 = document.getElementById('btn-quitar3');
+
+// Mostrar el botón "Quitar" si se selecciona un archivo
+inputArchivo3.addEventListener('change', function () {
+    if (this.files && this.files.length > 0) {
+        btnQuitar3.style.display = 'inline-block';
+    }
+});
+
+// Quitar el archivo seleccionado
+btnQuitar3.addEventListener('click', function () {
+    inputArchivo3.value = ''; // Resetear el campo de archivo
+    btnQuitar3.style.display = 'none'; // Ocultar el botón
+});
