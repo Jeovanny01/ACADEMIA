@@ -55,6 +55,7 @@ function showSection(sectionId) {
         cargarVend();
         cargarIdio();
         cargarEstra();
+        cargarDepartamentos();
 
     }
 

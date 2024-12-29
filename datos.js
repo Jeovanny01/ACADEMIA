@@ -100,6 +100,22 @@ const fetchSucursales = async () => {
         throw error;
     }
 };
+const fetchDepartamentos = async () => {
+    try {
+        const response = await fetch(
+            url +"departamentos"
+        );
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error(`Error en la petición. Código de estado:  ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error en la petición:', error.message);
+        throw error;
+    }
+};
 
 const fetchVendedores = async (funt) => {
     try {
@@ -174,6 +190,33 @@ async function cargarSucursal() {
         });
     } catch (error) {
         console.error('Error al cargar las sucursales:', error.message);
+        const selectBranch = document.getElementById('sucursalregister');
+        const option = document.createElement('option');
+        option.value = "error";
+        option.textContent = error.message;
+        selectBranch.appendChild(option);
+    }
+};
+
+async function cargarDepartamentos() {
+    try {
+      
+        const selectBranch = document.getElementById('departamento');
+        if (!selectBranch) return;
+         // Verificar si ya hay datos cargados
+         if (selectBranch.children.length > 1) {
+            console.log('Los departamentos ya están cargados.');
+            return;
+        }
+        const dat = await fetchDepartamentos();
+        dat.forEach(data => {
+            const option = document.createElement('option');
+            option.value = data.CODIGO;
+            option.textContent = data.NOMBRE;
+            selectBranch.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error al cargar los departamentos:', error.message);
         const selectBranch = document.getElementById('sucursalregister');
         const option = document.createElement('option');
         option.value = "error";
