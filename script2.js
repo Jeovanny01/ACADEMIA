@@ -99,3 +99,4 @@ document.getElementById('fecha_nacimiento').addEventListener('change', function(
         edadInput.value = '0';
     }
 });
+
