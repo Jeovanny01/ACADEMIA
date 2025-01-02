@@ -345,6 +345,39 @@ async function cargarSuc() {
         tablaSucursales.appendChild(filaError);
     }
 };
+async function buscarTitular() {
+    const duiInput = document.getElementById('dui');
+    const titularInput = document.getElementById('titular');
+
+    if (!duiInput.value) {
+        alert('Por favor, ingresa un DUI.');
+        return;
+    }
+
+    try {
+        const response = await fetch(url + "datosDui", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                dui: duiInput.value // Aquí asignas el valor del input al body
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Error al obtener los datos del titular.');
+        }
+
+        const data = await response.json();
+
+        // Asigna el nombre del titular al campo "Titular"
+        titularInput.value = data[0].Nombres || 'No encontrado';
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Hubo un problema al buscar el titular.');
+    }
+}
 
 // Función para cargar las sucursales en la tabla
 async function cargarVend() {

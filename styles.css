@@ -418,3 +418,14 @@ tbody tr:hover {
 #btn-quitar3:hover {
     background-color: #d32f2f;
 }
+.form-groupdui {
+    display: flex;
+    align-items: center; /* Alinea verticalmente los elementos */
+    gap: 10px; /* Espaciado entre los elementos */
+}
+
+
+.form-groupdui button {
+    padding: 15 10px; /* Agrega un poco de espacio dentro del botón */
+    margin-top: -3px; /* Subir el botón unos píxeles */
+}

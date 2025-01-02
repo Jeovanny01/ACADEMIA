@@ -336,10 +336,13 @@
                         <option value="">Seleccione vendedor</option>
                     </select>
                 
-              
+                    <div class="form-groupdui">
                     <label for="dui">Dui</label>
                     <input type="text" id="dui" name="dui" required>
-                             
+                    <button type="button" onclick="buscarTitular()">Buscar</button>
+                    </div>
+
+                                                 
                     <label for="titular">Titular</label>
                     <input type="text" id="titular" name="titular" required>
            
@@ -378,7 +381,7 @@
                     <input type="text" id="nombre" name="nombre" required>
                
                     <label for="telefonoAlternativo">Whatsapp/Teléfono alternativo</label>
-                    <input type="tel" id="telefonoAlternativo" name="telefonoAlternativo" pattern="[0-9]{10}" placeholder="7777-7777">
+                    <input type="tel" id="telefonoAlternativo" name="telefonoAlternativo" pattern="[0-9-]+" placeholder="77777777">
                
                     <label for="fecha_nacimiento">Fecha de Nacimiento</label>
                     <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
