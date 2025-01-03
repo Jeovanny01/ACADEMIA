@@ -407,7 +407,7 @@
         <!-- Sección del formulario de registro de alumnos -->
         <section id="register" class="form-">
             <h2>Registro de Alumnos</h2>
-            <form action="/registrar_alumno" method="POST">
+            <form id="formRegistrarAlumno">
                 
                 <div class="form-group">
                     <label for="vendedor">Vendedor</label>
@@ -467,7 +467,7 @@
                
                     
                     <label for="edad">Edad</label>
-                    <input type="edad" id="edad" name="edad" pattern="[0-9]{3}" placeholder="Ejemplo 18">
+                    <input type="edad" id="edad" name="edad" pattern="[0-9]{2}" placeholder="Ejemplo 18">
                
                     <label for="genero">Género</label>
                     <select id="genero" name="genero" required>
@@ -483,7 +483,6 @@
                     <label for="idioma">Idioma</label>
                     <select id="idioma" name="idioma" required>
                         <option value="">Seleccione Idioma</option>
-                       
                     </select>
              
                     <label for="gradoKids">Grado Kids</label>
@@ -491,9 +490,8 @@
               
                     <label for="modalidad">Modalidad</label>
                     <select id="modalidad" name="modalidad" required>
-                        <option value="">Presencial</option>
-                        <option value="Masculino">En Linea</option>
-                       
+                        <option value="Presencial">Presencial</option>
+                        <option value="En Linea">En Linea</option>
                     </select>
 
                     <label for="matricula">Matrícula</label>
@@ -513,9 +511,8 @@
                         <option value="">Seleccione un Banco</option>
                     </select>
 
-                    
-                    <label for="nombre">Número de referencia</label>
-                    <input type="text" id="nombre" name="nombre" >
+                    <label for="referencia">Número de referencia</label>
+                    <input type="text" id="referencia" name="referencia" >
                     
                     <label for="estrategia">Estrategia</label>
                     <select id="estrategia" name="estrategia" required>
@@ -552,8 +549,8 @@
                                  <button type="button" id="btn-quitar3">Quitar</button>
                     </form>
 
-                    <label for="sucursal">Sucursal</label>
-                    <select id="sucursalreg" name="sucursal" required>
+                    <label for="sucursalreg">Sucursal</label>
+                    <select id="sucursalreg" name="sucursalreg" required>
                         <option value="">Seleccione una Sucursal</option>
                     </select>
 

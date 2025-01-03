@@ -2,7 +2,7 @@
 // URL del endpoint para obtener las sucursales
 const url = "https://apitest.grupocarosa.com/ApiDatos/"
 let distritos = [];
-
+const session = JSON.parse(localStorage.getItem("session") || "{}");
 const postBodegas = async (accion, bodega, nombre, direccion) => {
     try {
         const response = await fetch(url + "Bodegas", {
@@ -291,7 +291,7 @@ async function cargarFormaPago(opcion = false ) {
 
 async function cargarVendedores(opcion = false ) {
     try {
-        const session = JSON.parse(localStorage.getItem("session") || "{}");
+
         if (!session.isLoggedIn) {
             window.location.href = "index.html";
             return;
@@ -645,3 +645,140 @@ async function cargarFormaPag() {
       
     }
 };
+
+
+document.getElementById('formRegistrarAlumno').addEventListener('submit', function(event) {
+    event.preventDefault(); // Evita el envío tradicional del formulario
+    registrarAlumno(); // Llama a la función para registrar al alumno
+});
+
+function registrarAlumno() {
+    // Obtén los valores de los campos del formulario
+const VENDEDOR = document.getElementById('vendedores-1').value;
+const DUI = document.getElementById('dui').value;
+const NOMBRE = document.getElementById('titular').value;
+const TELEFONO = document.getElementById('telefono').value;
+const CORREO = document.getElementById('email').value;
+const LUGAR_TRABAJO = document.getElementById('lugartrabajo').value;
+const TELEFONO_TRABAJO = document.getElementById('telefonotrabajo').value;
+const DEPARTAMENTO = document.getElementById('departamento').value;
+const DISTRITO = document.getElementById('distrito').value;
+const DIRECCION = document.getElementById('direccion').value;
+const NOMBRE_ALUMNO = document.getElementById('nombre').value;
+const TELEFONO_ALUMNO = document.getElementById('telefonoAlternativo').value;
+const FECHA_NACIMIENTO = document.getElementById('fecha_nacimiento').value;
+const EDAD = document.getElementById('edad').value;
+const GENERO = document.getElementById('genero').value;
+const CORREO_ALUMNO = document.getElementById('email').value;
+const IDIOMA = document.getElementById('idioma').value;
+const GRADO_KIDS = document.getElementById('gradoKids').value;
+const MODALIDAD = document.getElementById('modalidad').value;
+const MATRICULA = document.getElementById('matricula').value;
+const MENSUALIDAD = document.getElementById('mensualidad').value;
+const METODO_PAGO = document.getElementById('metodopago').value;
+const BANCO = document.getElementById('banco').value;
+const REFERENCIA = document.getElementById('referencia').value;
+const ESTRATEGIA = document.getElementById('estrategia').value;
+const DOC_DUI = document.getElementById('archivo').value;
+const DOC_COMPROBANTE = document.getElementById('archivo2').value;
+const DOC_INCRIPCION = document.getElementById('archivo3').value;
+const SUCURSAL = document.getElementById('sucursalreg').value;
+const MOTIVACION = document.getElementById('motivacion').value;
+const COMENTARIOS = document.getElementById('comentarios').value;
+
+    // Construye el objeto con los datos del alumno
+    const jsonDat = {
+        VENDEDOR : VENDEDOR,
+        DUI : DUI,
+        NOMBRE : NOMBRE,
+        TELEFONO : TELEFONO,
+        CORREO : CORREO,
+        LUGAR_TRABAJO : LUGAR_TRABAJO,
+        TELEFONO_TRABAJO : TELEFONO_TRABAJO,
+        DEPARTAMENTO : DEPARTAMENTO,
+        DISTRITO : DISTRITO,
+        DIRECCION : DIRECCION,
+        NOMBRE_ALUMNO : NOMBRE_ALUMNO,
+        TELEFONO_ALUMNO : TELEFONO_ALUMNO,
+        FECHA_NACIMIENTO : FECHA_NACIMIENTO,
+        EDAD : EDAD,
+        GENERO : GENERO,
+        CORREO_ALUMNO : CORREO_ALUMNO,
+        IDIOMA : IDIOMA,
+        GRADO_KIDS : GRADO_KIDS,
+        MODALIDAD : MODALIDAD,
+        MATRICULA : MATRICULA,
+        MENSUALIDAD : MENSUALIDAD,
+        METODO_PAGO : METODO_PAGO,
+        BANCO : BANCO,
+        REFERENCIA : REFERENCIA,
+        ESTRATEGIA : ESTRATEGIA,
+        DOC_DUI : DOC_DUI,
+        DOC_COMPROBANTE : DOC_COMPROBANTE,
+        DOC_INCRIPCION : DOC_INCRIPCION,
+        SUCURSAL : SUCURSAL,
+        MOTIVACION : MOTIVACION,
+        COMENTARIOS : COMENTARIOS  
+    };
+
+    // Envía los datos al backend mediante fetch
+    fetch(url+"registros", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(jsonDat)
+    })
+    .then(response => {
+        // Verificar si la respuesta es exitosa
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();  // Leer la respuesta como texto
+    })
+    .then(text => {
+        console.log('Raw response:', text);  // Verifica lo que devuelve el servidor
+        try {
+            // Intentar convertir el texto a JSON
+            const result = JSON.parse(text);
+            console.log(result);  // Ver el contenido del objeto JSON
+            if (result.success) {
+                alert('Alumno registrado con éxito');
+                 // Limpiar el formulario
+                document.getElementById('formRegistrarAlumno').reset();  // 'miFormulario' es el ID del formulario
+                document.getElementById('btn-quitar').style.display = 'none';  // Ocultar el botón
+                document.getElementById('btn-quitar2').style.display = 'none';  // Ocultar el botón
+                document.getElementById('btn-quitar3').style.display = 'none';  // Ocultar el botón
+                // Suponiendo que 'session.vend' contiene el código del vendedor que debe ser seleccionado
+                    const vend = session.vend;  // o cualquier variable que tenga el valor del vendedor
+
+                    // Obtener el select de vendedores
+                    const selectVendedores = document.getElementById('vendedores-1');
+
+                    // Recorrer las opciones del select y seleccionar la opción que coincida con 'vend'
+                    for (let i = 0; i < selectVendedores.options.length; i++) {
+                        const option = selectVendedores.options[i];
+                        
+                        // Comparar si el valor de la opción es igual al valor de 'vend'
+                        if (String(option.value).trim() === String(vend).trim()) {
+                            option.selected = true;  // Seleccionar la opción correspondiente
+                            break;  // Salir del bucle una vez que se ha seleccionado la opción
+                        }
+                    }
+                    // Regresar al principio de la página
+                    window.scrollTo(0, 0);
+
+            } else {
+                console.error('Error:', result.message);
+                alert('Hubo un error al registrar al alumno: ' + result.message);
+            }
+        } catch (e) {
+            console.error('Error al procesar la respuesta JSON:', e);
+            alert('Hubo un error al procesar la respuesta del servidor');
+        }
+    })
+    .catch(error => {
+        console.error('Error al procesar la solicitud:', error);
+        alert('Hubo un error al procesar la solicitud');
+    });
+}
