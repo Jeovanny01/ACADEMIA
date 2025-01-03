@@ -120,16 +120,18 @@ const fetchDatos= async (sp) => {
         throw error;
     }
 };
-async function cargarSucursal() {
+async function cargarSucursal(opcion = false ) {
     try {
       
         const selectBranch = document.getElementById('sucursalreg');
         if (!selectBranch) return;
          // Verificar si ya hay datos cargados
-         if (selectBranch.children.length > 1) {
+         if (selectBranch.children.length > 1 && opcion === false) {
             console.log('Los idiomas ya están cargados.');
             return;
         }
+        
+        selectBranch.innerHTML = '<option value="">Seleccione una Sucursal</option>';
         const sucursales = await fetchEjecutar("Bodegas");
         sucursales.forEach(sucursal => {
             const option = document.createElement('option');
@@ -224,16 +226,19 @@ document.getElementById('departamento').addEventListener('change', (event) => {
 });
 
 
-async function cargarIdioma() {
+async function cargarIdioma(opcion = false ) {
     try {
         const selectBranch = document.getElementById('idioma');
         if (!selectBranch) return;
         
           // Verificar si ya hay datos cargados
-          if (selectBranch.children.length > 1) {
+          if (selectBranch.children.length > 1 && opcion === false) {
             console.log('Los idiomas ya están cargados.');
             return;
         }
+
+        selectBranch.innerHTML = '<option value="">Seleccione Idioma</option>';
+
         const dat = await fetchEjecutar("idiomas");
         
 
@@ -253,7 +258,38 @@ async function cargarIdioma() {
     }
 };
 
-async function cargarVendedores() {
+async function cargarFormaPago(opcion = false ) {
+    try {
+        const selectBranch = document.getElementById('metodopago');
+        if (!selectBranch) return;
+        
+          // Verificar si ya hay datos cargados
+          if (selectBranch.children.length > 1 && opcion === false) {
+            console.log('Los metos de Pago ya están cargados.');
+            return;
+        }
+
+        selectBranch.innerHTML = '<option value="">Seleccione un método de pago</option>';
+        const dat = await fetchEjecutar("formaPago");
+        
+
+        dat.forEach(dat => {
+            const option = document.createElement('option');
+            option.value = dat.CODIGO;
+            option.textContent = dat.DESCRIPCION;
+            selectBranch.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error al cargar los metodoPago:', error.message);
+        const selectBranch = document.getElementById('metodoPago');
+        const option = document.createElement('option');
+        option.value = "error";
+        option.textContent = error.message;
+        selectBranch.appendChild(option);
+    }
+};
+
+async function cargarVendedores(opcion = false ) {
     try {
         const session = JSON.parse(localStorage.getItem("session") || "{}");
         if (!session.isLoggedIn) {
@@ -262,15 +298,15 @@ async function cargarVendedores() {
         }
         
         const selectVendedores = document.getElementById('vendedores-1');
-        if (selectVendedores.children.length > 1) {
-            console.log('Los idiomas ya están cargados.');
+        if (selectVendedores.children.length > 1 && opcion === false) {
+            console.log('Los vendedores ya están cargados.');
             return;
         }
     
         const vend = session.vend;
 
           // Limpiar las opciones existentes
-          //selectVendedores.innerHTML = '<option value="">Seleccione un vendedor</option>';
+          selectVendedores.innerHTML = '<option value="">Seleccione vendedor</option>';
 
           const vendedores = await fetchEjecutar("vendedores");
         // Llenar el select con los datos de vendedores
@@ -294,6 +330,68 @@ async function cargarVendedores() {
         option.value = "error";
         option.textContent = error.message;
         selectVendedores.appendChild(option);
+    }
+};
+
+async function cargarEstrategia(opcion = false ) {
+    try {
+        const selectBranch = document.getElementById('estrategia');
+        if (!selectBranch) return;
+        
+          // Verificar si ya hay datos cargados
+          if (selectBranch.children.length > 1 && opcion === false) {
+            console.log('Los metos de Pago ya están cargados.');
+            return;
+        }
+        selectBranch.innerHTML = '<option value="">Seleccione estrategia</option>';
+
+        const dat = await fetchEjecutar("estrategias");
+        
+
+        dat.forEach(dat => {
+            const option = document.createElement('option');
+            option.value = dat.CODIGO;
+            option.textContent = dat.DESCRIPCION;
+            selectBranch.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error al cargar los metodoPago:', error.message);
+        const selectBranch = document.getElementById('metodoPago');
+        const option = document.createElement('option');
+        option.value = "error";
+        option.textContent = error.message;
+        selectBranch.appendChild(option);
+    }
+};
+
+async function cargarBancos(opcion = false ) {
+    try {
+        const selectBranch = document.getElementById('banco');
+        if (!selectBranch) return;
+        
+          // Verificar si ya hay datos cargados
+          if (selectBranch.children.length > 1 && opcion === false) {
+            console.log('Los metos de Pago ya están cargados.');
+            return;
+        }
+        
+        selectBranch.innerHTML = '<option value="">Seleccione banco</option>';
+        const dat = await fetchEjecutar("bancos");
+        
+
+        dat.forEach(dat => {
+            const option = document.createElement('option');
+            option.value = dat.CODIGO;
+            option.textContent = dat.DESCRIPCION;
+            selectBranch.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error al cargar los metodoPago:', error.message);
+        const selectBranch = document.getElementById('banco');
+        const option = document.createElement('option');
+        option.value = "error";
+        option.textContent = error.message;
+        selectBranch.appendChild(option);
     }
 };
 
@@ -375,7 +473,8 @@ async function buscarTitular() {
         titularInput.value = data[0].Nombres || 'No encontrado';
     } catch (error) {
         console.error('Error:', error);
-        alert('Hubo un problema al buscar el titular.');
+        titularInput.value="";
+        //alert('Hubo un problema al buscar el titular.');
     }
 }
 
@@ -502,6 +601,47 @@ async function cargarEstra() {
         
     } catch (error) {
         console.error('Error al cargar ESTRATEGIA:', error.message);
+      
+    }
+};
+async function cargarFormaPag() {
+    try {
+        const data = await fetchDatos("FORMA_PAGO_ACCION");
+        const tablaData = document.getElementById('tablaFormaPago').getElementsByTagName('tbody')[0];
+        
+        // Limpiar cualquier fila previa en la tabla
+        tablaData.innerHTML = '';
+                data.forEach(dat => {
+            // Crear una nueva fila
+            const fila = document.createElement('tr');
+            
+            // Crear celdas para cada columna
+            const celdaNombre = document.createElement('td');
+            celdaNombre.textContent = dat.CODIGO;
+            fila.appendChild(celdaNombre);
+            
+            const celdaCodigo = document.createElement('td');
+            celdaCodigo.textContent = dat.DESCRIPCION;
+            fila.appendChild(celdaCodigo);
+
+            const celdaActivo = document.createElement('td');
+            celdaActivo.textContent = dat.ACTIVO;
+            fila.appendChild(celdaActivo);
+            
+            // Crear la celda para el botón de edición
+            const celdaAcciones = document.createElement('td');
+            const botonEditar = document.createElement('button');
+            botonEditar.textContent = 'Editar';
+            botonEditar.onclick = () => openModalFormaPago(true, dat); // Llamar a la función para abrir el modal con los datos de la sucursal
+            celdaAcciones.appendChild(botonEditar);
+            fila.appendChild(celdaAcciones);
+        
+            // Agregar la fila a la tabla
+            tablaData.appendChild(fila);
+        });
+        
+    } catch (error) {
+        console.error('Error al cargar forma de pago:', error.message);
       
     }
 };

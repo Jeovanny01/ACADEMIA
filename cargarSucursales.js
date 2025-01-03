@@ -268,6 +268,57 @@ async function  saveEstrategia(event) {
     closeModal();
 };
 
+async function  saveFormaPago(event) {
+    event.preventDefault(); // Evitar recarga de la página
+    const id = document.getElementById("formaPago-id").value;
+    const nombre = document.getElementById("nombreformaPago").value;
+    const activo = document.getElementById("activoformaPago").checked;
+
+    if (document.getElementById("formaPago-id").readOnly) {
+        // Lógica para actualizar una sucursal existente
+       // console.log("Actualizar sucursal:", { id, nombre, ubicacion });
+            // Aquí puedes agregar la lógica para actualizar la fila en la tabla
+            try {
+                const response = await postDatos("UPDATE", id, nombre,activo,"FORMA_PAGO_ACCION");
+                console.log("formaPago actualizado:", response);
+                // Lógica para actualizar la fila correspondiente en la tabla
+                //updateTableRowVend(id, nombre); // Función para actualizar la fila
+                cargarFormaPag();
+            } catch (error) {
+                console.error("Error al actualizar formaPago:", error.message);
+                alert("Error al actualizar ");
+            }
+
+        } else {
+            // Lógica para crear una nueva sucursal
+            const rows = document.querySelectorAll('tr');
+          
+            for (const row of rows) {
+               // Buscar la celda específica dentro de la fila
+               const firstCell = row.cells[0]; // Suponiendo que el valor está en la primera celda
+               if (firstCell.textContent.trim() === id) {
+                   // Actualizar los valores de las columnas correspondientes
+                alert("Codigo "+ id +" ya existe");
+                  return;
+               }
+           };     
+        // Aquí puedes agregar la lógica para agregar una nueva fila en la tabla
+        try {
+            const response = await postDatos("INSERT", id, nombre,activo,"FORMA_PAGO_ACCION");
+            console.log("formaPago INSERTADO:", response);
+            // Lógica para actualizar la fila correspondiente en la tabla
+           // updateTableRow(id, nombre, ubicacion); // Función para actualizar la fila
+           cargarFormaPag();
+
+        } catch (error) {
+            console.error("Error al actualizar formaPago:", error.message);
+            alert("Error al crear ");
+        }
+    }
+
+    closeModal();
+};
+
 // Manejar el cierre del modal al hacer clic fuera del contenido
 window.onclick = function(event) {
     const modal = document.getElementById("modal");
@@ -368,6 +419,33 @@ function openModalEstrategia(isEdit = false, data = {}) {
 
     modal.style.display = "flex"; // Mostrar el modal
 };
+
+// Muestra el modal para crear o editar
+function openModalFormaPago(isEdit = false, data = {}) {
+    const modal = document.getElementById("modalFormaPago");
+    const modalTitle = document.getElementById("modal-title4");
+    const form = document.getElementById("modal-form");
+    
+    // Configuración para edición o creación
+    if (isEdit) {
+        modalTitle.textContent = "Editar Forma de Pago";
+        document.getElementById("formaPago-id").value = data.CODIGO;
+        document.getElementById("formaPago-id").readOnly  = true;
+        document.getElementById("nombreformaPago").value = data.DESCRIPCION;
+        document.getElementById("activoformaPago").checked  = data.ACTIVO;
+    } else {
+        modalTitle.textContent = "Crear Nueva forma de pago";
+        document.getElementById("formaPago-id").value = "";
+        document.getElementById("formaPago-id").readOnly  = false;
+        document.getElementById("nombreformaPago").value = "";
+
+        document.getElementById("activoformaPago").checked   = true;
+        form.reset(); // Limpiar el formulario para nueva entrada
+    }
+
+    modal.style.display = "flex"; // Mostrar el modal
+};
+
 // Ocultar el modal
 function closeModal() {
     const modal = document.getElementById("modal");
@@ -378,6 +456,8 @@ function closeModal() {
     modal3.style.display = "none";
     const modal4 = document.getElementById("modalEstrategia");
     modal4.style.display = "none";
+    const modal5 = document.getElementById("modalFormaPago");
+    modal5.style.display = "none";
 }
 
 

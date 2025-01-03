@@ -48,16 +48,20 @@ function showSection(sectionId) {
     document.getElementById(sectionId).style.display = 'block';
       // Llama a cargarVendedores solo si la sección seleccionada es 'register'
       if (sectionId === 'register') {
-        cargarVendedores();
-        cargarIdioma();
-        cargarSucursal();
-        cargarSuc();
+        cargarVendedores(true);
         cargarVend();
+        cargarIdioma(true);
         cargarIdio();
+        cargarSucursal(true);
+        cargarSuc();
+        cargarEstrategia(true)
         cargarEstra();
         cargarDepartamentos();
         cargarDistritos();
-
+        cargarFormaPago(true);
+        cargarFormaPag();
+        cargarBancos(true);
+   
     }
 
     // Agrega la clase 'active' al botón correspondiente

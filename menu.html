@@ -133,6 +133,8 @@
                 <li><a onclick="showSection('sucursales')">Sucursales</a></li>
                 <li><a onclick="showSection('idiomas')">Idiomas</a></li>
                 <li><a onclick="showSection('estrategias')">Estrategias</a></li>
+                <li><a onclick="showSection('formaPago')">Método de pago</a></li>
+                <li><a onclick="showSection('bancos')">Bancos</a></li>
                 <!--  <li><a href="niveles.html">Niveles</a></li>
                 <li><a href="horarios.html">Horarios</a></li>
                 <li><a href="turnos.html">Turnos</a></li> -->
@@ -210,6 +212,7 @@
         </table>
     </section>
 
+    
     <!-- Modal para Crear o Editar -->
     <div id="modal" class="modal">
         <div class="modal-content">
@@ -299,7 +302,52 @@
                 </form>
         </div>
     </div>
+    <!-- Modal para Crear o Editar -->
+    <div id="modalFormaPago" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title4">Crear Nuevo Método de pago</h2>
+            <form id="modal-form" onsubmit="saveFormaPago(event)">
+                    <div class="form-group">
+                        <label for="formaPago-id">Código:</label>
+                        <input type="text" id="formaPago-id" name="id" maxlength="4">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombreformaPago">Nombre:</label>
+                        <input type="text" id="nombreformaPago" name="nombre" required>
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: center;">
+                        <label for="activoformaPago" style="margin-right: 2px;">Activo:</label>
+                        <input type="checkbox" id="activoformaPago" name="activo">
+                    </div>
+                    <button type="submit">Guardar</button>
+                </form>
+        </div>
+    </div>
+     <!-- Modal para Crear o Editar -->
+     <div id="modalBancos" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title4">Crear Nuevo Método de pago</h2>
+            <form id="modal-form" onsubmit="saveFormaPago(event)">
+                    <div class="form-group">
+                        <label for="Bancos-id">Código:</label>
+                        <input type="text" id="idioma-id" name="id" maxlength="4" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombreBancos">Nombre:</label>
+                        <input type="text" id="nombreBancos" name="nombre" required>
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: center;">
+                        <label for="activoBancos" style="margin-right: 2px;">Activo:</label>
+                        <input type="checkbox" id="activoBancos" name="activo">
+                    </div>
+                    <button type="submit">Guardar</button>
+                </form>
+        </div>
+    </div>
    
+
     <section id="idiomas">
         <h2>Listado de idiomas</h2>
         <p>Utiliza el menú superior para gestionar los recursos.</p>
@@ -317,14 +365,45 @@
                 <!-- Las filas se agregarán dinámicamente -->
             </tbody>
         </table>
-
     </section>
+
+    <section id="formaPago">
+        <h2>Listado de Métodos de pago</h2>
+        <p>Utiliza el menú superior para gestionar los recursos.</p>
+        <button onclick="openModalFormaPago()">Crear nuevo Método de pago</button>
+        <table id="tablaFormaPago">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Activo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                <!-- Las filas se agregarán dinámicamente -->
+            </tbody>
+        </table>
+    </section>
+    
           <!-- Sección de bienvenida -->
           <section id="estrategias">
             <h1>Listado de estrategias</h1>
             <p>Utiliza el menú superior para gestionar los recursos.</p>
         </section>
 
+                  <!-- Sección de bienvenida -->
+                  <section id="formaPago">
+                    <h1>Listado de formas de pago</h1>
+                    <p>Utiliza el menú superior para gestionar los recursos.</p>
+                </section>
+
+                <!-- Sección de bienvenida -->
+                <section id="bancos">
+                    <h1>Listado de cuenas de bancos</h1>
+                    <p>Utiliza el menú superior para gestionar los recursos.</p>
+                </section>
+        
         <!-- Sección del formulario de registro de alumnos -->
         <section id="register" class="form-">
             <h2>Registro de Alumnos</h2>
@@ -423,8 +502,27 @@
                                   
                     <label for="mensualidad">Mensualidad</label>
                     <input type="number" id="mensualidad" name="mensualidad"  step="0.01"  min="0" max="10000"  placeholder="0.00">
-               
+
+                    <label for="metodopago">Método de pago</label>
+                    <select id="metodopago" name="metodopago">
+                        <option value="">Seleccione un método de pago</option >
+                    </select>
+
+                    <label for="banco">Banco</label>
+                    <select id="banco" name="banco" required>
+                        <option value="">Seleccione un Banco</option>
+                    </select>
+
                     
+                    <label for="nombre">Número de referencia</label>
+                    <input type="text" id="nombre" name="nombre" >
+                    
+                    <label for="estrategia">Estrategia</label>
+                    <select id="estrategia" name="estrategia" required>
+                        <option value="">Seleccione estrategia</option>
+                    </select>
+
+
                     <form>
                         <label for="archivo">Foto del DUI:</label>
                         <input 
@@ -459,6 +557,13 @@
                         <option value="">Seleccione una Sucursal</option>
                     </select>
 
+                    <label for="motivacion">Motivación del Estudiante</label>
+                    <input type="text" id="motivacion" name="motivacion">
+      
+                    
+                    <label for="comentarios">Comentarios Adicionales</label>
+                    <input type="text" id="comentarios" name="comentarios">
+      
                     <br>
                     <br>
                     <br>
