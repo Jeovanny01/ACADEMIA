@@ -11,9 +11,9 @@ document.addEventListener("DOMContentLoaded", function () {
     
 
     const menu = document.getElementById("menu");
-    if (privilege  == "1111"){ 
+    if (privilege  === '3'){ 
         menu.querySelectorAll("li").forEach(item => {
-            if (item.textContent === "Registrar Alumnos") {
+            if (item.textContent != "Registrar Alumnos") {
                 item.style.display = "none"; 
             }
         });
@@ -61,7 +61,11 @@ function showSection(sectionId) {
         cargarFormaPago(true);
         cargarFormaPag();
         cargarBancos(true);
-   
+        cargarEstados();
+        cargarMaestros();
+        cargarTurnos();
+        cargarHorarios();
+        cargarNiveles();
     }
 
     // Agrega la clase 'active' al botón correspondiente

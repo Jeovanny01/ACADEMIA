@@ -646,6 +646,218 @@ async function cargarFormaPag() {
     }
 };
 
+async function cargarEstados() {
+    try {
+        const data = await fetchDatos("ESTADO_ALUMNO_ACCION");
+        const tablaData = document.getElementById('tablaEstado').getElementsByTagName('tbody')[0];
+        
+        // Limpiar cualquier fila previa en la tabla
+        tablaData.innerHTML = '';
+                data.forEach(dat => {
+            // Crear una nueva fila
+            const fila = document.createElement('tr');
+            
+            // Crear celdas para cada columna
+            const celdaNombre = document.createElement('td');
+            celdaNombre.textContent = dat.CODIGO;
+            fila.appendChild(celdaNombre);
+            
+            const celdaCodigo = document.createElement('td');
+            celdaCodigo.textContent = dat.DESCRIPCION;
+            fila.appendChild(celdaCodigo);
+
+            const celdaActivo = document.createElement('td');
+            celdaActivo.textContent = dat.ACTIVO;
+            fila.appendChild(celdaActivo);
+            
+            // Crear la celda para el botón de edición
+            const celdaAcciones = document.createElement('td');
+            const botonEditar = document.createElement('button');
+            botonEditar.textContent = 'Editar';
+            botonEditar.onclick = () => openModalEstado(true, dat); // Llamar a la función para abrir el modal con los datos de la sucursal
+            celdaAcciones.appendChild(botonEditar);
+            fila.appendChild(celdaAcciones);
+        
+            // Agregar la fila a la tabla
+            tablaData.appendChild(fila);
+        });
+        
+    } catch (error) {
+        console.error('Error al cargar estados:', error.message);
+      
+    }
+};
+
+
+async function cargarMaestros() {
+    try {
+        const data = await fetchDatos("MAESTROS_ACCION");
+        const tablaData = document.getElementById('tablaMaestros').getElementsByTagName('tbody')[0];
+        
+        // Limpiar cualquier fila previa en la tabla
+        tablaData.innerHTML = '';
+                data.forEach(dat => {
+            // Crear una nueva fila
+            const fila = document.createElement('tr');
+            
+            // Crear celdas para cada columna
+            const celdaNombre = document.createElement('td');
+            celdaNombre.textContent = dat.CODIGO;
+            fila.appendChild(celdaNombre);
+            
+            const celdaCodigo = document.createElement('td');
+            celdaCodigo.textContent = dat.DESCRIPCION;
+            fila.appendChild(celdaCodigo);
+
+            const celdaActivo = document.createElement('td');
+            celdaActivo.textContent = dat.ACTIVO;
+            fila.appendChild(celdaActivo);
+            
+            // Crear la celda para el botón de edición
+            const celdaAcciones = document.createElement('td');
+            const botonEditar = document.createElement('button');
+            botonEditar.textContent = 'Editar';
+            botonEditar.onclick = () => openModalMaestro(true, dat); // Llamar a la función para abrir el modal con los datos de la sucursal
+            celdaAcciones.appendChild(botonEditar);
+            fila.appendChild(celdaAcciones);
+        
+            // Agregar la fila a la tabla
+            tablaData.appendChild(fila);
+        });
+        
+    } catch (error) {
+        console.error('Error al cargar forma de pago:', error.message);
+      
+    }
+};
+
+
+async function cargarTurnos() {
+    try {
+        const data = await fetchDatos("TURNOS_ACCION");
+        const tablaData = document.getElementById('tablaTurnos').getElementsByTagName('tbody')[0];
+        
+        // Limpiar cualquier fila previa en la tabla
+        tablaData.innerHTML = '';
+                data.forEach(dat => {
+            // Crear una nueva fila
+            const fila = document.createElement('tr');
+            
+            // Crear celdas para cada columna
+            const celdaNombre = document.createElement('td');
+            celdaNombre.textContent = dat.CODIGO;
+            fila.appendChild(celdaNombre);
+            
+            const celdaCodigo = document.createElement('td');
+            celdaCodigo.textContent = dat.DESCRIPCION;
+            fila.appendChild(celdaCodigo);
+
+            const celdaActivo = document.createElement('td');
+            celdaActivo.textContent = dat.ACTIVO;
+            fila.appendChild(celdaActivo);
+            
+            // Crear la celda para el botón de edición
+            const celdaAcciones = document.createElement('td');
+            const botonEditar = document.createElement('button');
+            botonEditar.textContent = 'Editar';
+            botonEditar.onclick = () => openModalTurno(true, dat); // Llamar a la función para abrir el modal con los datos de la sucursal
+            celdaAcciones.appendChild(botonEditar);
+            fila.appendChild(celdaAcciones);
+        
+            // Agregar la fila a la tabla
+            tablaData.appendChild(fila);
+        });
+        
+    } catch (error) {
+        console.error('Error al cargar forma de pago:', error.message);
+      
+    }
+};
+
+async function cargarHorarios() {
+    try {
+        const data = await fetchDatos("HORARIOS_ACCION");
+        const tablaData = document.getElementById('tablaHorarios').getElementsByTagName('tbody')[0];
+        
+        // Limpiar cualquier fila previa en la tabla
+        tablaData.innerHTML = '';
+                data.forEach(dat => {
+            // Crear una nueva fila
+            const fila = document.createElement('tr');
+            
+            // Crear celdas para cada columna
+            const celdaNombre = document.createElement('td');
+            celdaNombre.textContent = dat.CODIGO;
+            fila.appendChild(celdaNombre);
+            
+            const celdaCodigo = document.createElement('td');
+            celdaCodigo.textContent = dat.DESCRIPCION;
+            fila.appendChild(celdaCodigo);
+
+            const celdaActivo = document.createElement('td');
+            celdaActivo.textContent = dat.ACTIVO;
+            fila.appendChild(celdaActivo);
+            
+            // Crear la celda para el botón de edición
+            const celdaAcciones = document.createElement('td');
+            const botonEditar = document.createElement('button');
+            botonEditar.textContent = 'Editar';
+            botonEditar.onclick = () => openModalHorario(true, dat); // Llamar a la función para abrir el modal con los datos de la sucursal
+            celdaAcciones.appendChild(botonEditar);
+            fila.appendChild(celdaAcciones);
+        
+            // Agregar la fila a la tabla
+            tablaData.appendChild(fila);
+        });
+        
+    } catch (error) {
+        console.error('Error al cargar forma horarios:', error.message);
+      
+    }
+};
+
+
+async function cargarNiveles() {
+    try {
+        const data = await fetchDatos("NIVEL_ACADEMICO_ACCION");
+        const tablaData = document.getElementById('tablaNivel').getElementsByTagName('tbody')[0];
+        
+        // Limpiar cualquier fila previa en la tabla
+        tablaData.innerHTML = '';
+                data.forEach(dat => {
+            // Crear una nueva fila
+            const fila = document.createElement('tr');
+            
+            // Crear celdas para cada columna
+            const celdaNombre = document.createElement('td');
+            celdaNombre.textContent = dat.CODIGO;
+            fila.appendChild(celdaNombre);
+            
+            const celdaCodigo = document.createElement('td');
+            celdaCodigo.textContent = dat.DESCRIPCION;
+            fila.appendChild(celdaCodigo);
+
+            const celdaActivo = document.createElement('td');
+            celdaActivo.textContent = dat.ACTIVO;
+            fila.appendChild(celdaActivo);
+            
+            // Crear la celda para el botón de edición
+            const celdaAcciones = document.createElement('td');
+            const botonEditar = document.createElement('button');
+            botonEditar.textContent = 'Editar';
+            botonEditar.onclick = () => openModalNivel(true, dat); // Llamar a la función para abrir el modal con los datos de la sucursal
+            celdaAcciones.appendChild(botonEditar);
+            fila.appendChild(celdaAcciones);
+        
+            // Agregar la fila a la tabla
+            tablaData.appendChild(fila);
+        });
+        
+    } catch (error) {
+        console.error('Error al cargar forma horarios:', error.message);
+      
+    }
+};
 
 document.getElementById('formRegistrarAlumno').addEventListener('submit', function(event) {
     event.preventDefault(); // Evita el envío tradicional del formulario
@@ -686,6 +898,7 @@ const SUCURSAL = document.getElementById('sucursalreg').value;
 const MOTIVACION = document.getElementById('motivacion').value;
 const COMENTARIOS = document.getElementById('comentarios').value;
 
+
     // Construye el objeto con los datos del alumno
     const jsonDat = {
         VENDEDOR : VENDEDOR,
@@ -718,7 +931,8 @@ const COMENTARIOS = document.getElementById('comentarios').value;
         DOC_INCRIPCION : DOC_INCRIPCION,
         SUCURSAL : SUCURSAL,
         MOTIVACION : MOTIVACION,
-        COMENTARIOS : COMENTARIOS  
+        COMENTARIOS : COMENTARIOS ,
+        USUARIO_CREACION : session.user
     };
 
     // Envía los datos al backend mediante fetch

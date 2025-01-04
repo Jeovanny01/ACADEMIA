@@ -171,6 +171,7 @@
                     alert("Inicio de sesión exitoso como " + rol);
                 } else if (userRole == "3") {
                     alert("Inicio de sesión exitoso como " +rol);
+                    
                 } else {
                     alert("Inicio de sesión exitoso con rol "+  rol);
                 }
@@ -178,7 +179,7 @@
                 // Cierra el modal
                 modal.style.display = "none";
                 // Guarda la información de sesión en `localStorage`
-                localStorage.setItem("session", JSON.stringify({ isLoggedIn: true, userRole, rol,vend }));
+                localStorage.setItem("session", JSON.stringify({ isLoggedIn: true, userRole, rol,vend,user }));
 
                 // Redirige al menú principal
                 window.location.href = "menu.html";
