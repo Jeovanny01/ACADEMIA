@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
-    <!-- React y ReactDOM -->
-<script src="https://unpkg.com/react@17/umd/react.development.js"></script>
-<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-
-<!-- Tu bundle generado -->
-<script src="static/js/main.js"></script>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión Escolar</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <style>
        
         nav {
@@ -135,13 +129,12 @@
             <ul id="menu">
               <!-- <li><a onclick="showSection('welcome')">Inicio</a></li> -->
                 <li><a onclick="showSection('register')">Registrar Alumnos</a></li>
-                <!-- <li><a onclick="renderDashboard()">Registros</a></li>
-                <div id="registros-root"></div> -->
-                 <li><a href="das.html">Registros</a></li>
+                <li><a onclick="showSection('datos')">Registros</a></li>
+                 <li><a href="das.html">Dashboard</a></li>
                 <li><a onclick="showSection('vendedores')">Vendedores</a></li>
                 <li><a onclick="showSection('sucursales')">Sucursales</a></li>
                 <li><a onclick="showSection('idiomas')">Idiomas</a></li>
-                <li><a onclick="showSection('estrategias')">Estrategias</a></li>
+                <li><a onclick="showSection('estrategiasEstrategias</a></li>
                 <li><a onclick="showSection('formaPago')">Método de pago</a></li>
                 <li><a onclick="showSection('bancos')">Bancos</a></li>
                 <li><a onclick="showSection('estados')">Estados</a></li>
@@ -796,12 +789,28 @@
             </form>
         </section>
     </main>
-    
+    <div id="dashboard-container"></div>
  <script src="cargarSucursales.js"></script> <!-- Tu archivo de scripts principal, si existe -->
  <script src="datos.js"></script> <!-- Tu archivo de scripts principal, si existe -->
  <script src="script2.js"></script> <!-- Tu archivo de scripts principal, si existe -->
- 
- <div id="registros-root"></div>
-   
+   <!-- Incluir React y ReactDOM desde CDN -->
+<!-- Agregar los scripts de React -->
+<script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/react-icons/fa"></script> <!-- Para usar los íconos -->
+<script type="module" src="Dashboard.js"></script>
+<script>
+    function renderDashboard() {
+      // Asegúrate de que el contenedor esté vacío antes de renderizar
+      const container = document.getElementById('dashboard-container');
+      container.innerHTML = '';  // Limpiar el contenedor
+  
+      // Usar ReactDOM para renderizar el componente Dashboard en el contenedor
+      ReactDOM.render(
+        React.createElement(Dashboard),  // Renderiza el componente Dashboard
+        container
+      );
+    }
+  </script>
 </body>
 </html>

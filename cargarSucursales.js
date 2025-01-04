@@ -573,6 +573,7 @@ window.onclick = function(event) {
     if (event.target == modal9) {
         closeModal();
     }
+    
 };
 
 

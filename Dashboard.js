@@ -1,10 +1,10 @@
 // Dashboard.js
-import React from "react";
-import Sidebar from "./Sidebar";
-import Widget from "./Widget";
-import LineChart from "./LineChart";
-import PieChart from "./PieChart";
-import { FaCheck, FaTimes, FaClock, FaBoxOpen } from "react-icons/fa";
+import React from 'react';
+import Sidebar from "./components/Sidebar";
+import Widget from "./components/Widget";
+import LineChart from "./components/LineChart";
+import PieChart from "./components/PieChart";
+import { FaCheck, FaTimes, FaClock, FaBoxOpen } from 'react-icons/fa';
 
 function Dashboard() {
   return (
@@ -19,16 +19,15 @@ function Dashboard() {
           <Widget title="Pendientes" value="0" icon={<FaClock />} color="#ffc107" />
         </div>
         <div>
-        <h2>Resumen Mensual</h2>
-        <LineChart />
+          <h2>Resumen Mensual</h2>
+          <LineChart />
         </div>
         <div>
-        <h2>Composición por tipo de documento</h2>
-        <PieChart />
+          <h2>Composición por tipo de documento</h2>
+          <PieChart />
         </div>
       </div>
     </div>
-    
   );
 }
 
