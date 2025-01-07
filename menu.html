@@ -64,12 +64,19 @@
             .hamburger {
                 display: block;
             }
+                    #filtros label, 
+            #filtros input[type="date"], 
+            #filtros button {
+                width: 100%; /* Cada elemento ocupa el 100% del contenedor */
+            }
         }
 
         /* Mostrar el menú cuando esté activado */
         #menu.active {
             display: flex;
         }
+
+ 
 
         /* Estilos del formulario */
         .form- {
@@ -158,14 +165,12 @@
             <p>Utiliza el menú superior para gestionar los recursos.</p>
         </section>  -->
         
-<<<<<<< HEAD
-=======
      <!-- Sección de bienvenida -->
      <section id="datos">
         <h2>Listado de datos</h2>
 
     <!-- Contenedor para los filtros, organizado en una línea -->
-    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+    <div id="filtros">
         <label for="fechaInicio" style="margin-right: 10px;">Fecha Inicial:</label>
         <input type="date" id="fechaInicio" style="margin-right: 20px;">
         
@@ -176,11 +181,10 @@
     </div>
 
     <!-- Tabla para los datos -->
-    <table id="tablaDatos" border="1" style="width: 100%; border-collapse: collapse;">
+ <table id="tablaDatos">
         <!-- La tabla se llenará dinámicamente -->
-    </table>
-    </section>
->>>>>>> 0ac860a (Primera confirmación)
+ </table>
+</section>
         <!-- Sección de bienvenida -->
         <section id="estrategias">
             <h2>Listado de estrategias</h2>

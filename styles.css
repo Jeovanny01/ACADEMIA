@@ -429,3 +429,62 @@ tbody tr:hover {
     padding: 15 10px; /* Agrega un poco de espacio dentro del botón */
     margin-top: -3px; /* Subir el botón unos píxeles */
 }
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Sección principal */
+#datos {
+    padding: 20px;
+}
+
+/* Contenedor para los filtros */
+#filtros {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos pasen a una nueva línea si no caben */
+    gap: 10px; /* Espaciado entre los elementos */
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+
+#filtros label {
+    flex: 0 0 auto; /* Mantiene el tamaño mínimo necesario para el texto */
+}
+
+
+#filtros input[type="date"] {
+    flex: 1; /* Permite que ocupen espacio proporcional */
+    min-width: 150px; /* Define un ancho mínimo */
+    max-width: 100%; /* Limita el ancho máximo */
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+    width: 200px; /* Establece un ancho uniforme */
+}
+
+#filtros button {
+    flex: 0 0 auto; /* Evita que el botón se estire */
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Estilos de la tabla */
+#tablaDatos {
+    width: 100%; /* O ajusta este valor según lo necesario */
+    border-collapse: collapse;
+    table-layout: auto; /* Ajusta el ancho de las columnas automáticamente */
+}
+
+#tablaDatos th, #tablaDatos td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+    white-space: nowrap; /* Evita que el texto se corte en varias líneas */
+}
+
+#tablaDatos th {
+    background-color: #f4f4f4;
+}

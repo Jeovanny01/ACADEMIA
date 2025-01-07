@@ -858,8 +858,6 @@ function closeModal() {
     const modal10= document.getElementById("modalNivel");
     modal10.style.display = "none";
 }
-<<<<<<< HEAD
-=======
     async function fetchData(fechaInicio, fechaFin) {
         try {
             // Llama al endpoint con las fechas como parámetros
@@ -885,35 +883,62 @@ function closeModal() {
     }
 
     function generarTabla(datos) {
-        const section = document.getElementById('datos');
-        section.innerHTML = ''; // Limpia cualquier contenido previo
-
-        if (!datos.length) {
-            section.innerHTML = '<p>No hay datos disponibles.</p>';
-            return;
+        const tablaExistente = document.getElementById('tablaDatos'); // Identifica la tabla existente
+    
+        // Elimina la tabla anterior, si existe
+        if (tablaExistente) {
+            tablaExistente.remove();
         }
-
+    
+        const section = document.getElementById('datos');
+    
+        if (!datos.length) {
+            const mensaje = document.createElement('p');
+            mensaje.textContent = 'No hay datos disponibles.';
+            mensaje.id = 'mensajeNoDatos';
+            section.appendChild(mensaje);
+            return;
+        } else {
+            const mensajeNoDatos = document.getElementById('mensajeNoDatos');
+            if (mensajeNoDatos) mensajeNoDatos.remove(); // Elimina cualquier mensaje previo
+        }
+    
         const table = document.createElement('table');
+        table.id = 'tablaDatos'; // Asigna un ID único a la tabla
         table.border = '1';
-
+    
         // Genera el encabezado de la tabla dinámicamente
         const thead = document.createElement('thead');
         const headerRow = document.createElement('tr');
-        Object.keys(datos[0]).forEach(columna => {
+        Object.keys(datos[0]).forEach((columna) => {
             const th = document.createElement('th');
             th.textContent = columna;
             headerRow.appendChild(th);
         });
         thead.appendChild(headerRow);
         table.appendChild(thead);
-
+    
         // Genera el cuerpo de la tabla
         const tbody = document.createElement('tbody');
-        datos.forEach(fila => {
+        datos.forEach((fila) => {
             const tr = document.createElement('tr');
             Object.entries(fila).forEach(([columna, valor]) => {
                 const td = document.createElement('td');
-                if (columna === 'ID') {
+                // Si la columna es una fecha en formato /Date(...)/, la convertimos
+                if (typeof valor === 'string' && valor.includes('/Date(') && valor.includes(')/')) {
+                    const timestamp = valor.match(/\/Date\((\d+)\)\//)[1];
+                    const fecha = new Date(parseInt(timestamp)); // Convierte el timestamp a una fecha
+                    
+                    // Formatea la fecha y hora en el formato dd/MM/yyyy hh:mm AM/PM
+                    const dia = fecha.getDate().toString().padStart(2, '0');
+                    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                    const anio = fecha.getFullYear();
+                    let horas = fecha.getHours();
+                    const minutos = fecha.getMinutes().toString().padStart(2, '0');
+                    const ampm = horas >= 12 ? 'PM' : 'AM';
+                    horas = horas % 12 || 12; // Convierte a formato de 12 horas
+                    td.textContent = `${dia}/${mes}/${anio} ${horas}:${minutos} ${ampm}`;
+                } else if (columna === 'ID') {
                     // Convierte el ID en un enlace
                     const enlace = document.createElement('a');
                     enlace.href = `editar.html?id=${valor}`; // URL para editar
@@ -926,15 +951,17 @@ function closeModal() {
                 } else {
                     td.textContent = valor;
                 }
+    
                 tr.appendChild(td);
             });
             tbody.appendChild(tr);
         });
         table.appendChild(tbody);
-
-        // Inserta la tabla en la sección
+    
+        // Inserta la tabla al final de la sección
         section.appendChild(table);
     }
+    
 
     function showSection(sectionId) {
         document.querySelectorAll('section').forEach(section => section.style.display = 'none');
@@ -958,7 +985,6 @@ function closeModal() {
     }
 
 
->>>>>>> 0ac860a (Primera confirmación)
 
 
 //document.addEventListener('vendedores-1', cargarVendedores);
