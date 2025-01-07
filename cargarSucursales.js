@@ -858,6 +858,107 @@ function closeModal() {
     const modal10= document.getElementById("modalNivel");
     modal10.style.display = "none";
 }
+<<<<<<< HEAD
+=======
+    async function fetchData(fechaInicio, fechaFin) {
+        try {
+            // Llama al endpoint con las fechas como parámetros
+            const response = await fetch(url + "registros2", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    fi:fechaInicio,
+                    ff:fechaFin
+                })
+            });
+
+            if (!response.ok) throw new Error('Error al obtener los datos.');
+            const data = await response.json();
+
+            // Genera la tabla y la inserta en la sección "datos"
+            generarTabla(data);
+        } catch (error) {
+            console.error('Error al obtener los datos:', error);
+        }
+    }
+
+    function generarTabla(datos) {
+        const section = document.getElementById('datos');
+        section.innerHTML = ''; // Limpia cualquier contenido previo
+
+        if (!datos.length) {
+            section.innerHTML = '<p>No hay datos disponibles.</p>';
+            return;
+        }
+
+        const table = document.createElement('table');
+        table.border = '1';
+
+        // Genera el encabezado de la tabla dinámicamente
+        const thead = document.createElement('thead');
+        const headerRow = document.createElement('tr');
+        Object.keys(datos[0]).forEach(columna => {
+            const th = document.createElement('th');
+            th.textContent = columna;
+            headerRow.appendChild(th);
+        });
+        thead.appendChild(headerRow);
+        table.appendChild(thead);
+
+        // Genera el cuerpo de la tabla
+        const tbody = document.createElement('tbody');
+        datos.forEach(fila => {
+            const tr = document.createElement('tr');
+            Object.entries(fila).forEach(([columna, valor]) => {
+                const td = document.createElement('td');
+                if (columna === 'ID') {
+                    // Convierte el ID en un enlace
+                    const enlace = document.createElement('a');
+                    enlace.href = `editar.html?id=${valor}`; // URL para editar
+                    enlace.textContent = valor;
+                    enlace.onclick = (event) => {
+                        event.preventDefault(); // Evita el comportamiento por defecto
+                        editarRegistro(valor); // Llama a la función de edición
+                    };
+                    td.appendChild(enlace);
+                } else {
+                    td.textContent = valor;
+                }
+                tr.appendChild(td);
+            });
+            tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+
+        // Inserta la tabla en la sección
+        section.appendChild(table);
+    }
+
+    function showSection(sectionId) {
+        document.querySelectorAll('section').forEach(section => section.style.display = 'none');
+        document.getElementById(sectionId).style.display = 'block';
+    }
+
+    // Simulación de función para editar
+    function editarRegistro(id) {
+        alert(`Editar registro con ID: ${id}`);
+        // Aquí puedes redirigir a una página o mostrar un formulario para editar
+    }
+
+    function cargarDatos() {
+        const fechaInicio = document.getElementById('fechaInicio').value;
+        const fechaFin = document.getElementById('fechaFin').value;
+        if (fechaInicio && fechaFin) {
+            fetchData(fechaInicio, fechaFin);
+        } else {
+            alert('Por favor, ingrese las fechas inicial y final.');
+        }
+    }
+
+
+>>>>>>> 0ac860a (Primera confirmación)
 
 
 //document.addEventListener('vendedores-1', cargarVendedores);

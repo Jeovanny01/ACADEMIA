@@ -10,6 +10,11 @@
           "input[capture]"
         ]
       }
+<<<<<<< HEAD
     ]
+=======
+    ],
+    "meta-viewport": "off"
+>>>>>>> 0ac860a (Primera confirmación)
   }
 }
