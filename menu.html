@@ -23,7 +23,7 @@
         }
 
         #menu li {
-            margin: 0 15px;
+            margin: 0 8px;
         }
 
         #menu li a {
@@ -141,7 +141,7 @@
                 <li><a onclick="showSection('vendedores')">Vendedores</a></li>
                 <li><a onclick="showSection('sucursales')">Sucursales</a></li>
                 <li><a onclick="showSection('idiomas')">Idiomas</a></li>
-                <li><a onclick="showSection('estrategiasEstrategias</a></li>
+                <li><a onclick="showSection('estrategias')"> Estrategias</a></li>
                 <li><a onclick="showSection('formaPago')">Método de pago</a></li>
                 <li><a onclick="showSection('bancos')">Bancos</a></li>
                 <li><a onclick="showSection('estados')">Estados</a></li>
@@ -245,6 +245,26 @@
         </table>
     </section>
 
+    <div id="formulario" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h1>Formulario de Edición</h1>
+            <form id="modal-form">
+                <label for="idEdit">ID:</label>
+                <input type="text" id="idEdit" readonly><br><br>
+
+                <label for="nombreEdit">Nombre:</label>
+                <input type="text" id="nombreEdit"><br><br>
+
+                <label for="estadoEdit">Estado:</label>
+                <select id="estadoEdit">
+                    <!-- Aquí se agregarán las opciones de los estados -->
+                </select><br><br>
+
+                <button type="button" onclick="saveRegistro()">Guardar Cambios</button>
+            </form>
+        </div>
+    </div>
     
     <!-- Modal para Crear o Editar -->
     <div id="modal" class="modal">
@@ -838,6 +858,12 @@
         container
       );
     }
+    const startDate = document.getElementById('fechaInicio');
+        const endDate = document.getElementById('fechaFin');
+        const today = new Date();
+        const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+        startDate.valueAsDate = firstDay;
+        endDate.valueAsDate = today;
   </script>
 </body>
 </html>

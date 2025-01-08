@@ -120,6 +120,28 @@ const fetchDatos= async (sp) => {
         throw error;
     }
 };
+const fetchSelectDatos= async (sp) => {
+    try {
+        const response = await fetch(url + "selectDatos", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                sp
+            })
+        });
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error(`Error en la petición. Código de estado:  ${response.status}`);
+        }
+    } catch (error) {
+        console.error('Error en la petición:', error.message);
+        throw error;
+    }
+};
 async function cargarSucursal(opcion = false ) {
     try {
       
@@ -362,6 +384,23 @@ async function cargarEstrategia(opcion = false ) {
         option.textContent = error.message;
         selectBranch.appendChild(option);
     }
+};
+async function cargarEstadosList(opcion = false ) {
+     try {
+            const sucursales = await fetchSelectDatos("ESTADO_ALUMNO_ACCION");
+            const selectBranch = document.getElementById('estadoEdit');
+            if (!selectBranch) return;
+            
+            sucursales.forEach(sucursal => {
+                const option = document.createElement('option');
+                option.value = sucursal.CODIGO;
+                option.textContent = sucursal.DESCRIPCION;
+                selectBranch.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error al cargar las ESTADOS:', error.message);
+           
+        }
 };
 
 async function cargarBancos(opcion = false ) {

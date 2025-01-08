@@ -114,43 +114,43 @@
                 <div class="card bg-info text-white">
                     <div class="card-body">
                         <h5>Total</h5>
-                        <h3>57</h3>
+                        <h3>0</h3>
                     </div>
                 </div>
                 <div class="card bg-secondary text-white">
                     <div class="card-body">
                         <h5>En espera</h5>
-                        <h3>10</h3>
+                        <h3>0</h3>
                     </div>
                 </div>
                 <div class="card bg-success text-white">
                     <div class="card-body">
                         <h5>Nuevo ingreso</h5>
-                        <h3>15</h3>
+                        <h3>0</h3>
                     </div>
                 </div>
                 <div class="card bg-warning text-dark">
                     <div class="card-body">
                         <h5>Ingreso exento</h5>
-                        <h3>8</h3>
+                        <h3>0</h3>
                     </div>
                 </div>
                 <div class="card bg-primary text-white">
                     <div class="card-body">
                         <h5>Pendiente de orientación</h5>
-                        <h3>12</h3>
+                        <h3>0</h3>
                     </div>
                 </div>
                 <div class="card bg-dark text-white">
                     <div class="card-body">
                         <h5>Pendiente de examen</h5>
-                        <h3>7</h3>
+                        <h3>0</h3>
                     </div>
                 </div>
                 <div class="card bg-danger text-white">
                     <div class="card-body">
                         <h5>Devolución</h5>
-                        <h3>5</h3>
+                        <h3>0</h3>
                     </div>
                 </div>
             </div>
@@ -173,7 +173,8 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+
     <script>
         const toggleMenu = document.getElementById('toggleMenu');
         const sidebar = document.getElementById('sidebar');
@@ -192,52 +193,15 @@
         });
 
         const ctx = document.getElementById('chart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['1', '2'],
-                datasets: [{
-                    label: 'Operación Diaria',
-                    data: [2000, 1500],
-                    borderColor: 'blue',
-                    fill: false
-                }]
-            }
-        });
+       
 
-        const pieCtx = document.getElementById('pieChart').getContext('2d');
-    new Chart(pieCtx, {
-        type: 'pie',
-        data: {
-            labels: ['GUISSEL GONZALEZ', 'VICTOR GRANDE', 'DIEGO LEMUS', 'STEVEN REYES', 'JESUS REYES', 'CHRISTIAN HERNANDEZ', 'CELINA', 'ALEJANDRA GRANDE', 'DANIELA BAUTISTA', 'ISAAC AGUILAR', 'PAULA NAJERA', 'MARVIN MONGE'],
-            datasets: [{
-                data: [5, 7, 6, 4, 5, 6, 3, 4, 5, 3, 4, 5],
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#8E44AD', '#3498DB', '#E74C3C', '#2ECC71', '#F39C12', '#C0392B'],
-                hoverOffset: 4
-            }]
-        },
-        options: {
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'right'
-                },
-                datalabels: {
-                    color: '#fff',
-                    anchor: 'end',
-                    align: 'start',
-                    font: {
-                        weight: 'bold'
-                    },
-                    formatter: (value) => value
-                }
-            }
-        }
-    });
     document.querySelector('.nav-link.active').addEventListener('click', function () {
         window.location.href = 'menu.html';
     });
     </script>
+     <script src="cargarDas.js"></script> <!-- Tu archivo de scripts principal, si existe -->
+     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 </body>
 </html>
+
 

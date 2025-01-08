@@ -1,4 +1,3 @@
-
 // Muestra el modal para crear o editar
 function openModal(isEdit = false, sucursal = {}) {
     const modal = document.getElementById("modal");
@@ -31,6 +30,8 @@ function closeModal() {
     modal3.style.display = "none";
     const modal4 = document.getElementById("modalEstretegia");
     modal4.style.display = "none";
+    const modal5 = document.getElementById("formulario");
+    modal5.style.display = "none";
 }
 
 // Guardar sucursal (creación o edición)
@@ -409,6 +410,48 @@ async function  saveMaestro(event) {
 
     closeModal();
 };
+async function  saveRegistro(event) {
+    event.preventDefault(); // Evitar recarga de la página
+    const id = document.getElementById("idEdit").value;
+    const nombre = document.getElementById("nombreidEdit").value;
+    const activo = document.getElementById("activomaestro").checked;
+    if (document.getElementById("maestro-id").readOnly) {
+            try {
+                const response = await postDatos("UPDATE", id, nombre,activo,"MAESTROS_ACCION");
+                console.log("MAESTRO actualizado:", response);
+                // Lógica para actualizar la fila correspondiente en la tabla
+                //updateTableRowVend(id, nombre); // Función para actualizar la fila
+                cargarMaestros();
+            } catch (error) {
+                console.error("Error al actualizar MAESTRO:", error.message);
+                alert("Error al actualizar ");
+            }
+        } else {
+            // Lógica para crear una nueva sucursal
+            const rows = document.querySelectorAll('tr');
+            for (const row of rows) {
+               // Buscar la celda específica dentro de la fila
+               const firstCell = row.cells[0]; // Suponiendo que el valor está en la primera celda
+               if (firstCell.textContent.trim() === id) {
+                   // Actualizar los valores de las columnas correspondientes
+                alert("Codigo "+ id +" ya existe");
+                  return;
+               }
+           };     
+        // Aquí puedes agregar la lógica para agregar una nueva fila en la tabla
+        try {
+            const response = await postDatos("INSERT", id, nombre,activo,"MAESTROS_ACCION");
+            console.log("MAESTRO INSERTADO:", response);
+            cargarMaestros();
+
+        } catch (error) {
+            console.error("Error al actualizar MAESTRO:", error.message);
+            alert("Error al crear ");
+        }
+    }
+
+    closeModal();
+};
 
 async function  saveTurno(event) {
     event.preventDefault(); // Evitar recarga de la página
@@ -571,6 +614,10 @@ window.onclick = function(event) {
     }
     const modal9 = document.getElementById("modalHorario");
     if (event.target == modal9) {
+        closeModal();
+    }
+    const modal10 = document.getElementById("formulario");
+    if (event.target == modal10) {
         closeModal();
     }
     
@@ -857,8 +904,71 @@ function closeModal() {
     modal9.style.display = "none";
     const modal10= document.getElementById("modalNivel");
     modal10.style.display = "none";
+    const modal11= document.getElementById("formulario");
+    modal11.style.display = "none";
 }
+function actualizarTarjetas(data) {
+    // Ejemplo de cómo calcular los valores dinámicos
+    const totales = {
+        total: data.length,
+        enEspera: data.filter(item => item.ESTADO === 1).length,
+        nuevoIngreso: data.filter(item => item.ESTADO === 2).length,
+        ingresoExento: data.filter(item => item.ESTADO === 3).length,
+        pendienteOrientacion: data.filter(item => item.ESTADO === 4).length,
+        pendienteExamen: data.filter(item => item.ESTADO === 5).length,
+        devolucion: data.filter(item => item.ESTADO === "Devolución").length
+    };
+
+    // Actualizar tarjetas dinámicamente
+    document.querySelector('.card-container').innerHTML = `
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5>Total</h5>
+                <h3>${totales.total}</h3>
+            </div>
+        </div>
+        <div class="card bg-secondary text-white">
+            <div class="card-body">
+                <h5>En espera</h5>
+                <h3>${totales.enEspera}</h3>
+            </div>
+        </div>
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5>Nuevo ingreso</h5>
+                <h3>${totales.nuevoIngreso}</h3>
+            </div>
+        </div>
+        <div class="card bg-warning text-dark">
+            <div class="card-body">
+                <h5>Ingreso exento</h5>
+                <h3>${totales.ingresoExento}</h3>
+            </div>
+        </div>
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5>Pendiente de orientación</h5>
+                <h3>${totales.pendienteOrientacion}</h3>
+            </div>
+        </div>
+        <div class="card bg-dark text-white">
+            <div class="card-body">
+                <h5>Pendiente de examen</h5>
+                <h3>${totales.pendienteExamen}</h3>
+            </div>
+        </div>
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <h5>Devolución</h5>
+                <h3>${totales.devolucion}</h3>
+            </div>
+        </div>
+    `;
+}
+
+
     async function fetchData(fechaInicio, fechaFin) {
+        const session = JSON.parse(localStorage.getItem("session") || "{}");
         try {
             // Llama al endpoint con las fechas como parámetros
             const response = await fetch(url + "registros2", {
@@ -868,12 +978,17 @@ function closeModal() {
                 },
                 body: JSON.stringify({
                     fi:fechaInicio,
-                    ff:fechaFin
+                    ff:fechaFin,
+                    vendedor:(session.vend ?? "").toString()
                 })
             });
 
             if (!response.ok) throw new Error('Error al obtener los datos.');
             const data = await response.json();
+            // Guardar datos en localStorage para acceder desde otra página
+            localStorage.setItem("tablaDatos", JSON.stringify(data));
+             // Actualizar las tarjetas dinámicamente
+        //actualizarTarjetas(data);
 
             // Genera la tabla y la inserta en la sección "datos"
             generarTabla(data);
@@ -970,8 +1085,25 @@ function closeModal() {
 
     // Simulación de función para editar
     function editarRegistro(id) {
-        alert(`Editar registro con ID: ${id}`);
-        // Aquí puedes redirigir a una página o mostrar un formulario para editar
+       // alert(`Editar registro con ID: ${id}`);
+        
+        // Obtener la tabla 'tablaDatos' desde localStorage
+    let tablaDatos = JSON.parse(localStorage.getItem("tablaDatos"));
+    
+    // Filtrar la tabla de datos para obtener el registro con el ID seleccionado
+    let registroSeleccionado = tablaDatos.filter(item => item.ID === id);
+    
+    // Si encuentras el registro, puedes hacer algo con él, por ejemplo, mostrarlo en un formulario
+    if (registroSeleccionado.length > 0) {
+        console.log("Registro encontrado:", registroSeleccionado[0]);
+        
+        cargarFormulario(registroSeleccionado[0])
+           // Abrir el modal
+           const modal = document.getElementById("formulario");
+           modal.style.display = "flex"; // Mostrar el modal
+    } else {
+        console.log("Registro no encontrado");
+    }
     }
 
     function cargarDatos() {
@@ -984,7 +1116,22 @@ function closeModal() {
         }
     }
 
+    function cargarFormulario(registro) {
+        // Obtener el registro con el ID correspondiente
+        
+        if (registro) {
+            // Llenar los campos del formulario con los datos del registro
+            document.getElementById("idEdit").value = registro.ID;
+            document.getElementById("nombreEdit").value = registro.NOMBRE_ALUMNO;
 
+            // Llenar el combobox de estados
+            let estadoSelect = document.getElementById("estadoEdit");
+           
+
+            // Seleccionar el estado actual del registro
+            estadoSelect.value = registro.ESTADO;
+        }
+    }
 
 
 //document.addEventListener('vendedores-1', cargarVendedores);
