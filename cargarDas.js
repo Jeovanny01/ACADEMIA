@@ -146,7 +146,7 @@ function crearGraficoPie(conteo) {
                     offset: 10, // Distancia desde el borde
                     font: {
                         weight: 'bold',
-                        size: 20 // Tamaño de la fuente
+                        size: 14 // Tamaño de la fuente
                     },
                     formatter: (value, context) => {
                         // Calcular porcentaje

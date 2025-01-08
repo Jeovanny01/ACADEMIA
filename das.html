@@ -48,16 +48,21 @@
         }
 
         .chart-container {
-            height: 500px;
-            display: flex;
+  height: 100%; /* O el tamaño deseado */
+    width: 100%;  /* El ancho del contenedor */
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
             padding: 10px;
             padding: 15px;
+            position: relative; /* Necesario para que el canvas se adapte */
         }
+        #pieChart {
+    width: 100%; /* Ajusta el ancho del canvas al contenedor */
+    height: 100%; /* Ajusta el alto del canvas al contenedor */
+}
         .chart-container h5 {
-            margin-bottom: -50px;
+            margin-bottom: 10px;
         }
 
         .card-container {
@@ -188,8 +193,7 @@
                   
                     <div class="chart-container">
                         <h5 class="text-center">Resumen Mensual</h5>
-                        <br> <br><br>
-                        <br> <br><br>
+
                         <canvas id="chart"></canvas>
                     </div>
                 </div>
