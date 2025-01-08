@@ -31,9 +31,9 @@ function actualizarTarjetas(data) {
         enEspera: data.filter(item => item.ESTADO == 1).length,
         nuevoIngreso: data.filter(item => item.ESTADO == 2).length,
         ingresoExento: data.filter(item => item.ESTADO == 3).length,
-        pendienteOrientacion: data.filter(item => item.ESTADO == 4).length,
-        pendienteExamen: data.filter(item => item.ESTADO == 5).length,
-        devolucion: data.filter(item => item.ESTADO == 6).length
+        pendienteOrientacion: data.filter(item => item.ESTADO == 5).length,
+        pendienteExamen: data.filter(item => item.ESTADO == 6).length,
+        devolucion: data.filter(item => item.ESTADO == 4).length
     };
 
     // Actualizar contenido de las tarjetas
@@ -146,7 +146,7 @@ function crearGraficoPie(conteo) {
                     offset: 10, // Distancia desde el borde
                     font: {
                         weight: 'bold',
-                        size: 12 // Tamaño de la fuente
+                        size: 20 // Tamaño de la fuente
                     },
                     formatter: (value, context) => {
                         // Calcular porcentaje

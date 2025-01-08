@@ -82,6 +82,34 @@ const postDatos = async (accion, codigo, descripcion,activo,sp) => {
         throw error;
     }
 };
+const postDatosUpdate = async (accion, codigo, estado,nombre,sp) => {
+    try {
+        const response = await fetch(url + "datosUpdate", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                accion,
+                codigo,
+                estado,
+                nombre,
+                sp
+            })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error(`Error en la petición. Código de estado: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error en la petición:", error.message);
+        throw error;
+    }
+};
+
 const fetchEjecutar = async (funct) => {
     try {
         const response = await fetch(

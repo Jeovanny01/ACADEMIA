@@ -48,27 +48,28 @@
         }
 
         .chart-container {
-            height: 500px; /* Ajusta si es necesario */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 10px;
-    padding: 15px;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 10px;
+            padding: 15px;
         }
         .chart-container h5 {
-    margin-bottom: 5px;
-}
+            margin-bottom: -50px;
+        }
+
         .card-container {
             display: flex;
-            justify-content: space-between;
             flex-wrap: wrap;
             gap: 10px;
+            justify-content: space-between;
         }
 
         .card {
-            width: calc(14% - 10px);
-            min-width: 120px;
+            flex: 1 1 calc(14.28% - 10px);
+            min-width: 150px;
         }
 
         .filter-container {
@@ -77,8 +78,31 @@
             gap: 10px;
             margin-bottom: 15px;
         }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 60px;
+            }
+
+            .sidebar .nav-link span {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 60px;
+            }
+
+            .card-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .card {
+                width: 100%;
+            }
+        }
     </style>
-    </head>
+</head>
 <body>
     <div class="sidebar" id="sidebar">
         <button class="btn btn-secondary w-100 mb-3" id="toggleMenu">
@@ -158,8 +182,11 @@
             <!-- Charts and Table -->
             <div class="row mt-4">
                 <div class="col-md-6">
+                  
                     <div class="chart-container">
                         <h5 class="text-center">Resumen Mensual</h5>
+                        <br> <br><br>
+                        <br> <br><br>
                         <canvas id="chart"></canvas>
                     </div>
                 </div>
@@ -192,16 +219,18 @@
             mainContent.classList.toggle('expanded');
         });
 
+        if (window.innerWidth <= 768) {
+            sidebar.classList.add('collapsed');
+            mainContent.classList.add('expanded');
+        }
+
         const ctx = document.getElementById('chart').getContext('2d');
-       
 
     document.querySelector('.nav-link.active').addEventListener('click', function () {
         window.location.href = 'menu.html';
     });
     </script>
-     <script src="cargarDas.js"></script> <!-- Tu archivo de scripts principal, si existe -->
+     <script src="cargarDas.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 </body>
 </html>
-
-
