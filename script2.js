@@ -21,15 +21,17 @@ document.addEventListener("DOMContentLoaded", function () {
     cargarNiveles();
     cargarEstadosList();
     cargarBienvenida(true);
+    cargarMaestro(true);
+    cargarTurno(true);
+    cargarHorario(true);
+    cargarNivel(true);
     const menu = document.getElementById("menu");
     if (privilege  === '3'){ 
         menu.querySelectorAll("li").forEach(item => {
-            if (item.textContent != "Registrar Alumnos") {
-                if (item.textContent == "Registros") {
-               
-                }
-                else item.style.display = "none"; 
-            }
+            if (item.textContent == "Registrar Alumnos" || item.textContent ==  "Registros" || item.textContent ==  "Dashboard" ) {
+                item.style.display ="display";   }
+                else {            item.style.display = "none"; }
+           
         });
     }
     

@@ -82,7 +82,7 @@ const postDatos = async (accion, codigo, descripcion,activo,sp) => {
         throw error;
     }
 };
-const postDatosUpdate = async (accion, codigo, estado,nombre,sp,modalidad,bienvenida,gerente,notas) => {
+const postDatosUpdate = async (accion, codigo, estado,nombre,sp,modalidad,bienvenida,gerente,notas, maestro,turno,horario,primerPago,fechaPago,nivel) => {
     try {
         const response = await fetch(url + "datosUpdate", {
             method: "POST",
@@ -94,7 +94,7 @@ const postDatosUpdate = async (accion, codigo, estado,nombre,sp,modalidad,bienve
                 codigo,
                 estado,
                 nombre,
-                sp,modalidad,bienvenida,gerente,notas
+                sp,modalidad,bienvenida,gerente,notas,maestro,turno,horario,primerPago,fechaPago,nivel
             })
         });
 
@@ -475,10 +475,9 @@ async function cargarBienvenida(opcion = false ) {
         }
         
         selectBranch.innerHTML = '<option value="">Seleccione Usuario</option>';
-        selectBranch2.innerHTML = '<option value="">Seleccione gerente</option>';
+        selectBranch2.innerHTML = '<option value="">Seleccione Gerente</option>';
         const dat = await fetchSelectDatos("SELECT_USUARIO_GRUPOS");
-        1
-
+        
         dat.forEach(dat => {
             const option = document.createElement('option');
             const option2 = document.createElement('option');
@@ -499,6 +498,122 @@ async function cargarBienvenida(opcion = false ) {
         selectBranch.appendChild(option);
     }
 };
+
+async function cargarMaestro(opcion = false ) {
+    try {
+        const selectBranch = document.getElementById('maestroEdit');
+        if (!selectBranch) return;
+        
+          // Verificar si ya hay datos cargados
+          if (selectBranch.children.length > 1 && opcion === false) {
+            console.log('Los maestros ya están cargados.');
+            return;
+        }
+        selectBranch.innerHTML = '<option value="">Seleccione Maestro</option>';
+        const dat = await fetchSelectDatos("MAESTROS_ACCION");
+        dat.forEach(dat => {
+            const option = document.createElement('option');
+            option.value = dat.CODIGO;
+            option.textContent = dat.DESCRIPCION;
+            selectBranch.appendChild(option);
+        });
+       
+    } catch (error) {
+        console.error('Error al cargar los maestros:', error.message);
+        const selectBranch = document.getElementById('maestroEdit');
+        const option = document.createElement('option');
+        option.value = "error";
+        option.textContent = error.message;
+        selectBranch.appendChild(option);
+    }
+};
+
+async function cargarTurno(opcion = false ) {
+    try {
+        const selectBranch = document.getElementById('turnoEdit');
+        if (!selectBranch) return;
+        
+          // Verificar si ya hay datos cargados
+          if (selectBranch.children.length > 1 && opcion === false) {
+            console.log('Los turnoEdit ya están cargados.');
+            return;
+        }
+        selectBranch.innerHTML = '<option value="">Seleccione Turno</option>';
+        const dat = await fetchSelectDatos("TURNOS_ACCION");
+        dat.forEach(dat => {
+            const option = document.createElement('option');
+            option.value = dat.CODIGO;
+            option.textContent = dat.DESCRIPCION;
+            selectBranch.appendChild(option);
+        });
+       
+    } catch (error) {
+        console.error('Error al cargar los turnoEdit:', error.message);
+        const selectBranch = document.getElementById('turnoEdit');
+        const option = document.createElement('option');
+        option.value = "error";
+        option.textContent = error.message;
+        selectBranch.appendChild(option);
+    }
+};
+async function cargarHorario(opcion = false ) {
+    try {
+        const selectBranch = document.getElementById('horarioEdit');
+        if (!selectBranch) return;
+        
+          // Verificar si ya hay datos cargados
+          if (selectBranch.children.length > 1 && opcion === false) {
+            console.log('Los horarioEdit ya están cargados.');
+            return;
+        }
+        selectBranch.innerHTML = '<option value="">Seleccione Horario</option>';
+        const dat = await fetchSelectDatos("HORARIOS_ACCION");
+        dat.forEach(dat => {
+            const option = document.createElement('option');
+            option.value = dat.CODIGO;
+            option.textContent = dat.DESCRIPCION;
+            selectBranch.appendChild(option);
+        });
+       
+    } catch (error) {
+        console.error('Error al cargar los horarioEdit:', error.message);
+        const selectBranch = document.getElementById('horarioEdit');
+        const option = document.createElement('option');
+        option.value = "error";
+        option.textContent = error.message;
+        selectBranch.appendChild(option);
+    }
+};
+
+async function cargarNivel(opcion = false ) {
+    try {
+        const selectBranch = document.getElementById('nivelEdit');
+        if (!selectBranch) return;
+        
+          // Verificar si ya hay datos cargados
+          if (selectBranch.children.length > 1 && opcion === false) {
+            console.log('Los nivelEdit ya están cargados.');
+            return;
+        }
+        selectBranch.innerHTML = '<option value="">Seleccione Nivel</option>';
+        const dat = await fetchSelectDatos("NIVEL_ACADEMICO_ACCION");
+        dat.forEach(dat => {
+            const option = document.createElement('option');
+            option.value = dat.CODIGO;
+            option.textContent = dat.DESCRIPCION;
+            selectBranch.appendChild(option);
+        });
+       
+    } catch (error) {
+        console.error('Error al cargar los nivelEdit:', error.message);
+        const selectBranch = document.getElementById('nivelEdit');
+        const option = document.createElement('option');
+        option.value = "error";
+        option.textContent = error.message;
+        selectBranch.appendChild(option);
+    }
+};
+
 
 // Función para cargar las sucursales en la tabla
 async function cargarSuc() {

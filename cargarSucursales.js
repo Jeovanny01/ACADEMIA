@@ -1,3 +1,4 @@
+
 // Muestra el modal para crear o editar
 function openModal(isEdit = false, sucursal = {}) {
     const modal = document.getElementById("modal");
@@ -20,18 +21,6 @@ function openModal(isEdit = false, sucursal = {}) {
     modal.style.display = "flex"; // Mostrar el modal
 };
 
-// Ocultar el modal
-function closeModal() {
-    const modal = document.getElementById("modal");
-    modal.style.display = "none";
-    const modal2 = document.getElementById("modalVendedor");
-    modal2.style.display = "none";
-    const modal3 = document.getElementById("modalIdioma");
-    modal3.style.display = "none";
-    const modal4 = document.getElementById("modalEstretegia");
-    modal4.style.display = "none";
-
-}
 
 // Guardar sucursal (creación o edición)
 async function  saveSucursal(event) {
@@ -415,12 +404,20 @@ async function  saveRegistro(event) {
     const nombre = document.getElementById("nombreEdit").value;
     const estado = document.getElementById("estadoEdit").value;
     const modalidad = document.getElementById("modalidadEdit").value;
-    const bienvenida = document.getElementById("bienvenidaEdit").value ?? "";
-    const gerente = document.getElementById("gerenteEdit").value ?? ""; 
-    const notas = null;
+    const bienvenida = document.getElementById("bienvenidaEdit").value.trim() === "" ? null: document.getElementById("bienvenidaEdit").value.trim();
+    const gerente = document.getElementById("gerenteEdit").value.trim() === "" ? null: document.getElementById("gerenteEdit").value.trim();
+    const notas = document.getElementById("notasEdit").value.trim() === "" ? null: document.getElementById("notasEdit").value.trim();
+    const maestro = document.getElementById("maestroEdit").value.trim() === "" ? null: document.getElementById("maestroEdit").value.trim();
+    const turno = document.getElementById("turnoEdit").value.trim() === "" ? null: document.getElementById("turnoEdit").value.trim();
+    const horario = document.getElementById("horarioEdit").value.trim()=== "" ? null: document.getElementById("horarioEdit").value.trim();
+    const primerPago = document.getElementById("primerPago").value || null; 
+    const fechaPago = document.getElementById("fechaPagoEdit").value || null; 
+    const nivel = document.getElementById("nivelEdit").value.trim()=== "" ? null: document.getElementById("nivelEdit").value.trim();
     if (document.getElementById("idEdit").readOnly) {
             try {
-                const response = await postDatosUpdate("UPDATE", id,estado, nombre,"REGISTROS_ACCION",modalidad,bienvenida,gerente,notas);
+                const response = await postDatosUpdate("UPDATE", id,estado, nombre,"REGISTROS_ACCION",modalidad,bienvenida,gerente,notas,
+                    maestro,turno,horario,primerPago,fechaPago,nivel
+                );
                 console.log("MAESTRO actualizado:", response);
                 // Lógica para actualizar la fila correspondiente en la tabla
                 //updateTableRowVend(id, nombre); // Función para actualizar la fila
@@ -920,84 +917,108 @@ function closeModal() {
     }
 
     function generarTabla(datos) {
-        const tablaExistente = document.getElementById('tablaDatos'); // Identifica la tabla existente
-    
-        // Elimina la tabla anterior, si existe
-        if (tablaExistente) {
-            tablaExistente.remove();
-        }
-    
-        const section = document.getElementById('datos');
-    
-        if (!datos.length) {
-            const mensaje = document.createElement('p');
-            mensaje.textContent = 'No hay datos disponibles.';
-            mensaje.id = 'mensajeNoDatos';
-            section.appendChild(mensaje);
-            return;
-        } else {
-            const mensajeNoDatos = document.getElementById('mensajeNoDatos');
-            if (mensajeNoDatos) mensajeNoDatos.remove(); // Elimina cualquier mensaje previo
-        }
-    
-        const table = document.createElement('table');
-        table.id = 'tablaDatos'; // Asigna un ID único a la tabla
-        table.border = '1';
-    
-        // Genera el encabezado de la tabla dinámicamente
-        const thead = document.createElement('thead');
-        const headerRow = document.createElement('tr');
-        Object.keys(datos[0]).forEach((columna) => {
-            const th = document.createElement('th');
-            th.textContent = columna;
-            headerRow.appendChild(th);
-        });
-        thead.appendChild(headerRow);
-        table.appendChild(thead);
-    
-        // Genera el cuerpo de la tabla
-        const tbody = document.createElement('tbody');
-        datos.forEach((fila) => {
-            const tr = document.createElement('tr');
-            Object.entries(fila).forEach(([columna, valor]) => {
-                const td = document.createElement('td');
-                // Si la columna es una fecha en formato /Date(...)/, la convertimos
-                if (typeof valor === 'string' && valor.includes('/Date(') && valor.includes(')/')) {
-                    const timestamp = valor.match(/\/Date\((\d+)\)\//)[1];
-                    const fecha = new Date(parseInt(timestamp)); // Convierte el timestamp a una fecha
-                    
-                    // Formatea la fecha y hora en el formato dd/MM/yyyy hh:mm AM/PM
-                    const dia = fecha.getDate().toString().padStart(2, '0');
-                    const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
-                    const anio = fecha.getFullYear();
-                    let horas = fecha.getHours();
-                    const minutos = fecha.getMinutes().toString().padStart(2, '0');
-                    const ampm = horas >= 12 ? 'PM' : 'AM';
-                    horas = horas % 12 || 12; // Convierte a formato de 12 horas
-                    td.textContent = `${dia}/${mes}/${anio} ${horas}:${minutos} ${ampm}`;
-                } else if (columna === 'ID') {
-                    // Convierte el ID en un enlace
-                    const enlace = document.createElement('a');
-                    enlace.href = `editar.html?id=${valor}`; // URL para editar
-                    enlace.textContent = valor;
-                    enlace.onclick = (event) => {
-                        event.preventDefault(); // Evita el comportamiento por defecto
-                        editarRegistro(valor); // Llama a la función de edición
-                    };
-                    td.appendChild(enlace);
-                } else {
-                    td.textContent = valor;
+       try {
+                const tablaExistente = document.getElementById('tablaDatos'); // Identifica la tabla existente
+        
+                // Elimina la tabla anterior, si existe
+                if (tablaExistente) {
+                    tablaExistente.remove();
                 }
-    
-                tr.appendChild(td);
-            });
-            tbody.appendChild(tr);
-        });
-        table.appendChild(tbody);
-    
-        // Inserta la tabla al final de la sección
-        section.appendChild(table);
+        
+                const section = document.getElementById('datos');
+        
+                if (!datos.length) {
+                    const mensaje = document.createElement('p');
+                    mensaje.textContent = 'No hay datos disponibles.';
+                    mensaje.id = 'mensajeNoDatos';
+                    section.appendChild(mensaje);
+                    return;
+                } else {
+                    const mensajeNoDatos = document.getElementById('mensajeNoDatos');
+                    if (mensajeNoDatos) mensajeNoDatos.remove(); // Elimina cualquier mensaje previo
+                }
+        
+                const table = document.createElement('table');
+                table.id = 'tablaDatos'; // Asigna un ID único a la tabla
+                table.border = '1';
+        
+                // Genera el encabezado de la tabla dinámicamente
+                const thead = document.createElement('thead');
+                const headerRow = document.createElement('tr');
+                Object.keys(datos[0]).forEach((columna) => {
+                    const th = document.createElement('th');
+                    th.textContent = columna;
+                    headerRow.appendChild(th);
+                });
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+        
+                // Genera el cuerpo de la tabla
+                const tbody = document.createElement('tbody');
+                datos.forEach((fila) => {
+                    const tr = document.createElement('tr');
+                    Object.entries(fila).forEach(([columna, valor]) => {
+                        const td = document.createElement('td');
+                        // Si la columna es una fecha en formato /Date(...)/, la convertimos
+                        if (typeof valor === 'string' && valor.includes('/Date(') && valor.includes(')/')) {
+                            const timestamp = valor.match(/\/Date\((\d+)\)\//)[1];
+                            const fecha = new Date(parseInt(timestamp)); // Convierte el timestamp a una fecha
+
+                            // Formatea la fecha en el formato dd/MM/yyyy
+                            const dia = fecha.getDate().toString().padStart(2, '0');
+                            const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                            const anio = fecha.getFullYear();
+                            
+                            // Verifica si la fecha tiene hora diferente de 00:00:00
+                            if (fecha.getHours() !== 0 || fecha.getMinutes() !== 0 || fecha.getSeconds() !== 0) {
+                                let horas = fecha.getHours();
+                                const minutos = fecha.getMinutes().toString().padStart(2, '0');
+                                const ampm = horas >= 12 ? 'PM' : 'AM';
+                                horas = horas % 12 || 12; // Convierte a formato de 12 horas
+                            
+                                // Si hay hora, muestra fecha y hora
+                                td.textContent = `${dia}/${mes}/${anio} ${horas}:${minutos} ${ampm}`;
+                            } else {
+                                // Si no hay hora, muestra solo la fecha
+                                td.textContent = `${dia}/${mes}/${anio}`;
+                            }
+                            
+
+                        } else if (columna === 'ID') {
+                            // Convierte el ID en un enlace
+                            const enlace = document.createElement('a');
+                            enlace.href = `editar.html?id=${valor}`; // URL para editar
+                            enlace.textContent = valor;
+                            enlace.onclick = (event) => {
+                                event.preventDefault(); // Evita el comportamiento por defecto
+                                editarRegistro(valor); // Llama a la función de edición
+                            };
+                            td.appendChild(enlace);
+                        } else {
+                            td.textContent = valor;
+                        }
+        
+                        tr.appendChild(td);
+                    });
+                    tbody.appendChild(tr);
+                });
+                table.appendChild(tbody);
+        
+                // Inserta la tabla al final de la sección
+                section.appendChild(table);
+            } catch (error) {
+                console.error('Error al generar la tabla:', error.mensaje);
+        
+                // Opcional: Muestra un mensaje de error al usuario
+                const section = document.getElementById('datos');
+                const mensajeError = document.createElement('p');
+                mensajeError.textContent = 'Ocurrió un error al generar la tabla. Por favor, inténtelo nuevamente.';
+                mensajeError.style.color = 'red';
+                section.appendChild(mensajeError);
+            }
     }
+        
+
     
 
     function showSection(sectionId) {
@@ -1007,7 +1028,11 @@ function closeModal() {
 
     // Simulación de función para editar
     function editarRegistro(id) {
-       // alert(`Editar registro con ID: ${id}`);
+
+        const session = JSON.parse(localStorage.getItem("session") || "{}");
+        if (session.userRole !="1") {
+            return;
+        }
         
         // Obtener la tabla 'tablaDatos' desde localStorage
     let tablaDatos = JSON.parse(localStorage.getItem("tablaDatos"));
