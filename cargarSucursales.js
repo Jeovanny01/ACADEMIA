@@ -414,9 +414,13 @@ async function  saveRegistro(event) {
     const id = document.getElementById("idEdit").value;
     const nombre = document.getElementById("nombreEdit").value;
     const estado = document.getElementById("estadoEdit").value;
+    const modalidad = document.getElementById("modalidadEdit").value;
+    const bienvenida = document.getElementById("bienvenidaEdit").value ?? "";
+    const gerente = document.getElementById("gerenteEdit").value ?? ""; 
+    const notas = null;
     if (document.getElementById("idEdit").readOnly) {
             try {
-                const response = await postDatosUpdate("UPDATE", id,estado, nombre,"REGISTROS_ACCION");
+                const response = await postDatosUpdate("UPDATE", id,estado, nombre,"REGISTROS_ACCION",modalidad,bienvenida,gerente,notas);
                 console.log("MAESTRO actualizado:", response);
                 // Lógica para actualizar la fila correspondiente en la tabla
                 //updateTableRowVend(id, nombre); // Función para actualizar la fila
@@ -1042,12 +1046,14 @@ function closeModal() {
             document.getElementById("idEdit").value = registro.ID;
             document.getElementById("nombreEdit").value = registro.NOMBRE_ALUMNO;
 
-            // Llenar el combobox de estados
-            let estadoSelect = document.getElementById("estadoEdit");
            
-
             // Seleccionar el estado actual del registro
-            estadoSelect.value = registro.ESTADO;
+            document.getElementById("estadoEdit").value = registro.ESTADO;
+            document.getElementById("modalidadEdit").value = registro.MODALIDAD;
+            document.getElementById("bienvenidaEdit").value = registro.USUARIO_BIENVENIDA || "";
+            document.getElementById("gerenteEdit").value = registro.GERENTE || "";
+           // document.getElementById("notas").value = registro.MODALIDAD;
+
         }
     }
 

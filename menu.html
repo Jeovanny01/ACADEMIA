@@ -11,8 +11,9 @@
        
         nav {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+    align-items: center;
+    justify-content: space-between; /* Separar el menú del ícono de logout */
+    padding: 5px 20px; /* Espaciado interno del menú */
         }
 
         #menu {
@@ -28,8 +29,9 @@
 
         #menu li a {
             color: white;
-            text-decoration: none;
-            cursor: pointer;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
         }
 
         #logout {
@@ -251,13 +253,28 @@
             <h2 id="modal-title">Editar Registro</h2>
             <form id="modal-form" onsubmit="saveRegistro(event)">
                 <label for="idEdit">ID:</label>
-                <input type="text" id="idEdit" readonly><br><br>
+                <input type="text" id="idEdit" readonly>
 
-                <label for="nombreEdit">Nombre:</label>
-                <input type="text" id="nombreEdit"><br><br>
+                <label for="nombreEdit">Nombre Alumno:</label>
+                <input type="text" id="nombreEdit">
 
                 <label for="estadoEdit">Estado:</label>
                 <select id="estadoEdit">
+                    <!-- Aquí se agregarán las opciones de los estados -->
+                </select>
+                <label for="modalidadEdit">Modalidad:</label>
+                    <select id="modalidadEdit" name="modalidadEdit" required>
+                        <option value="Presencial">Presencial</option>
+                        <option value="En Linea">En Linea</option>
+                    </select>
+
+                <label for="bienvenidaEdit">Bienvenida:</label>
+                <select id="bienvenidaEdit">
+                    <!-- Aquí se agregarán las opciones de los estados -->
+                </select>
+
+                <label for="gerenteEdit">Gerente:</label>
+                <select id="gerenteEdit">
                     <!-- Aquí se agregarán las opciones de los estados -->
                 </select>
 

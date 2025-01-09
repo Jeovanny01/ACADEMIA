@@ -82,7 +82,7 @@ const postDatos = async (accion, codigo, descripcion,activo,sp) => {
         throw error;
     }
 };
-const postDatosUpdate = async (accion, codigo, estado,nombre,sp) => {
+const postDatosUpdate = async (accion, codigo, estado,nombre,sp,modalidad,bienvenida,gerente,notas) => {
     try {
         const response = await fetch(url + "datosUpdate", {
             method: "POST",
@@ -94,7 +94,7 @@ const postDatosUpdate = async (accion, codigo, estado,nombre,sp) => {
                 codigo,
                 estado,
                 nombre,
-                sp
+                sp,modalidad,bienvenida,gerente,notas
             })
         });
 
@@ -455,6 +455,44 @@ async function cargarBancos(opcion = false ) {
     } catch (error) {
         console.error('Error al cargar los metodoPago:', error.message);
         const selectBranch = document.getElementById('banco');
+        const option = document.createElement('option');
+        option.value = "error";
+        option.textContent = error.message;
+        selectBranch.appendChild(option);
+    }
+};
+
+async function cargarBienvenida(opcion = false ) {
+    try {
+        const selectBranch = document.getElementById('bienvenidaEdit');
+        const selectBranch2 = document.getElementById('gerenteEdit');
+        if (!selectBranch) return;
+        
+          // Verificar si ya hay datos cargados
+          if (selectBranch.children.length > 1 && opcion === false) {
+            console.log('Los Usuario ya están cargados.');
+            return;
+        }
+        
+        selectBranch.innerHTML = '<option value="">Seleccione Usuario</option>';
+        selectBranch2.innerHTML = '<option value="">Seleccione gerente</option>';
+        const dat = await fetchSelectDatos("SELECT_USUARIO_GRUPOS");
+        1
+
+        dat.forEach(dat => {
+            const option = document.createElement('option');
+            const option2 = document.createElement('option');
+            option.value = dat.USUARIO;
+            option.textContent = dat.NOMBRE;
+            selectBranch.appendChild(option);
+            option2.value = dat.USUARIO;
+            option2.textContent = dat.NOMBRE;
+            selectBranch2.appendChild(option2);
+        });
+       
+    } catch (error) {
+        console.error('Error al cargar los USUARIOS:', error.message);
+        const selectBranch = document.getElementById('bienvenidaEdit');
         const option = document.createElement('option');
         option.value = "error";
         option.textContent = error.message;

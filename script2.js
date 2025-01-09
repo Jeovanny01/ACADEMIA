@@ -8,8 +8,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const privilege = session.userRole;
     const vend = session.vend;
-    
+    cargarVend();
+    cargarIdio();
+    cargarSuc();
+    cargarEstra();
+    cargarFormaPag();
 
+    cargarEstados();
+    cargarMaestros();
+    cargarTurnos();
+    cargarHorarios();
+    cargarNiveles();
+    cargarEstadosList();
+    cargarBienvenida(true);
     const menu = document.getElementById("menu");
     if (privilege  === '3'){ 
         menu.querySelectorAll("li").forEach(item => {
@@ -52,31 +63,25 @@ function showSection(sectionId) {
       // Llama a cargarVendedores solo si la sección seleccionada es 'register'
       if (sectionId === 'register') {
         cargarVendedores(true);
-        cargarVend();
         cargarIdioma(true);
-        cargarIdio();
         cargarSucursal(true);
-        cargarSuc();
         cargarEstrategia(true)
-        cargarEstra();
         cargarDepartamentos();
         cargarDistritos();
         cargarFormaPago(true);
-        cargarFormaPag();
         cargarBancos(true);
-        cargarEstados();
-        cargarMaestros();
-        cargarTurnos();
-        cargarHorarios();
-        cargarNiveles();
-        cargarEstadosList();
+       
+       
+    }
+    if (sectionId === 'datos') {
+    cargarDatos();
     }
 
     // Agrega la clase 'active' al botón correspondiente
-    const activeButton = Array.from(buttons).find(button => button.textContent.toLowerCase() === sectionId);
-    if (activeButton) {
-        activeButton.classList.add('active');
-    }
+    //const activeButton = Array.from(buttons).find(button => button.textContent.toLowerCase() === sectionId);
+   // if (activeButton) {
+    //    activeButton.classList.add('active');
+   // }
     // Cerrar el menú en pantallas pequeñas
     if (window.innerWidth <= 768) {
         document.getElementById('menu').classList.remove('active');

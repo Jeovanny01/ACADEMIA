@@ -167,13 +167,20 @@ function procesarDatosPorDia(data) {
 
     data.forEach(item => {
         // Extraer el timestamp de la fecha '/Date(1735928693377)/'
-        const timestamp = item['FECHA'].match(/\/Date\((\d+)\)\//);
-        
+       // Extraer el timestamp de la fecha '/Date(1735928693377)/'
+const timestamp = item['FECHA'].match(/\/Date\((\d+)\)\//);
+
         if (timestamp && timestamp[1]) {
-            const fecha = new Date(parseInt(timestamp[1])).toISOString().split('T')[0]; // Fecha en formato 'YYYY-MM-DD'
+            const fechaObj = new Date(parseInt(timestamp[1]));
             
+            // Formatear la fecha en 'dd/MM/yyyy'
+            const dia = String(fechaObj.getDate()).padStart(2, '0'); // Día con dos dígitos
+            const mes = String(fechaObj.getMonth() + 1).padStart(2, '0'); // Mes con dos dígitos
+            const anio = fechaObj.getFullYear(); // Año completo
+            const fecha = `${dia}/${mes}/${anio}`; // Formato 'dd/MM/yyyy'
+
             // Incrementar el conteo por día
-            agrupados[fecha] = (agrupados[fecha] || 0) + 1; // Cuenta transacciones por ID
+            agrupados[fecha] = (agrupados[fecha] || 0) + 1; // Cuenta transacciones por fecha
         }
     });
 
