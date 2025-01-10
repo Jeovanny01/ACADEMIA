@@ -1,6 +1,8 @@
-
+const url = "https://apitest.grupocarosa.com/ApiDatos/"
 document.addEventListener("DOMContentLoaded", () => {
-    // Leer datos del localStorage
+    actualizar();
+});
+function actualizar(){
     const data = JSON.parse(localStorage.getItem("tablaDatos")) || [];
 
     // Actualizar las tarjetas del dashboard
@@ -14,9 +16,56 @@ document.addEventListener("DOMContentLoaded", () => {
     const datosAgrupados = procesarDatosPorDia(data);
 
     // Crear gráfico de línea
-    crearGraficoLinea(datosAgrupados);
-});
+    crearGraficoLinea(datosAgrupados);  
+} 
 
+function cargarDatos2(fechaInicio,fechaFin) {
+    if (fechaInicio && fechaFin) {
+        fetchData2(fechaInicio, fechaFin)
+        .then(() => {
+            // Llamar a la función actualizar (asegúrate de definirla antes)
+            if (typeof actualizar === "function") {
+                actualizar();
+            } else {
+                console.error("La función 'actualizar' no está definida.");
+            }
+        })
+        .catch((error) => {
+            console.error("Error al cargar datos:", error);
+        });
+    
+    actualizar;
+ 
+} else {
+  alert('Por favor, ingrese las fechas inicial y final.');
+}
+}
+async function fetchData2(fechaInicio, fechaFin) {
+    const session = JSON.parse(localStorage.getItem("session") || "{}");
+    try {
+        // Llama al endpoint con las fechas como parámetros
+        const response = await fetch(url + "registros2", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                fi:fechaInicio,
+                ff:fechaFin,
+                vendedor:(session.vend ?? "").toString()
+            })
+        });
+
+        if (!response.ok) throw new Error('Error al obtener los datos.');
+        const data = await response.json();
+        // Guardar datos en localStorage para acceder desde otra página
+        localStorage.setItem("tablaDatos", JSON.stringify(data));
+         // Actualizar las tarjetas dinámicamente
+    
+    } catch (error) {
+        console.error('Error al obtener los datos:', error);
+    }
+}
 function actualizarTarjetas(data) {
     // Obtener el contenedor de tarjetas
     const container = document.querySelector('.card-container');

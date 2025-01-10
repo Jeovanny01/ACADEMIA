@@ -1,4 +1,4 @@
-
+const url = "https://apitest.grupocarosa.com/ApiDatos/"
 // Muestra el modal para crear o editar
 function openModal(isEdit = false, sucursal = {}) {
     const modal = document.getElementById("modal");
@@ -916,6 +916,33 @@ function closeModal() {
             console.error('Error al obtener los datos:', error);
         }
     }
+    async function fetchData2(fechaInicio, fechaFin) {
+        const session = JSON.parse(localStorage.getItem("session") || "{}");
+        try {
+            // Llama al endpoint con las fechas como parámetros
+            const response = await fetch(url + "registros2", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    fi:fechaInicio,
+                    ff:fechaFin,
+                    vendedor:(session.vend ?? "").toString()
+                })
+            });
+
+            if (!response.ok) throw new Error('Error al obtener los datos.');
+            const data = await response.json();
+            // Guardar datos en localStorage para acceder desde otra página
+            localStorage.setItem("tablaDatos", JSON.stringify(data));
+             // Actualizar las tarjetas dinámicamente
+        
+        } catch (error) {
+            console.error('Error al obtener los datos:', error);
+        }
+    }
+
 
     function generarTabla(datos) {
        try {
@@ -1057,10 +1084,13 @@ function closeModal() {
     function cargarDatos(fechaInicio,fechaFin) {
               if (fechaInicio && fechaFin) {
             fetchData(fechaInicio, fechaFin);
+                       
         } else {
             alert('Por favor, ingrese las fechas inicial y final.');
         }
     }
+    
+
 
     function cargarFormulario(registro) {
         // Obtener el registro con el ID correspondiente
@@ -1076,11 +1106,11 @@ function closeModal() {
             document.getElementById("modalidadEdit").value = registro.MODALIDAD;
             document.getElementById("bienvenidaEdit").value = registro.USUARIO_BIENVENIDA || "";
             document.getElementById("gerenteEdit").value = registro.GERENTE || "";
+            document.getElementById("gerenteEdit").value = registro.GERENTE || "";
            // document.getElementById("notas").value = registro.MODALIDAD;
 
         }
     }
-
 
 //document.addEventListener('vendedores-1', cargarVendedores);
 //document.addEventListener('sucursal-reg', cargarSucursal);
