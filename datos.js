@@ -1,6 +1,5 @@
 //require('dotenv').config();
 // URL del endpoint para obtener las sucursales
-const url = "https://apitest.grupocarosa.com/ApiDatos/"
 let distritos = [];
 const session = JSON.parse(localStorage.getItem("session") || "{}");
 const postBodegas = async (accion, bodega, nombre, direccion) => {

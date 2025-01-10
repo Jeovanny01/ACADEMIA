@@ -1,5 +1,7 @@
 const url = "https://apitest.grupocarosa.com/ApiDatos/"
 document.addEventListener("DOMContentLoaded", () => {
+    cargarDatos2(document.getElementById('startDate').value,
+    document.getElementById('endDate').value) 
     actualizar();
 });
 function actualizar(){
@@ -17,18 +19,17 @@ function actualizar(){
 
     // Crear gráfico de línea
     crearGraficoLinea(datosAgrupados);  
+
+    const conteo = procesarDatosParaGraficoBarra(data);
+    // Crear el gráfico dinámico
+    crearGraficoBarrasIdiomas(conteo);
 } 
 
 function cargarDatos2(fechaInicio,fechaFin) {
     if (fechaInicio && fechaFin) {
         fetchData2(fechaInicio, fechaFin)
         .then(() => {
-            // Llamar a la función actualizar (asegúrate de definirla antes)
-            if (typeof actualizar === "function") {
                 actualizar();
-            } else {
-                console.error("La función 'actualizar' no está definida.");
-            }
         })
         .catch((error) => {
             console.error("Error al cargar datos:", error);
@@ -146,19 +147,40 @@ function procesarDatosParaGrafico(data) {
 
     return conteo;
 }
+function procesarDatosParaGraficoBarra(data) {
+    // Agrupar y contar registros por nombre del vendedor
+    const conteo = {};
+
+    data.forEach(item => {
+        const vendedor = item['NOMBRE IDIOMA']; // Asegúrate de que el nombre coincida con tu tabla
+        if (vendedor) {
+            conteo[vendedor] = (conteo[vendedor] || 0) + 1;
+        }
+    });
+
+    return conteo;
+}
 
 function crearGraficoPie(conteo) {
     const labels = Object.keys(conteo); // Nombres de los vendedores
     const valores = Object.values(conteo); // Cantidad de registros por vendedor
     const total = valores.reduce((sum, val) => sum + val, 0); // Total de registros
 
-    const pieCtx = document.getElementById('pieChart').getContext('2d');
-    if (!pieCtx) {
-        pieCtx.error('No se encontró el contenedor de pieChart.');
+    const lineCanvas = document.getElementById('pieChart');
+    const lineCtx = lineCanvas.getContext('2d');
+
+    if (lineCanvas.chartInstance) {
+        lineCanvas.chartInstance.destroy();
+    }
+
+
+
+    if (!lineCtx) {
+        lineCtx.error('No se encontró el contenedor de pieChart.');
         return;
     }
 
-    new Chart(pieCtx, {
+    lineCanvas.chartInstance  =    new Chart(lineCtx, {
         type: 'pie',
         data: {
             labels: labels,
@@ -209,6 +231,94 @@ function crearGraficoPie(conteo) {
     });
 }
 
+function crearGraficoBarrasIdiomas(conteo) {
+    const labels = Object.keys(conteo); // Idiomas como etiquetas
+    const valores = Object.values(conteo); // Cantidad emitida por idioma
+    const total = valores.reduce((sum, val) => sum + val, 0); // Total de valores
+
+    const lineCanvas = document.getElementById('barChart');
+    const lineCtx = lineCanvas.getContext('2d');
+
+    if (lineCanvas.chartInstance) {
+        lineCanvas.chartInstance.destroy();
+    }
+
+    if (!lineCtx) {
+        lineCtx.error('No se encontró el contenedor de pieChart.');
+        return;
+    }
+
+    lineCanvas.chartInstance  =    new Chart(lineCtx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Cantidad Emitida',
+                data: valores,
+                backgroundColor: [
+                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+                    '#FF9F40', '#8E44AD', '#3498DB', '#E74C3C', '#2ECC71',
+                    '#F39C12', '#C0392B'
+                ],
+                borderColor: '#000000', // Borde negro para todas las barras
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Idiomas',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Cantidad Emitida',
+                        font: {
+                            size: 14
+                        }
+                    },
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false // No mostrar leyenda
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            const valor = tooltipItem.raw;
+                            const porcentaje = ((valor / total) * 100).toFixed(2);
+                            return `${labels[tooltipItem.dataIndex]}: ${valor} (${porcentaje}%)`;
+                        }
+                    }
+                },
+                datalabels: {
+                    color: '#000', // Color del texto sobre las barras
+                    anchor: 'end', // Ubicación de la etiqueta
+                    align: 'start', // Alineación del texto
+                    font: {
+                        weight: 'bold',
+                        size: 12
+                    },
+                    formatter: (value, context) => {
+                        const porcentaje = ((value / total) * 100).toFixed(2);
+                        return `${porcentaje}%`; // Mostrar porcentaje sobre las barras
+                    }
+                }
+            }
+        },
+        plugins: [ChartDataLabels] // Habilitar el plugin de etiquetas
+    });
+}
+
 
 // Agrupar datos por día
 function procesarDatosPorDia(data) {
@@ -242,13 +352,20 @@ const timestamp = item['FECHA'].match(/\/Date\((\d+)\)\//);
 
 // Crear gráfico de línea
 function crearGraficoLinea(datos) {
-    const ctx = document.getElementById('chart').getContext('2d');
+   
+    const lineCanvas = document.getElementById('chart');
+    const lineCtx = lineCanvas.getContext('2d');
 
-    if (!ctx) {
-        ctx.error('No se encontró el contenedor de chart.');
+    if (lineCanvas.chartInstance) {
+        lineCanvas.chartInstance.destroy();
+    }
+
+    if (!lineCtx) {
+        lineCtx.error('No se encontró el contenedor de pieChart.');
         return;
     }
-    new Chart(ctx, {
+
+    lineCanvas.chartInstance  =    new Chart(lineCtx, {
         type: 'line',
         data: {
             labels: datos.fechas, // Fechas como etiquetas
