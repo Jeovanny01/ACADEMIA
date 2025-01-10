@@ -179,7 +179,8 @@
         <label for="fechaFin" style="margin-right: 10px;">Fecha Final:</label>
         <input type="date" id="fechaFin" style="margin-right: 20px;">
 
-        <button onclick="cargarDatos()">Cargar datos</button>
+        <button onclick="cargarDatos(document.getElementById('fechaInicio').value,
+                                              document.getElementById('fechaFin').value)">Cargar datos</button>
     </div>
 
     <!-- Tabla para los datos -->

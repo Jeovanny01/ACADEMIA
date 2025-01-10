@@ -76,7 +76,8 @@ function showSection(sectionId) {
        
     }
     if (sectionId === 'datos') {
-    cargarDatos();
+    cargarDatos(document.getElementById('fechaInicio').value,
+    document.getElementById('fechaFin').value);
     }
 
     // Agrega la clase 'active' al botón correspondiente

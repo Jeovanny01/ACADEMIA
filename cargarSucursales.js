@@ -421,7 +421,8 @@ async function  saveRegistro(event) {
                 console.log("MAESTRO actualizado:", response);
                 // Lógica para actualizar la fila correspondiente en la tabla
                 //updateTableRowVend(id, nombre); // Función para actualizar la fila
-                cargarDatos();
+                cargarDatos(document.getElementById('fechaInicio').value,
+                document.getElementById('fechaFin').value);
                 closeModal();
             } catch (error) {
                 console.error("Error al actualizar registro:", error.message);
@@ -1053,10 +1054,8 @@ function closeModal() {
     }
     }
 
-    function cargarDatos() {
-        const fechaInicio = document.getElementById('fechaInicio').value;
-        const fechaFin = document.getElementById('fechaFin').value;
-        if (fechaInicio && fechaFin) {
+    function cargarDatos(fechaInicio,fechaFin) {
+              if (fechaInicio && fechaFin) {
             fetchData(fechaInicio, fechaFin);
         } else {
             alert('Por favor, ingrese las fechas inicial y final.');

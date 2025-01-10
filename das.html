@@ -138,9 +138,15 @@
 
             <!-- Filters -->
             <div class="filter-container">
+                <label for="fechaInicio" style="margin-right: 10px;">Fecha Inicial:</label>
                 <input type="date" class="form-control" id="startDate">
+                <label for="fechaFin" style="margin-right: 10px;">Fecha Final:</label>
                 <input type="date" class="form-control" id="endDate">
+                <button onclick="cargarDatos(document.getElementById('startDate').value,
+                                              document.getElementById('endDate').value)">Refrescar</button>
             </div>
+
+           
 
             <!-- Header Cards -->
             <div class="card-container mt-3 text-center">
