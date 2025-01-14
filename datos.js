@@ -1,6 +1,9 @@
 //require('dotenv').config();
 // URL del endpoint para obtener las sucursales
 let distritos = [];
+let DOC_DUI = null
+let DOC_COMPROBANTE = null
+let DOC_INSCRIPCION = null
 const session = JSON.parse(localStorage.getItem("session") || "{}");
 const postBodegas = async (accion, bodega, nombre, direccion) => {
     try {
@@ -1082,6 +1085,23 @@ document.getElementById('formRegistrarAlumno').addEventListener('submit', functi
     event.preventDefault(); // Evita el envío tradicional del formulario
     registrarAlumno(); // Llama a la función para registrar al alumno
 });
+// Función para leer el archivo como ArrayBuffer
+function convertirArchivoABase64(archivo) {
+    return new Promise((resolve, reject) => {
+        const lector = new FileReader();
+        
+        lector.onload = function(event) {
+          resolve(event.target.result);  // Resuelve la promesa con el resultado base64
+        };
+        
+        lector.onerror = function(error) {
+          reject(error);  // Si ocurre un error, rechaza la promesa
+        };
+        
+        lector.readAsDataURL(archivo);  // Lee el archivo como base64
+      });
+}
+
 
 function registrarAlumno() {
     // Obtén los valores de los campos del formulario
@@ -1110,9 +1130,9 @@ const METODO_PAGO = document.getElementById('metodopago').value;
 const BANCO = document.getElementById('banco').value;
 const REFERENCIA = document.getElementById('referencia').value;
 const ESTRATEGIA = document.getElementById('estrategia').value;
-const DOC_DUI = document.getElementById('archivo').value;
-const DOC_COMPROBANTE = document.getElementById('archivo2').value;
-const DOC_INCRIPCION = document.getElementById('archivo3').value;
+//const DOC_DUI =   null;
+//const DOC_COMPROBANTE =  document.getElementById('archivo2').files[0] ? document.getElementById('archivo2').files[0] : null;
+//const DOC_INSCRIPCION =  document.getElementById('archivo3').files[0] ? document.getElementById('archivo3').files[0] : null;
 const SUCURSAL = document.getElementById('sucursalreg').value;
 const MOTIVACION = document.getElementById('motivacion').value;
 const COMENTARIOS = document.getElementById('comentarios').value;
@@ -1147,7 +1167,7 @@ const COMENTARIOS = document.getElementById('comentarios').value;
         ESTRATEGIA : ESTRATEGIA,
         DOC_DUI : DOC_DUI,
         DOC_COMPROBANTE : DOC_COMPROBANTE,
-        DOC_INCRIPCION : DOC_INCRIPCION,
+        DOC_INSCRIPCION : DOC_INSCRIPCION,
         SUCURSAL : SUCURSAL,
         MOTIVACION : MOTIVACION,
         COMENTARIOS : COMENTARIOS ,
@@ -1182,6 +1202,9 @@ const COMENTARIOS = document.getElementById('comentarios').value;
                 document.getElementById('btn-quitar').style.display = 'none';  // Ocultar el botón
                 document.getElementById('btn-quitar2').style.display = 'none';  // Ocultar el botón
                 document.getElementById('btn-quitar3').style.display = 'none';  // Ocultar el botón
+                DOC_COMPROBANTE = null;
+                DOC_DUI=null;
+                DOC_INSCRIPCION=null;
                 // Suponiendo que 'session.vend' contiene el código del vendedor que debe ser seleccionado
                     const vend = session.vend;  // o cualquier variable que tenga el valor del vendedor
 
@@ -1202,8 +1225,8 @@ const COMENTARIOS = document.getElementById('comentarios').value;
                     window.scrollTo(0, 0);
 
             } else {
-                console.error('Error:', result.message);
-                alert('Hubo un error al registrar al alumno: ' + result.message);
+                console.error('Error:', text);
+                alert('Hubo un error al registrar al alumno: ' + text);
             }
         } catch (e) {
             console.error('Error al procesar la respuesta JSON:', e);

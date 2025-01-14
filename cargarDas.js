@@ -160,6 +160,75 @@ function procesarDatosParaGraficoBarra(data) {
 
     return conteo;
 }
+// Crear gráfico de línea
+function crearGraficoLinea(datos) {
+    const lineCanvas = document.getElementById('chart');
+    const lineCtx = lineCanvas.getContext('2d');
+
+    if (lineCanvas.chartInstance) {
+        lineCanvas.chartInstance.destroy();
+    }
+
+    if (!lineCtx) {
+        console.error('No se encontró el contenedor de chart.');
+        return;
+    }
+
+    lineCanvas.chartInstance = new Chart(lineCtx, {
+        type: 'line',
+        data: {
+            labels: datos.fechas, // Fechas como etiquetas
+            datasets: [{
+                label: 'Transacciones Diarias',
+                data: datos.valores, // Conteo de transacciones
+                borderColor: 'blue',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                fill: true,
+                tension: 0.1 // Suavizado opcional
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Fecha'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Transacciones'
+                    },
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            return `Transacciones: ${tooltipItem.raw}`;
+                        }
+                    }
+                },
+                datalabels: {
+                    color: 'black', // Color de las etiquetas
+                    align: 'top', // Posición de las etiquetas
+                    font: {
+                        weight: 'bold',
+                        size: 12 // Tamaño de la fuente
+                    },
+                    formatter: (value) => {
+                        return `${value}`; // Mostrar el valor directamente
+                    }
+                }
+            }
+        },
+        plugins: [ChartDataLabels] // Habilitar el plugin de etiquetas visibles
+    });
+}
+
 
 function crearGraficoPie(conteo) {
     const labels = Object.keys(conteo); // Nombres de los vendedores
@@ -350,60 +419,3 @@ const timestamp = item['FECHA'].match(/\/Date\((\d+)\)\//);
     return { fechas: fechasOrdenadas, valores: valores };
 }
 
-// Crear gráfico de línea
-function crearGraficoLinea(datos) {
-   
-    const lineCanvas = document.getElementById('chart');
-    const lineCtx = lineCanvas.getContext('2d');
-
-    if (lineCanvas.chartInstance) {
-        lineCanvas.chartInstance.destroy();
-    }
-
-    if (!lineCtx) {
-        lineCtx.error('No se encontró el contenedor de pieChart.');
-        return;
-    }
-
-    lineCanvas.chartInstance  =    new Chart(lineCtx, {
-        type: 'line',
-        data: {
-            labels: datos.fechas, // Fechas como etiquetas
-            datasets: [{
-                label: 'Transacciones Diarias',
-                data: datos.valores, // Conteo de transacciones
-                borderColor: 'blue',
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                fill: true,
-                tension: 0.1 // Suavizado opcional
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Fecha'
-                    }
-                },
-                y: {
-                    title: {
-                        display: true,
-                        text: 'Transacciones'
-                    },
-                    beginAtZero: true
-                }
-            },
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: function (tooltipItem) {
-                            return `Transacciones: ${tooltipItem.raw}`;
-                        }
-                    }
-                }
-            }
-        }
-    });
-}

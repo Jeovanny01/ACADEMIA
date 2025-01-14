@@ -987,10 +987,16 @@ function closeModal() {
                     const tr = document.createElement('tr');
                     Object.entries(fila).forEach(([columna, valor]) => {
                         const td = document.createElement('td');
+                        // Si la columna comienza con "DOC_", la ocultamos
+                            if (columna.startsWith('DOC_')) {
+                                td.style.display = 'none'; // Oculta la celda
+                            }
                         // Si la columna es una fecha en formato /Date(...)/, la convertimos
                         if (typeof valor === 'string' && valor.includes('/Date(') && valor.includes(')/')) {
-                            const timestamp = valor.match(/\/Date\((\d+)\)\//)[1];
+                            // Extraer el timestamp (sin el formato /Date() y con soporte para fechas negativas)
+                            const timestamp = valor.match(/\/Date\((-?\d+)\)\//)[1]; // El -? permite capturar tanto números positivos como negativos
                             const fecha = new Date(parseInt(timestamp)); // Convierte el timestamp a una fecha
+                        
 
                             // Formatea la fecha en el formato dd/MM/yyyy
                             const dia = fecha.getDate().toString().padStart(2, '0');
@@ -1027,6 +1033,7 @@ function closeModal() {
                         }
         
                         tr.appendChild(td);
+                       // console.log(td);
                     });
                     tbody.appendChild(tr);
                 });
@@ -1099,19 +1106,99 @@ function closeModal() {
             // Llenar los campos del formulario con los datos del registro
             document.getElementById("idEdit").value = registro.ID;
             document.getElementById("nombreEdit").value = registro.NOMBRE_ALUMNO;
-
+            document.getElementById("telefonoEdit").value =
+            (registro.TELEFONO_ALUMNO || "") + 
+            (registro.TELEFONO_ALUMNO && registro.TELEFONO ? ' / ' : '') + 
+            (registro.TELEFONO || "") + 
+            ((registro.TELEFONO || registro.TELEFONO_ALUMNO) && registro.TELEFONO_TRABAJO ? ' / ' : '') + 
+            (registro.TELEFONO_TRABAJO || "");
            
             // Seleccionar el estado actual del registro
             document.getElementById("estadoEdit").value = registro.ESTADO;
             document.getElementById("modalidadEdit").value = registro.MODALIDAD;
             document.getElementById("bienvenidaEdit").value = registro.USUARIO_BIENVENIDA || "";
             document.getElementById("gerenteEdit").value = registro.GERENTE || "";
-            document.getElementById("gerenteEdit").value = registro.GERENTE || "";
-           // document.getElementById("notas").value = registro.MODALIDAD;
+            document.getElementById("maestroEdit").value = registro.MAESTRO || "";
+            document.getElementById("notasEdit").value = registro.NOTAS || "";
+            document.getElementById("turnoEdit").value = registro.TURNO || "";
+            document.getElementById("horarioEdit").value = registro.HORARIO || "";
+            document.getElementById("primerPago").value = convertirFecha(registro.PRIMER_PAGO) ||  "";
+            document.getElementById("fechaPagoEdit").value =  convertirFecha(registro.FECHA_PAGO) || "";
+            document.getElementById("nivelEdit").value = registro.NIVEL || "";
 
         }
     }
 
+    function convertirFecha(msJsonDate) {
+        if (!msJsonDate) {
+        // Si msJsonDate es null, undefined o vacío, retornar una cadena vacía
+        return "";
+    }
+        // Extraer los milisegundos de la cadena
+        const timestamp = parseInt(msJsonDate.match(/\d+/)[0], 10);
+        const date = new Date(timestamp);
+        
+        // Formatear la fecha a 'YYYY-MM-DD'
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Meses van de 0 a 11
+        const day = String(date.getDate()).padStart(2, '0');
+        
+        return `${year}-${month}-${day}`;
+    }
+
+    document.getElementById('archivo').addEventListener('change', function(event) {
+        const archivo = event.target.files[0];  // Obtener el archivo seleccionado
+    
+        // Asegúrate de que se ha seleccionado un archivo
+        if (archivo) {
+          // Convertir el archivo a base64 cuando se seleccione
+          convertirArchivoABase64(archivo).then(base64 => {
+            // Asigna el archivo base64 a la variable global DOC_DUI
+            DOC_DUI =  base64.replace(/^data:.+;base64,/, '');
+           // console.log("Archivo en base64:", DOC_DUI);  // Puedes ver el resultado en la consola
+          }).catch(error => {
+            console.error('Error al convertir el archivo a base64:', error);
+            DOC_DUI=null;
+          });
+        }
+      });
+
+      
+      document.getElementById('archivo2').addEventListener('change', function(event) {
+        const archivo = event.target.files[0];  // Obtener el archivo seleccionado
+    
+        // Asegúrate de que se ha seleccionado un archivo
+        if (archivo) {
+          // Convertir el archivo a base64 cuando se seleccione
+          convertirArchivoABase64(archivo).then(base64 => {
+            // Asigna el archivo base64 a la variable global DOC_DUI
+            DOC_COMPROBANTE =  base64.replace(/^data:.+;base64,/, '');
+           // console.log("Archivo en base64:", DOC_COMPROBANTE);  // Puedes ver el resultado en la consola
+          }).catch(error => {
+            //console.error('Error al convertir el archivo a base64:', error);
+            DOC_COMPROBANTE=null;
+          });
+        }
+      });
+
+      document.getElementById('archivo3').addEventListener('change', function(event) {
+        const archivo = event.target.files[0];  // Obtener el archivo seleccionado
+    
+        // Asegúrate de que se ha seleccionado un archivo
+        if (archivo) {
+          // Convertir el archivo a base64 cuando se seleccione
+          convertirArchivoABase64(archivo).then(base64 => {
+            // Asigna el archivo base64 a la variable global DOC_DUI
+            DOC_INCRIPCION =  base64.replace(/^data:.+;base64,/, '');
+           // console.log("Archivo en base64:", DOC_INCRIPCION);  // Puedes ver el resultado en la consola
+          }).catch(error => {
+            console.error('Error al convertir el archivo a base64:', error);
+            DOC_INCRIPCION =null;
+          });
+        }
+      });
+
+    
 //document.addEventListener('vendedores-1', cargarVendedores);
 //document.addEventListener('sucursal-reg', cargarSucursal);
 //document.addEventListener('idioma', cargarIdioma);

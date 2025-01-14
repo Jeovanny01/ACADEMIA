@@ -136,6 +136,7 @@ inputArchivo.addEventListener('change', function () {
 btnQuitar.addEventListener('click', function () {
     inputArchivo.value = ''; // Resetear el campo de archivo
     btnQuitar.style.display = 'none'; // Ocultar el botón
+    DOC_DUI=null;
 });
 
 const inputArchivo2 = document.getElementById('archivo2');
@@ -152,6 +153,7 @@ inputArchivo2.addEventListener('change', function () {
 btnQuitar2.addEventListener('click', function () {
     inputArchivo2.value = ''; // Resetear el campo de archivo
     btnQuitar2.style.display = 'none'; // Ocultar el botón
+    DOC_COMPROBANTE=null;
 });
 
 const inputArchivo3 = document.getElementById('archivo3');
@@ -168,4 +170,5 @@ inputArchivo3.addEventListener('change', function () {
 btnQuitar3.addEventListener('click', function () {
     inputArchivo3.value = ''; // Resetear el campo de archivo
     btnQuitar3.style.display = 'none'; // Ocultar el botón
+    DOC_INCRIPCION=null;
 });
