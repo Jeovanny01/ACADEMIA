@@ -434,6 +434,34 @@ async function  saveRegistro(event) {
     
 };
 
+async function  guardarBase() {
+   // event.preventDefault(); // Evitar recarga de la página
+    const suc = document.getElementById("sucursalTabla").value;
+    const mes = document.getElementById("mes").value;
+    const anio = document.getElementById("anio").value;
+    const estado = 0//document.getElementById("estado").value;
+  
+    if (typeof suc === 'string' && suc.trim() !== '') {
+            try {
+                const response = await postInsertDatos("INSERT", mes,anio, suc,estado,"CHIVO");
+                console.log("datos insertados:", response);
+                // Lógica para actualizar la fila correspondiente en la tabla
+                //updateTableRowVend(id, nombre); // Función para actualizar la fila
+                // cargarDatos(document.getElementById('fechaInicio').value,
+                // document.getElementById('fechaFin').value);
+                // closeModal();
+                alert("Datos guardados");
+            } catch (error) {
+                console.error("Error al insertar registro:", error.message);
+                alert("Error al guardar ");
+            }
+    }
+    else { 
+        alert("Seleccione sucursal, para poder guardar base");
+    }
+    
+};
+
 async function  saveTurno(event) {
     event.preventDefault(); // Evitar recarga de la página
     const id = document.getElementById("turno-id").value;
@@ -887,7 +915,8 @@ function closeModal() {
     modal10.style.display = "none";
     const modal11= document.getElementById("formulario");
     modal11.style.display = "none";
-}   async function fetchData(fechaInicio, fechaFin) {
+}   
+async function fetchData(fechaInicio, fechaFin) {
         const session = JSON.parse(localStorage.getItem("session") || "{}");
         try {
             // Llama al endpoint con las fechas como parámetros
@@ -916,6 +945,39 @@ function closeModal() {
             console.error('Error al obtener los datos:', error);
         }
     }
+
+    async function fetchData3(mes, anio,sucursal,accion,tabla,secc) {
+        const session = JSON.parse(localStorage.getItem("session") || "{}");
+        try {
+            // Llama al endpoint con las fechas como parámetros
+            const response = await fetch(url + "selectRegistros", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    mes,
+                    anio,
+                    sucursal,accion
+                })
+            });
+
+            if (!response.ok) throw new Error('Error al obtener los datos.');
+            const data = await response.json();
+            // Guardar datos en localStorage para acceder desde otra página
+            localStorage.setItem(tabla, JSON.stringify(data));
+             // Actualizar las tarjetas dinámicamente
+        //actualizarTarjetas(data);
+
+            // Genera la tabla y la inserta en la sección "datos"
+            
+            generarTabla3(data,tabla,secc);
+        } catch (error) {
+            console.error('Error al obtener los datos:', error);
+        }
+    }
+
+
     async function fetchData2(fechaInicio, fechaFin) {
         const session = JSON.parse(localStorage.getItem("session") || "{}");
         try {
@@ -973,9 +1035,20 @@ function closeModal() {
                 // Genera el encabezado de la tabla dinámicamente
                 const thead = document.createElement('thead');
                 const headerRow = document.createElement('tr');
+                const columnNames = {
+                    "DOC_ID": "Identificador",
+                    "DOC_FECHA": "Fecha Documento",
+                    "NOMBRE": "Nombre",
+                    // Agrega más columnas según sea necesario
+                };
+                
                 Object.keys(datos[0]).forEach((columna) => {
                     const th = document.createElement('th');
                     th.textContent = columna;
+                             // Si la columna comienza con "DOC_", la ocultamos
+                            if (columna.startsWith('DOC_')) {
+                                th.style.display = 'none';
+                            }
                     headerRow.appendChild(th);
                 });
                 thead.appendChild(headerRow);
@@ -1054,7 +1127,139 @@ function closeModal() {
     }
         
 
-    
+    function generarTabla3(datos,tabla,secc) {
+        try {
+                 const tablaExistente = document.getElementById(tabla); // Identifica la tabla existente
+         
+                 // Elimina la tabla anterior, si existe
+                 if (tablaExistente) {
+                     tablaExistente.remove();
+                 }
+         
+                 const section = document.getElementById(secc);
+         
+                 if (!datos.length) {
+                     const mensaje = document.createElement('p');
+                     mensaje.textContent = 'No hay datos disponibles.';
+                     mensaje.id = 'mensajeNoDatos';
+                     section.appendChild(mensaje);
+                     return;
+                 } else {
+                     const mensajeNoDatos = document.getElementById('mensajeNoDatos');
+                     if (mensajeNoDatos) mensajeNoDatos.remove(); // Elimina cualquier mensaje previo
+                 }
+         
+                 const table = document.createElement('table');
+                 table.id = tabla; // Asigna un ID único a la tabla
+                 table.border = '1';
+         
+                 // Genera el encabezado de la tabla dinámicamente
+                 const thead = document.createElement('thead');
+                 const headerRow = document.createElement('tr');
+                 // Mapeo para renombrar columnas
+const columnNames = {
+    "DOC_ID": "Identificador",
+    "DOC_FECHA": "Fecha Documento",
+    "NOMBRE": "Nombre",
+    // Agrega más columnas según sea necesario
+};
+
+                 Object.keys(datos[0]).forEach((columna) => {
+                     const th = document.createElement('th');
+                     th.textContent = columna;
+                     // Si la columna comienza con "DOC_", la ocultamos
+    if (columna.startsWith('DOC_')) {
+        th.style.display = 'none';
+    }
+                     headerRow.appendChild(th);
+                 });
+                 thead.appendChild(headerRow);
+                 table.appendChild(thead);
+         
+                 // Genera el cuerpo de la tabla
+                 const tbody = document.createElement('tbody');
+                 datos.forEach((fila) => {
+                     const tr = document.createElement('tr');
+                     Object.entries(fila).forEach(([columna, valor]) => {
+                         const td = document.createElement('td');
+                         // Si la columna comienza con "DOC_", la ocultamos
+                             if (columna.startsWith('DOC_')) {
+                                 td.style.display = 'none'; // Oculta la celda
+                             }
+                         // Si la columna es una fecha en formato /Date(...)/, la convertimos
+                         if (typeof valor === 'string' && valor.includes('/Date(') && valor.includes(')/')) {
+                             // Extraer el timestamp (sin el formato /Date() y con soporte para fechas negativas)
+                             const timestamp = valor.match(/\/Date\((-?\d+)\)\//)[1]; // El -? permite capturar tanto números positivos como negativos
+                             const fecha = new Date(parseInt(timestamp)); // Convierte el timestamp a una fecha
+                         
+ 
+                             // Formatea la fecha en el formato dd/MM/yyyy
+                             const dia = fecha.getDate().toString().padStart(2, '0');
+                             const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
+                             const anio = fecha.getFullYear();
+                             
+                             // Verifica si la fecha tiene hora diferente de 00:00:00
+                             if (fecha.getHours() !== 0 || fecha.getMinutes() !== 0 || fecha.getSeconds() !== 0) {
+                                 let horas = fecha.getHours();
+                                 const minutos = fecha.getMinutes().toString().padStart(2, '0');
+                                 const ampm = horas >= 12 ? 'PM' : 'AM';
+                                 horas = horas % 12 || 12; // Convierte a formato de 12 horas
+                             
+                                 // Si hay hora, muestra fecha y hora
+                                 td.textContent = `${dia}/${mes}/${anio} ${horas}:${minutos} ${ampm}`;
+                             } else {
+                                 // Si no hay hora, muestra solo la fecha
+                                 td.textContent = `${dia}/${mes}/${anio}`;
+                             }
+                             
+ 
+                         } else if (columna === 'ID') {
+                             // Convierte el ID en un enlace
+                             const enlace = document.createElement('a');
+                             enlace.href = `editar.html?id=${valor}`; // URL para editar
+                             enlace.textContent = valor;
+                             enlace.onclick = (event) => {
+                                 event.preventDefault(); // Evita el comportamiento por defecto
+                                 editarRegistro(valor); // Llama a la función de edición
+                             };
+                             td.appendChild(enlace);
+                         } 
+                         else if (columna === 'ADJUNTO') {
+                            // Convierte el ID en un enlace
+                            const enlace = document.createElement('a');
+                            enlace.href = `editar.html?id=${valor}`; // URL para editar
+                            enlace.textContent = valor;
+                            enlace.onclick = (event) => {
+                                event.preventDefault(); // Evita el comportamiento por defecto
+                                editarRegistro(valor); // Llama a la función de edición
+                            };
+                            td.appendChild(enlace);
+                        }
+                         else {
+                             td.textContent = valor;
+                         }
+         
+                         tr.appendChild(td);
+                        // console.log(td);
+                     });
+                     tbody.appendChild(tr);
+                 });
+                 table.appendChild(tbody);
+         
+                 // Inserta la tabla al final de la sección
+                 section.appendChild(table);
+             } catch (error) {
+                 console.error('Error al generar la tabla:', error.mensaje);
+         
+                 // Opcional: Muestra un mensaje de error al usuario
+                 const section = document.getElementById(secc);
+                 const mensajeError = document.createElement('p');
+                 mensajeError.textContent = 'Ocurrió un error al generar la tabla. Por favor, inténtelo nuevamente.';
+                 mensajeError.style.color = 'red';
+                 section.appendChild(mensajeError);
+             }
+     }
+
 
     function showSection(sectionId) {
         document.querySelectorAll('section').forEach(section => section.style.display = 'none');
@@ -1096,8 +1301,15 @@ function closeModal() {
             alert('Por favor, ingrese las fechas inicial y final.');
         }
     }
-    
 
+    function cargarDatos3(mes,anio,sucursal,accion,tabla,secc) {
+        if (mes && anio) {
+      fetchData3(mes, anio,sucursal,accion,tabla,secc);
+                 
+  } else {
+      alert('Por favor, selecione mes y año');
+  }
+}
 
     function cargarFormulario(registro) {
         // Obtener el registro con el ID correspondiente

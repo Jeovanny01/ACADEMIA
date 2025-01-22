@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
     cargarTurno(true);
     cargarHorario(true);
     cargarNivel(true);
+    
     const menu = document.getElementById("menu");
     if (privilege  === '3'){ 
         menu.querySelectorAll("li").forEach(item => {
@@ -67,6 +68,7 @@ function showSection(sectionId) {
         cargarVendedores(true);
         cargarIdioma(true);
         cargarSucursal(true);
+        cargarSucursal2(true);
         cargarEstrategia(true)
         cargarDepartamentos();
         cargarDistritos();

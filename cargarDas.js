@@ -41,6 +41,8 @@ function cargarDatos2(fechaInicio,fechaFin) {
   alert('Por favor, ingrese las fechas inicial y final.');
 }
 }
+
+
 async function fetchData2(fechaInicio, fechaFin) {
     const session = JSON.parse(localStorage.getItem("session") || "{}");
     try {

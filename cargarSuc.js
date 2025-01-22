@@ -41,4 +41,5 @@ async function cargarSucursales() {
     }
 }
 
+
 document.addEventListener('DOMContentLoaded', cargarSucursales)

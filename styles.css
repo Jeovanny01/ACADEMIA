@@ -488,3 +488,47 @@ body {
 #tablaDatos th {
     background-color: #f4f4f4;
 }
+
+
+#tablaDatos3 {
+    width: 100%; /* O ajusta este valor según lo necesario */
+    border-collapse: collapse;
+    table-layout: auto; /* Ajusta el ancho de las columnas automáticamente */
+}
+
+#tablaDatos3 th, #tablaDatos3 td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+    white-space: nowrap; /* Evita que el texto se corte en varias líneas */
+}
+
+#tablaDatos3 th {
+    background-color: #f4f4f4;
+}
+#tablaDatos4 {
+    width: 100%; /* O ajusta este valor según lo necesario */
+    border-collapse: collapse;
+    table-layout: auto; /* Ajusta el ancho de las columnas automáticamente */
+}
+
+#tablaDatos4 th, #tablaDatos4 td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd;
+    white-space: nowrap; /* Evita que el texto se corte en varias líneas */
+}
+
+#tablaDatos4 th {
+    background-color: #f4f4f4;
+}
+#filtros2 {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaciado horizontal entre los elementos */
+}
+
+#filtros2 select, #filtros2 button {
+    margin: 0;
+    padding: 5px;
+}

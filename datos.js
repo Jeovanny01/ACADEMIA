@@ -84,6 +84,8 @@ const postDatos = async (accion, codigo, descripcion,activo,sp) => {
         throw error;
     }
 };
+
+
 const postDatosUpdate = async (accion, codigo, estado,nombre,sp,modalidad,bienvenida,gerente,notas, maestro,turno,horario,primerPago,fechaPago,nivel) => {
     try {
         const response = await fetch(url + "datosUpdate", {
@@ -111,6 +113,31 @@ const postDatosUpdate = async (accion, codigo, estado,nombre,sp,modalidad,bienve
         throw error;
     }
 };
+
+const postInsertDatos = async (accion,mes, anio, sucursal, estado, empresa) => {
+    try {
+        const response = await fetch(url + "insertData", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                accion,mes, anio, sucursal, estado, empresa
+            })
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error(`Error en la petición. Código de estado: ${response.status}`);
+        }
+    } catch (error) {
+        console.error("Error en la petición:", error.message);
+        throw error;
+    }
+};
+
 
 const fetchEjecutar = async (funct) => {
     try {
@@ -190,6 +217,42 @@ async function cargarSucursal(opcion = false ) {
             option.value = sucursal.BODEGA;
             option.textContent = sucursal.NOMBRE;
             selectBranch.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error al cargar las sucursales:', error.message);
+        const selectBranch = document.getElementById('sucursalregister');
+        const option = document.createElement('option');
+        option.value = "error";
+        option.textContent = error.message;
+        selectBranch.appendChild(option);
+    }
+};
+
+async function cargarSucursal2(opcion = false ) {
+    try {
+      
+        const selectBranch = document.getElementById('sucursalTabla');
+        const selectBranch2 = document.getElementById('sucursal2');
+        if (!selectBranch) return;
+         // Verificar si ya hay datos cargados
+         if (selectBranch.children.length > 1 && opcion === false) {
+            console.log('Las sucursales ya están cargados.');
+            return;
+        }
+        
+        selectBranch.innerHTML = '<option value="">Todas</option>';
+        selectBranch2.innerHTML = '<option value="">Todas</option>';
+        const sucursales = await fetchEjecutar("Bodegas");
+        sucursales.forEach(sucursal => {
+            const option = document.createElement('option');
+            option.value = sucursal.BODEGA;
+            option.textContent = sucursal.NOMBRE;
+            selectBranch.appendChild(option);
+
+            const option2 = document.createElement('option');
+            option2.value = sucursal.BODEGA;
+            option2.textContent = sucursal.NOMBRE;
+            selectBranch2.appendChild(option2);
         });
     } catch (error) {
         console.error('Error al cargar las sucursales:', error.message);
@@ -358,7 +421,7 @@ async function cargarVendedores(opcion = false ) {
         const vend = session.vend;
 
           // Limpiar las opciones existentes
-          selectVendedores.innerHTML = '<option value="">Seleccione vendedor</option>';
+          selectVendedores.innerHTML = '<option value="">Seleccione Asesor</option>';
 
           const vendedores = await fetchEjecutar("vendedores");
         // Llenar el select con los datos de vendedores
@@ -417,16 +480,33 @@ async function cargarEstrategia(opcion = false ) {
 };
 async function cargarEstadosList(opcion = false ) {
      try {
-            const sucursales = await fetchSelectDatos("ESTADO_ALUMNO_ACCION");
+            const dat = await fetchSelectDatos("ESTADO_ALUMNO_ACCION");
             const selectBranch = document.getElementById('estadoEdit');
+            const selectBranch2 = document.getElementById('estado');
+            const selectBranch3 = document.getElementById('estado2');
+
+            selectBranch2.innerHTML = '<option value="">Todos</option>';
+            selectBranch3.innerHTML = '<option value="">Todos</option>';
+
             if (!selectBranch) return;
             
-            sucursales.forEach(sucursal => {
+            dat.forEach(dato => {
                 const option = document.createElement('option');
-                option.value = sucursal.CODIGO;
-                option.textContent = sucursal.DESCRIPCION;
+                option.value = dato.CODIGO;
+                option.textContent = dato.DESCRIPCION;
                 selectBranch.appendChild(option);
+
+                const option2 = document.createElement('option');
+                option2.value = dato.CODIGO;
+                option2.textContent = dato.DESCRIPCION;
+                selectBranch2.appendChild(option2);
+
+                const option3 = document.createElement('option');
+                option3.value = dato.CODIGO;
+                option3.textContent = dato.DESCRIPCION;
+                selectBranch3.appendChild(option3);
             });
+
         } catch (error) {
             console.error('Error al cargar las ESTADOS:', error.message);
            
@@ -1106,28 +1186,28 @@ function convertirArchivoABase64(archivo) {
 function registrarAlumno() {
     // Obtén los valores de los campos del formulario
 const VENDEDOR = document.getElementById('vendedores-1').value;
-const DUI = document.getElementById('dui').value;
+const DUI =  null//document.getElementById('dui').value;
 const NOMBRE = document.getElementById('titular').value;
 const TELEFONO = document.getElementById('telefono').value;
 const CORREO = document.getElementById('email').value;
-const LUGAR_TRABAJO = document.getElementById('lugartrabajo').value;
-const TELEFONO_TRABAJO = document.getElementById('telefonotrabajo').value;
+const LUGAR_TRABAJO = null //document.getElementById('lugartrabajo').value;
+const TELEFONO_TRABAJO = null // document.getElementById('telefonotrabajo').value;
 const DEPARTAMENTO = document.getElementById('departamento').value;
 const DISTRITO = document.getElementById('distrito').value;
-const DIRECCION = document.getElementById('direccion').value;
+const DIRECCION = null //document.getElementById('direccion').value;
 const NOMBRE_ALUMNO = document.getElementById('nombreAlumno').value;
-const TELEFONO_ALUMNO = document.getElementById('telefonoAlternativo').value;
+const TELEFONO_ALUMNO = null //document.getElementById('telefonoAlternativo').value;
 const FECHA_NACIMIENTO = document.getElementById('fecha_nacimiento').value;
 const EDAD = document.getElementById('edad').value;
-const GENERO = document.getElementById('genero').value;
-const CORREO_ALUMNO = document.getElementById('email').value;
+const GENERO = null//document.getElementById('genero').value;
+const CORREO_ALUMNO = null// document.getElementById('email').value;
 const IDIOMA = document.getElementById('idioma').value;
-const GRADO_KIDS = document.getElementById('gradoKids').value;
+const GRADO_KIDS = null // document.getElementById('gradoKids').value;
 const MODALIDAD = document.getElementById('modalidad').value;
 const MATRICULA = document.getElementById('matricula').value;
 const MENSUALIDAD = document.getElementById('mensualidad').value;
 const METODO_PAGO = document.getElementById('metodopago').value;
-const BANCO = document.getElementById('banco').value;
+const BANCO =  null//document.getElementById('banco').value;
 const REFERENCIA = document.getElementById('referencia').value;
 const ESTRATEGIA = document.getElementById('estrategia').value;
 //const DOC_DUI =   null;
